@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+
+<head th:replace="BRGD :: head(Logo設定)"></head>
+<meta charset="utf-8">
+<script>
+        $(function () {
+            //画面初期表示の時「logo」
+            var arr = getCookieArray();
+            var logoId = arr['logoId'];
+            if (logoId == 1) {
+                $("#logo" + [1]).prop('checked', true);
+            }
+            if (logoId == 2) {
+                $("#logo" + [2]).prop('checked', true);
+            }
+            if (logoId == 3) {
+                $("#logo" + [3]).prop('checked', true);
+            }
+        });
+
+        function setTheme(){
+            var logoId = $("input[name='logo']:checked").val();
+            document.cookie = "logoId=" + logoId;
+            setLogo();
+        }
+    </script>
+
+<body>
+	<!-- header_start -->
+	<div th:replace="BRGD :: indexheader"></div>
+	<!-- header_end -->
+	<!-- menubutton_end -->
+	<input type="checkbox" id="openSidebarMenu" class="openSidebarMenu"
+		style="display: none;">
+	<!-- menubutton_end -->
+	<!-- menuset_end -->
+	<div th:replace="BRGD :: labelmenu"></div>
+	<!-- menuset_end -->
+	<!-- menu_start -->
+	<div th:replace="BRGD :: indexmenu"></div>
+	<!-- menu_end -->
+
+	<!-- main start -->
+	<div class="main">
+		<div class="container-fluid">
+			<form name="form" method="POST">
+				<div class="contents">
+					<div name="contents-header" class="contents-header mt-3">Logo管理</div>
+					<div class="contents-body">
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="logo"
+								id="logo1" value="1" checked> <label
+								class="form-check-label" for="logo1">logo1<img
+								class="bg-secondary" width="200" height="70" src="img/logo1.png"></label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="logo"
+								id="logo2" value="2"> <label class="form-check-label"
+								for="logo2">logo2<img class="bg-secondary" width="200"
+								height="70" src="img/logo2.png"></label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="logo"
+								id="logo3" value="3"> <label class="form-check-label"
+								for="logo3">logo3<img class="bg-secondary" width="200"
+								height="70" src="img/logo3.png"></label>
+						</div>
+					</div>
+					<div class="contents-footer">
+						<button type="button" class="btn btn-info" onclick="setTheme();"><i class="fas fa-cog fa-1x mr-2"></i>設定</button>
+					</div>
+				</div>
+				<!-- contents -->
+			</form>
+			<!-- from -->
+		</div>
+		<!-- container-fluid -->
+	</div>
+	<!-- main end-->
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>

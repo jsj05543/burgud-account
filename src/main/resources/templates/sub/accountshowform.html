@@ -1,0 +1,17 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<form id="accountform" name="accountform" th:fragment="accountform" th:action="@{/account}" th:object="${accountForm}" class="needs-validation" novalidate>
+	<!-- contents start-->
+	<div class="contents" id="contents">
+		<div class="contents-header">アカウント参照</div>
+		<!-- contents-body start-->
+		<div th:replace="~{sub/accountform :: accountform}"></div>
+		<!-- contents-body end-->
+		<div class="contents-footer" id="contents-footer-back">
+			<a href="/account" class="btn btn-secondary"><i class="fas fa-arrow-circle-left fa-1x mr-2"></i>戻る</a>
+		</div>
+	</div>
+	<!-- contents end-->
+</form>
+</html>

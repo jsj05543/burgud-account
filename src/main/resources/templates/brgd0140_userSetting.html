@@ -1,0 +1,66 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="BRGD :: head(ユーザ権限設定)"></head>
+<meta charset="utf-8">
+<body>
+	<!-- header_start -->
+	<div th:replace="BRGD :: indexheader"></div>
+	<!-- header_end -->
+	<!-- menubutton_end -->
+	<input type="checkbox" id="openSidebarMenu" class="openSidebarMenu" style="display: none;">
+	<!-- menubutton_end -->
+	<!-- menuset_end -->
+	<div th:replace="BRGD :: labelmenu"></div>
+	<!-- menuset_end -->
+	<!-- menu_start -->
+	<div th:replace="BRGD :: indexmenu"></div>
+	<!-- menu_end -->
+	<!-- main start -->
+	<div class="main">
+		<div class="container-fluid">
+			<!-- 成功メッセージ表示エリア start-->
+			<div class="alert alert-info" id="successArea" role="alert" th:if="${success}">ユーザ権限設定は成功しました</div>
+			<!-- 成功メッセージ表示エリア end-->
+			<form name="form" th:action="@{/userSetting}" th:method="post" th:object="${form}">
+				<div class="contents">
+					<div class="contents-header mt-3">ユーザ権限設定</div>
+					<div class="contents-body">
+						<!-- ユーザコード -->
+						<div class="form-group row  col-sm-12 mt-3">
+							<label for="email" class="col-sm-2 col-form-label"> ユーザコード </label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" th:field="*{userCd}" readonly="readonly">
+							</div>
+						</div>
+						<!-- 性別 -->
+						<div class="form-group row  col-sm-12">
+							<label for="sex" class="col-sm-2 col-form-label">ユーザ権限<span class="badge badge-danger ml-2">必須</span>
+							</label>
+							<div th:each="item : ${authorList}" class="form-check form-check-inline ml-3">
+								<input type="radio" th:value="${item.authorityKbn}" th:text="${item.authorityName}" th:field="*{authorityKbn}" class="form-check-input" required />
+							</div>
+						</div>
+
+					</div>
+					<div class="contents-footer">
+						<a href="/user" target="_top">
+							<button type="button" class="btn btn-secondary"><i class="fas fa-arrow-circle-left fa-1x mr-2"></i>戻る</button>
+						</a>
+						<button type="submit" id="setting" name="setting" class="btn btn-info"><i class="fas fa-cog fa-1x mr-2"></i>設定</button>
+					</div>
+				</div>
+				<!-- contents -->
+			</form>
+			<!-- from -->
+		</div>
+		<!-- container-fluid -->
+	</div>
+	<!-- main end-->
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+
+</html>

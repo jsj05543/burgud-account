@@ -1,0 +1,179 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="BRGD :: head(ユーザ登録)"></head>
+<meta charset="utf-8">
+<!-- <meta http-equiv="refresh" content="2; url=user" /> -->
+<script>
+	$(function() {
+		// validation
+		'use strict';
+		window.addEventListener('load', function() {
+			// Fetch all the forms we want to apply custom Bootstrap validation styles to
+			var forms = document.getElementsByClassName('needs-validation');
+			// Loop over them and prevent submission
+			var validation = Array.prototype.filter.call(forms, function(form) {
+				form.addEventListener('submit', function(event) {
+					if (form.checkValidity() === false) {
+						event.preventDefault();
+						event.stopPropagation();
+					}
+					form.classList.add('was-validated');
+				}, false);
+			});
+		}, false);
+
+		// 新規モードの時
+		if ($('#mode').val() == "new") {
+			$("#successMessage").text("ユーザー成功は成功しました");
+		}
+		// 編集モードの時
+		if ($('#mode').val() == "edit") {
+			document.getElementById("user.email").readOnly = true;
+			$("#successMessage").text("ユーザー更新は成功しました");
+		}
+		// 参照モードの時
+		if ($('#mode').val() == "show") {
+			var inputItem = document.getElementById("contents")
+					.getElementsByTagName("input");
+			var selectItem = document.getElementById("contents")
+					.getElementsByTagName("select");
+			for (var i = 0; i < inputItem.length; i++) {
+				inputItem[i].disabled = true;
+			}
+			for (var i = 0; i < selectItem.length; i++) {
+				selectItem[i].disabled = true;
+			}
+		}
+
+		// 日付入力フォーマット
+		$('#birthGroup').datetimepicker({
+			defaultDate : null,
+			dayViewHeaderFormat : 'YYYY年 M月',
+			format : 'YYYY/MM/DD',
+			locale : 'Ja',
+			useCurrent : false
+
+		});
+
+		// 郵便番号自動入力
+		$('#user\\.zip').change(function() {
+			//入力値をセット
+			var param = {
+				zipcode : $('#user\\.zip').val()
+			}
+			//zipcloudのAPIのURL
+			var send_url = "http://zipcloud.ibsnet.co.jp/api/search";
+			$.ajax({
+				type : "GET",
+				cache : false,
+				data : param,
+				url : send_url,
+				dataType : "jsonp",
+				success : function(res) {
+					//結果によって処理を振り分ける
+					if (res.status == 200) {
+						//処理が成功したとき
+						//該当する住所を表示
+						for (var i = 0; i < res.results.length; i++) {
+							var result = res.results[i];
+							var address1 = result.address1;
+							var address2 = result.address2;
+							var address3 = result.address3;
+							var address = address1 + address2 + address3;
+							$('#user\\.address').val(address);
+						}
+					}
+				}
+			});
+		});
+
+		// 出身情報処理
+		$('#user\\.nutagPref').change(
+				function() {
+					//入力値をセット
+					var param = {
+						prefCode : $("#user\\.nutagPref").val(),
+						prefName : $("#user\\.nutagPref option:selected")
+								.text(),
+					}
+					//県コードを送信URL
+					var send_url = "/nutag";
+					$.ajax({
+						url : send_url,
+						type : "POST",
+						contentType : "application/json",
+						cache : false,
+						data : JSON.stringify(param),
+						dataType : "json",
+						success : function(res) {
+							var cityList = [];
+							for (var i = 0; i < res.length; i++) {
+								var city = "<option value="+res[i].cityCode+">"
+										+ res[i].cityName + "</option>";
+								cityList.push(city);
+							}
+							$("#user\\.nutagCity").html(cityList);
+						}
+					});
+				});
+
+		if ($("#success").val()) {
+			setTimeout(function() {
+				window.location.href = '/user';
+			}, 1000);
+		}
+	});
+</script>
+<body>
+	<!-- header_start -->
+	<div th:replace="BRGD :: indexheader"></div>
+	<!-- header_end -->
+	<!-- menubutton_end -->
+	<input type="checkbox" id="openSidebarMenu" class="openSidebarMenu" style="display: none;">
+	<!-- menubutton_end -->
+	<!-- menuset_end -->
+	<div th:replace="BRGD :: labelmenu"></div>
+
+	<!-- menuset_end -->
+	<!-- menu_start -->
+	<div th:replace="BRGD :: indexmenu"></div>
+	<!-- menu_end -->
+
+	<!-- main start -->
+	<div class="main">
+		<div class="container-fluid">
+			<!-- エラー表示エリア start-->
+			<div class="alert alert-danger" role="alert" th:if="${isError}">
+				<ul>
+					<li th:each="message: ${errorList}" th:text="${message.defaultMessage}"></li>
+				</ul>
+			</div>
+			<!-- エラー表示エリア end-->
+			<!-- 成功メッセージ表示エリア start-->
+			<div class="alert alert-info" id="successArea" role="alert" th:if="${success}">
+				<span id="successMessage"></span>
+			</div>
+			<!-- 成功メッセージ表示エリア end-->
+			<!-- from start-->
+			<input type="hidden" id="success" name="success" th:value="${success}" /> <input type="hidden" id="mode" name="mode" th:value="${mode}">
+			<div th:if="${mode == 'new'}">
+				<form th:replace="~{sub/usernewform :: userform}"></form>
+			</div>
+			<div th:if="${mode == 'edit'}">
+				<form th:replace="~{sub/usereditform :: userform}"></form>
+			</div>
+			<div th:if="${mode == 'show'}">
+				<form th:replace="~{sub/usershowform :: userform}"></form>
+			</div>
+			<!-- from-end-->
+		</div>
+		<!-- container-fluid -->
+	</div>
+	<!-- main-end-->
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+
+</html>

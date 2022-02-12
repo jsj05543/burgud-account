@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+
+<head th:replace="BRGD :: head(テーマ設定)"></head>
+<meta charset="utf-8">
+<script>
+	$(function() {
+		//画面初期表示の時「デザイン」
+		var arr = getCookieArray();
+		var colorId = arr['colorId'];
+		if (colorId == 1) {
+			$("#theme" + [ 1 ]).prop('checked', true);
+			var color = "rgb(73, 144, 192)";
+		}
+		if (colorId == 2) {
+			$("#theme" + [ 2 ]).prop('checked', true);
+			var color = "rgb(192, 73, 73)";
+		}
+		if (colorId == 3) {
+			$("#theme" + [ 3 ]).prop('checked', true);
+			var color = "rgb(101, 192, 73)";
+		}
+		if (colorId == 4) {
+			$("#theme" + [ 4 ]).prop('checked', true);
+			var color = "rgb(192, 73, 119)";
+		}
+		if (colorId == 5) {
+			$("#theme" + [ 5 ]).prop('checked', true);
+			var color = "rgb(217, 9, 245)";
+		}
+		$('#themecolor').css("background-color", color);
+
+		//選択する時「デザイン」
+		var color = "rgb(73, 144, 192)";
+		$('input[name="theme"]:radio').change(function() {
+			var i = 0;
+			var radioval = $(this).val();
+			if (radioval == "1") {
+				var color = "rgb(73, 144, 192)";
+				i = 1;
+			}
+			if (radioval == "2") {
+				var color = "rgb(192, 73, 73)";
+				i = 2;
+			}
+			if (radioval == "3") {
+				var color = "rgb(101, 192, 73)";
+				i = 3;
+			}
+			if (radioval == "4") {
+				var color = "rgb(192, 73, 119)";
+				i = 4;
+			}
+			if (radioval == "5") {
+				var color = "rgb(217, 9, 245)";
+				i = 5;
+			}
+			$('#themecolor').css("background-color", color);
+		});
+
+	});
+
+	function setTheme() {
+		var colorId = $("input[name='theme']:checked").val();
+		document.cookie = "colorId=" + colorId;
+		setColor();
+	}
+</script>
+
+<body>
+	<!-- header_start -->
+	<div th:replace="BRGD :: indexheader"></div>
+	<!-- header_end -->
+	<!-- menubutton_end -->
+	<input type="checkbox" id="openSidebarMenu" class="openSidebarMenu"
+		style="display: none;">
+	<!-- menubutton_end -->
+	<!-- menuset_end -->
+	<div th:replace="BRGD :: labelmenu"></div>
+	<!-- menuset_end -->
+	<!-- menu_start -->
+	<div th:replace="BRGD :: indexmenu"></div>
+	<!-- menu_end -->
+
+	<!-- main start -->
+	<div class="main">
+		<div class="container-fluid">
+			<form name="form" method="POST">
+				<div class="contents">
+					<div name="contents-header" class="contents-header">テーマ管理</div>
+					<div class="contents-body">
+						<div id="themecolor" class="themecolor"></div>
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="theme"
+								id="theme1" value="1" checked> <label
+								class="form-check-label" for="theme1"> テーマ1:青 </label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="theme"
+								id="theme2" value="2"> <label class="form-check-label"
+								for="theme2"> テーマ2:赤 </label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="theme"
+								id="theme3" value="3"> <label class="form-check-label"
+								for="theme3"> テーマ3:緑 </label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="theme"
+								id="theme4" value="4"> <label class="form-check-label"
+								for="theme4"> テーマ4:紫 </label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="theme"
+								id="theme5" value="5"> <label class="form-check-label"
+								for="theme5"> テーマ5:ピンク </label>
+						</div>
+					</div>
+					<div class="contents-footer">
+						<button type="button" class="btn btn-info" onclick="setTheme();"><i class="fas fa-cog fa-1x mr-2"></i>設定</button>
+					</div>
+				</div>
+				<!-- contents -->
+			</form>
+			<!-- from -->
+		</div>
+		<!-- container-fluid -->
+	</div>
+	<!-- main end-->
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>

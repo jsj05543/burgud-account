@@ -1,0 +1,131 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="BRGD :: head(アカウント登録)"></head>
+<meta charset="utf-8">
+<style>
+a[data-toggle="collapse"].collapsed::after {
+	font-family: 'Font Awesome 5 Free';
+	font-weight: 900;
+	content: "＋";
+	/* chevron-down */
+	float: left;
+	margin-right: 8px;
+}
+
+a[data-toggle="collapse"]::after {
+	font-family: 'Font Awesome 5 Free';
+	font-weight: 900;
+	content: "ー";
+	/* chevron-up */
+	float: left;
+	margin-right: 8px;
+}
+
+h2{
+  text-align: center;
+  margin-bottom: 30px;
+}
+</style>
+<script>
+	// validation
+	$(function() {
+		'use strict';
+		window.addEventListener('load', function() {
+			// カスタムブートストラップ検証スタイルを適用するすべてのフォームを取得
+			var forms = document.getElementsByClassName('needs-validation');
+			// ループして帰順を防ぐ
+			var validation = Array.prototype.filter.call(forms, function(form) {
+				form.addEventListener('submit', function(event) {
+					if (form.checkValidity() === false) {
+						event.preventDefault();
+						event.stopPropagation();
+					}
+					form.classList.add('was-validated');
+				}, false);
+			});
+		}, false);
+		// 新規モードの時
+		if ($('#mode').val() == "new") {
+			$("#successMessage").text("アカウント成功は成功しました");
+		}
+		// 編集モードの時
+		if ($('#mode').val() == "edit") {
+			$("#successMessage").text("アカウント更新は成功しました");
+		}
+		// 参照モードの時
+		if ($('#mode').val() == "show") {
+			var inputItem = document.getElementById("contents")
+					.getElementsByTagName("input");
+			var selectItem = document.getElementById("contents")
+					.getElementsByTagName("select");
+			for (var i = 0; i < inputItem.length; i++) {
+				inputItem[i].disabled = true;
+			}
+			for (var i = 0; i < selectItem.length; i++) {
+				selectItem[i].disabled = true;
+			}
+		}
+		//画面自動遷移
+		if ($("#success").val()) {
+			setTimeout(function() {
+				window.location.href = '/account';
+			}, 1000);
+		}
+	});
+</script>
+
+<body>
+	<!-- header_start -->
+	<div th:replace="BRGD :: indexheader"></div>
+	<!-- header_end -->
+	<!-- menubutton_end -->
+	<input type="checkbox" id="openSidebarMenu" class="openSidebarMenu" style="display: none;">
+	<!-- menubutton_end -->
+	<!-- menuset_end -->
+	<div th:replace="BRGD :: labelmenu"></div>
+	<!-- menuset_end -->
+	<!-- menu_start -->
+	<div th:replace="BRGD :: indexmenu"></div>
+	<!-- menu_end -->
+
+	<!-- main start -->
+	<div class="main">
+		<!-- container-fluid -->
+		<div class="container-fluid">
+	
+			<!-- エラー表示エリア start-->
+			<div class="alert alert-danger" role="alert" th:if="${isError}">
+				<ul>
+					<li th:each="message: ${errorList}" th:text="${message.defaultMessage}"></li>
+				</ul>
+			</div>
+			<!-- エラー表示エリア end-->
+			<!-- 成功メッセージ表示エリア start-->
+			<div class="alert alert-info" id="successArea" role="alert" th:if="${success}">
+				<span id="successMessage"></span>
+			</div>
+			<!-- 成功メッセージ表示エリア end-->
+			<!-- from start-->
+			<input type="hidden" id="success" name="success" th:value="${success}" /> <input type="hidden" id="mode" name="mode" th:value="${mode}">
+			<!-- from start-->
+			<div th:if="${mode == 'show'}">
+				<form th:replace="~{sub/accountshowform :: accountform}"></form>
+			</div>
+			<div th:if="${mode == 'edit'}">
+				<form th:replace="~{sub/accounteditform :: accountform}"></form>
+			</div>
+			<div th:if="${mode == 'new'}">
+				<form th:replace="~{sub/accountnewform :: accountform}"></form>
+			</div>
+			<!-- form end -->
+		</div>
+		<!-- /.container-fluid -->
+	</div>
+	<!-- main end-->
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+
+</html>

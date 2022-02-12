@@ -1,0 +1,105 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="BRGD :: head(システム情報)"></head>
+<meta charset="utf-8">
+
+<body>
+	<!-- header_start -->
+	<div th:replace="BRGD :: indexheader"></div>
+	<!-- header_end -->
+	<!-- menubutton_end -->
+	<input type="checkbox" id="openSidebarMenu" class="openSidebarMenu"
+		style="display: none;">
+	<!-- menubutton_end -->
+	<!-- menuset_end -->
+	<div th:replace="BRGD :: labelmenu"></div>
+	<!-- menuset_end -->
+	<!-- menu_start -->
+	<div th:replace="BRGD :: indexmenu"></div>
+	<!-- menu_end -->
+
+	<!-- main start -->
+	<div class="main">
+		<div class="container-fluid">
+			<!-- from -->
+			<form name="form" th:object="${systemForm}">
+				<!-- contents -->
+				<div class="contents">
+					<div class="contents-header">システム情報</div>
+					<div class="contents-body">
+						<div class="row col-md-12">
+							<div class="col mb-4">
+								<div class="card border-primary">
+									<div class="card-header bg-primary">システム情報</div>
+									<div class="card-body">
+										<h5 class="card-title" th:text="*{systemName}"></h5>
+										<ul class="list-group list-group-flush">
+											<li class="list-group-item" th:text="'バージョン：' + *{systemVersion}"></li>
+											<li class="list-group-item" th:text="'OS：' + *{hostName}"></li>
+											<li class="list-group-item" th:text="'ブラウザ：' + *{browser}"></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="col mb-4">
+								<div class="card border-success">
+									<div class="card-header bg-success">ログイン情報</div>
+									<div class="card-body">
+										<h5 class="card-title">白英様</h5>
+										<ul class="list-group list-group-flush">
+
+											<li class="list-group-item">前回:20200101 00:00:00</li>
+											<li class="list-group-item">前回退出:20200101 00:00:00</li>
+											<li class="list-group-item">今回:20200101 00:00:00</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="col mb-4">
+								<div class="card border-danger">
+									<div class="card-header bg-danger">アクセス情報</div>
+									<div class="card-body">
+										<h5 class="card-title">セキュリティ</h5>
+										<ul class="list-group list-group-flush">
+											<li class="list-group-item" th:text="'現在IP:' + *{iPAddress}"></li>
+											<li class="list-group-item" th:text="'アクセス件数:' + *{pageCount}"></li>
+											<li class="list-group-item" th:if="*{unAccess}" > 不正アクセスなし</li>
+											<li class="list-group-item" th:unless="*{unAccess}" > 不正アクセスあり</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="col mb-4">
+								<div class="card  border-info">
+									<div class="card-header bg-info">メンテナンス</div>
+									<div class="card-body">
+										<h5 class="card-title">通知</h5>
+										<p class="card-text">現在メンテナンス予定がありません</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- contents-body -->
+				</div>
+				<!-- contents -->
+			</form>
+			<!-- from -->
+		</div>
+		<!-- container-fluid -->
+	</div>
+	<!-- main end-->
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>

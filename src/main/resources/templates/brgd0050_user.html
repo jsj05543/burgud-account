@@ -1,0 +1,176 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="BRGD :: head(ユーザ一覧)"></head>
+<meta charset="utf-8">
+<style>
+.card-link {
+	text-decoration: underline;
+}
+</style>
+
+<script>
+	$(function() {
+		//編集ボタンをクリック時のイベント
+		$("#editLink").on(
+				'click',
+				function() {
+					const selectUserCd = $(
+							'input:radio[name="selectUserCd"]:checked').val();
+					if (selectUserCd === undefined) {
+						alert('ユーザーを選択していません');
+						return false;
+					}
+					var url = "user/" + selectUserCd + "/edit";
+					$("#editLink").attr("href", url);
+				});
+
+		//削除ボタンをクリック時のイベント
+		$("#delbutton").on(
+				'click',
+				function() {
+					const selectUserCd = $(
+							'input:radio[name="selectUserCd"]:checked').val();
+					if (selectUserCd === undefined) {
+						alert('ユーザーを選択していません');
+						return false;
+					}
+					if (window.confirm("選択したユーザを削除します。\nよろしいですか？")) {
+						document.forms["delform"].action = "user/"
+								+ selectUserCd;
+						document.forms["delform"].submit();
+					} else {
+						return false;
+					}
+				});
+		//ユーザ権限設定ボタンをクリック時のイベント
+		$("#setbutton").on(
+				'click',
+				function() {
+					const selectUserCd = $(
+							'input:radio[name="selectUserCd"]:checked').val();
+					if (selectUserCd === undefined) {
+						alert('ユーザーを選択していません');
+						return false;
+					}
+					var url = "/userSetting/" + selectUserCd + "/set";
+					$("#setbutton").attr("href", url);
+				});
+
+		//ユーザ権限設定ボタンをクリック時のイベント
+		$("#setbutton").on(
+				'click',
+				function() {
+					const selectUserCd = $(
+							'input:radio[name="selectUserCd"]:checked').val();
+					$('<input>').attr({
+						type : 'hidden',
+						id : 'userCd',
+						name : 'userCd',
+						value : selectUserCd
+					}).appendTo('#setform');
+
+					if (selectUserCd === undefined) {
+						alert('ユーザーを選択していません');
+						return false;
+					}
+				});
+	});
+</script>
+<body>
+	<!-- header_start -->
+	<div th:replace="BRGD :: indexheader"></div>
+	<!-- header_end -->
+	<!-- menubutton_end -->
+	<input type="checkbox" id="openSidebarMenu" class="openSidebarMenu" style="display: none;">
+	<!-- menubutton_end -->
+	<!-- menuset_end -->
+	<div th:replace="BRGD :: labelmenu"></div>
+	<!-- menuset_end -->
+	<!-- menu_start -->
+	<div th:replace="BRGD :: indexmenu"></div>
+	<!-- menu_end -->
+
+	<!-- main start -->
+	<div class="main">
+		<div id="" class="container-fluid">
+			<!-- エラー表示エリア start-->
+			<div class="alert alert-danger" role="alert" th:if="${isError}">
+				<ul>
+					<li th:each="message: ${errorList}" th:text="${message.defaultMessage}"></li>
+				</ul>
+			</div>
+			<!-- エラー表示エリア end-->
+			<!-- 成功メッセージ表示エリア start-->
+			<div class="alert alert-info" id="successArea" role="alert" th:if="${success}">国区分登録は成功しました</div>
+			<!-- 成功メッセージ表示エリア end-->
+			<!-- contents start -->
+			<div class="contents">
+				<div class="contents-header">ユーザ一覧</div>
+				<!-- from-start -->
+				<form name="form" th:action="@{/}" method="post" th:object="${userForm}" class="needs-validation" novalidate>
+					<div class="contents-body border-0">
+						<table class="table table-striped table-hover table-bordered">
+							<thead>
+								<tr>
+									<th>選択</th>
+									<th>ユーザコード</th>
+									<th>メールアドレス</th>
+									<th>ユーザ名</th>
+									<th>性別</th>
+									<th>生年月日</th>
+									<th>電話番号</th>
+									<th>郵便番号</th>
+									<th>住所</th>
+									<th>出身</th>
+									<th>メール配信</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="user,stat:*{userList}" th:object="${user}">
+									<td>
+										<div class="form-check">
+											<input class="form-check-input position-static" type="radio" th:name="selectUserCd" th:id="select_+*{userCd}" th:value="*{userCd}">
+										</div>
+									</td>
+									<td><a th:href="@{/user/{userCd}(userCd=*{userCd})}" class="card-link" title="照会する"> <span th:text="*{userCd}"></span></a></td>
+									<td th:text="*{email}"></td>
+									<td th:text="*{firstName + lastName}"></td>
+									<td th:text="${sexData['__*{sex}__']}"></td>
+									<td th:text="*{birth}"></td>
+									<td th:text="*{tel}"></td>
+									<td th:text="*{zip}"></td>
+									<td th:text="*{address}"></td>
+									<td th:text="${prefData['__*{nutagPref}__'] + cityData['__*{nutagPref + nutagCity}__']}"></td>
+									<td th:if="*{sendMailFlg eq '1'}">希望する</td>
+									<td th:unless="*{sendMailFlg eq '1'}">希望しない</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="contents-body border-0" th:if="*{userList.size() == 0}">ユーザ情報は登録されていません</div>
+					</div>
+					<!-- contents-body -->
+				</form>
+				<!-- from end-->
+				<div class="contents-footer">
+					<form name="setform" id="setform" th:action="@{/userSetting}" th:method="post" style="display: inline-block;">
+						<button type="submit" id="setbutton" name="setbutton" class="btn btn-primary"><i class="fas fa-cog fa-1x mr-2"></i>ユーザ権限設定</button>
+					</form>
+					<a id="editLink" href="#" class="btn btn-primary"><i class="fas fa-edit fa-1x mr-2"></i>編集</a>
+					<form name="delform" id="delform" th:method="delete" style="display: inline-block;">
+						<button type="submit" id="delbutton" name="delbutton" class="btn btn-danger"><i class="fas fa-trash-alt fa-1x mr-2"></i>削除</button>
+					</form>
+				</div>
+			</div>
+			<!-- contents end-->
+		</div>
+		<!-- container-fluid -->
+	</div>
+	<!-- main end-->
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+
+</html>

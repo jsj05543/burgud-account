@@ -1,0 +1,217 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<!-- contents-body start-->
+<div class="contents-body" th:fragment="accountform">
+	<!-- アカウントコード -->
+	<div class="form-group row  col-sm-12 mt-3">
+		<label for="account.accountCd" class="col-sm-2 col-form-label"> アカウントコード </label>
+		<div class="col-sm-5">
+			<input type="text" class="form-control" th:field="*{account.accountCd}" readonly="readonly">
+		</div>
+	</div>
+	<!-- アカウント利用先名 -->
+	<div class="form-group row  col-sm-12">
+		<label for="accountUsedName" class="col-sm-2 col-form-label">アカウント利用先名<span class="badge badge-danger ml-2">必須</span></label>
+		<div class="col-sm-5">
+			<input type="text" class="form-control" th:field="*{account.accountUsedName}" placeholder="アカウント利用先名" required>
+			<div class="invalid-feedback">アカウント利用先名が入力されていません</div>
+		</div>
+	</div>
+	<!-- 利用先説明 -->
+	<div class="form-group row col-sm-12">
+		<label for="usedDetail" class="col-sm-2 col-form-label">利用先説明<span class="badge badge-secondary ml-2">任意</span> <a href="#" data-toggle="modal" data-target="#exampleModalLong"> <i
+				class="fas fa-question-circle ml-1"></i>
+		</a></label>
+		<div class="col-sm-5">
+			<input type="text" class="form-control" th:field="*{account.usedDetail}" placeholder="利用先説明">
+		</div>
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLongTitle">説明</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<table class="table table-striped table-hover table-bordered">
+							<thead>
+								<tr>
+									<th style="width: 25%;">国区分</th>
+									<th style="width: 25%;">国名</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1</td>
+									<td>中国</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>日本</td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td>両方</td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td>両方</td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td>両方</td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td>両方</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- アカウント名 -->
+	<div class="form-group row col-sm-12">
+		<label for="accountName" class="col-sm-2 col-form-label">アカウント名<span class="badge badge-danger ml-2">必須</span></label>
+		<div class="col-sm-5">
+			<input type="text" class="form-control" th:field="*{account.accountName}" placeholder="アカウント名" required>
+			<div class="invalid-feedback">アカウント名が入力されていません</div>
+		</div>
+	</div>
+	<!-- パスワード -->
+	<div class="form-group row col-sm-12">
+		<label for="password" class="col-sm-2 col-form-label">パスワード<span class="badge badge-danger ml-2">必須</span></label>
+		<div class="col-sm-5">
+			<input type="text" class="form-control" th:field="*{account.accountPassword}" placeholder=" パスワード" required>
+			<div class="invalid-feedback">パスワードが入力されていません</div>
+		</div>
+	</div>
+	<hr>
+	<!-- 国区分 -->
+	<div class="form-group row col-sm-12">
+		<label for="countryKbn" class="col-sm-2 col-form-label">国区分<span class="badge badge-danger ml-2">必須</span></label>
+		<div th:each="item : ${countryData}" class="form-check form-check-inline ml-3">
+			<input type="radio" class="form-check-input" th:value="${item.key}" th:text="${item.value}" th:field="*{account.countryKbn}" required>
+		</div>
+	</div>
+	<!-- 施設区分 -->
+	<div class="form-group row col-sm-12">
+		<label for="facilityKbn" class="col-sm-2 col-form-label">施設区分<span class="badge badge-danger ml-2">必須</span></label>
+		<div th:each="item : ${facilityData}" class="form-check form-check-inline ml-3">
+			<input type="radio" class="form-check-input" th:value="${item.key}" th:text="${item.value}" th:field="*{account.facilityKbn}" checked>
+		</div>
+	</div>
+	<hr>
+	<!-- 安全確認質問  -->
+	<div class="card mb-3">
+		<!-- card-header -->
+		<div class="card-header" role="tab" id="securityQueryAreaHeader">
+			<h6 class="mb-0">
+				<a href="#securityQueryArea" class="collapsed text-body d-block" role="button" data-toggle="collapse" aria-expanded="true" aria-controls="securityQueryArea"> 安全確認質問 <span
+					class="badge badge-secondary ml-2">任意</span></a>
+			</h6>
+		</div>
+		<!-- /.card-header -->
+		<!-- collapse -->
+		<div class="collapse" role="tabpanel" id="securityQueryArea" aria-labelledby="securityQueryAreaHeader" aria-expanded="false">
+			<div class="form-group row  col-sm-12 mt-3">
+				<label for="query1" class="col-sm-1 col-form-label offset-sm-1">質問1</label>
+				<div class="col-sm-4">
+					<select class="form-control" th:field="*{account.query1}">
+						<option th:each="question:${questionData}" th:value="${question.key}" th:text="${question.value}" />
+					</select>
+				</div>
+				<label for="answer1" class="col-sm-1 col-form-label">回答1</label>
+				<div class="col-sm-4">
+					<select class="form-control pr-3" th:field="*{account.answer1}">
+						<option th:each="answer:${answerData}" th:value="${answer.key}" th:text="${answer.value}" />
+					</select>
+				</div>
+			</div>
+			<div class="form-group row col-sm-12">
+				<label for="query2" class="col-sm-1 col-form-label offset-sm-1">質問2</label>
+				<div class="col-sm-4">
+					<select class="form-control" th:field="*{account.query2}">
+						<option th:each="question:${questionData}" th:value="${question.key}" th:text="${question.value}" />
+					</select>
+				</div>
+				<label for="answer2" class="col-sm-1 col-form-label">回答2</label>
+				<div class="col-sm-4">
+					<select class="form-control pr-3" th:field="*{account.answer2}">
+						<option th:each="answer:${answerData}" th:value="${answer.key}" th:text="${answer.value}" />
+					</select>
+				</div>
+			</div>
+			<div class="form-group row col-sm-12">
+				<label for="query3" class="col-sm-1 col-form-label offset-sm-1">質問3</label>
+				<div class="col-sm-4">
+					<select class="form-control" th:field="*{account.query3}">
+						<option th:each="question:${questionData}" th:value="${question.key}" th:text="${question.value}" />
+					</select>
+				</div>
+				<label for="answer3" class="col-sm-1 col-form-label">回答3</label>
+				<div class="col-sm-4">
+					<select class="form-control pr-3" th:field="*{account.answer3}">
+						<option th:each="answer:${answerData}" th:value="${answer.key}" th:text="${answer.value}" />
+					</select>
+				</div>
+			</div>
+		</div>
+		<!-- /.collapse -->
+	</div>
+	<!-- /.安全確認質問  -->
+	<!-- 旧パスワード -->
+	<div class="card mb-3">
+		<!-- card-header -->
+		<div class="card-header" role="tab" id="oldpasswordHeader">
+			<h6 class="mb-0">
+				<a href="#oldpassword" class="collapsed text-body d-block" role="button" data-toggle="collapse" aria-expanded="true" aria-controls="oldpassword">旧パスワード<span class="badge badge-secondary ml-2">任意</span></a>
+			</h6>
+		</div>
+		<!-- /.card-header -->
+		<!-- collapse -->
+		<div class="collapse" role="tabpanel" id="oldpassword" aria-labelledby="oldpasswordlHeader" aria-expanded="false">
+			<div class="form-group row col-sm-12 mt-3">
+				<label for="oldPassword1" class="col-sm-2 col-form-label offset-sm-1">旧パスワード1</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" th:field="*{account.oldPassword1}" placeholder="旧パスワード1">
+				</div>
+			</div>
+			<div class="form-group row col-sm-12">
+				<label for="oldPassword2" class="col-sm-2 col-form-label offset-sm-1">旧パスワード2</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" th:field="*{account.oldPassword2}" placeholder="旧パスワード2">
+				</div>
+			</div>
+			<div class="form-group row col-sm-12">
+				<label for="oldPassword3" class="col-sm-2 col-form-label offset-sm-1">旧パスワード3</label>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" th:field="*{account.oldPassword3}" placeholder="旧パスワード3">
+				</div>
+			</div>
+		</div>
+		<!-- /.collapse -->
+	</div>
+	<!-- /.旧パスワード -->
+	<hr>
+	<!-- 備考 -->
+	<div class="form-group row col-sm-12">
+		<label for="biko" class="col-sm-2 col-form-label">備考<span class="badge badge-secondary ml-2">任意</span></label>
+		<div class="col-sm-8">
+			<textarea class="form-control" th:field="*{account.biko}" rows="3" placeholder="備考..."></textarea>
+		</div>
+	</div>
+</div>
+<!-- contents-body end-->
+
+
+</html>

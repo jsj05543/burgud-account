@@ -1,0 +1,17 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<form id="accountform" name="accountform" th:fragment="accountform" th:action="@{/account}" th:object="${accountForm}" th:method="post" class="needs-validation" novalidate>
+	<!-- contents start-->
+	<div class="contents" id="contents">
+		<div class="contents-header">アカウント登録</div>
+		<!-- contents-body start-->
+		<div th:replace="~{sub/accountform :: accountform}"></div>
+		<!-- contents-body end-->
+		<div class="contents-footer border-0">
+			<button type="submit" name="insert" class="btn btn-primary btn-lg btn-block" onclick="return confirm('このアカウントを登録します。\nよろしいですか？')"><i class="fas fa-ad fa-1x mr-2"></i>上記内容で登録する</button>
+		</div>
+	</div>
+	<!-- contents end-->
+</form>
+</html>

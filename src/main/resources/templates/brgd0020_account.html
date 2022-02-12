@@ -1,0 +1,272 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="BRGD :: head(アカウント一覧)"></head>
+<meta charset="utf-8">
+
+<style>
+.card-link {
+	text-decoration: underline;
+}
+/* スピナー */
+#spinner-modal {
+	width: 100vw;
+	height: 100vh;
+	transition: all 1s;
+	background-color: rgba(0, 0, 0, .2);
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 9999;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+/* スピナー　load */
+.loaded {
+	opacity: 0;
+	visibility: hidden;
+}
+/* コピーボタン用 */
+.message span.remark {
+	display: none;
+	font-size: 1.0rem;
+	text-align: left;
+	background: none repeat scroll 0 0 #070707;
+	color: #ffffff;
+	top: 31em;
+	left: 8em;
+	border-radius: 10px;
+	line-height: 1.2em;
+	margin: 0.4em;
+	padding: 0.4em 1.0em;
+	position: absolute;
+}
+/*コピーボタン用*/
+.message a:hover span.remark {
+	display: block;
+}
+</style>
+<script>
+	$(function() {
+		//編集ボタンをクリック時のイベント
+		$("#editLink").on(
+				'click',
+				function() {
+					const selectAccountCd = $(
+							'input:radio[name="selectAccountCd"]:checked')
+							.val();
+					if (selectAccountCd === undefined) {
+						alert('アカウントを選択していません');
+						return false;
+					}
+					var url = "account/" + selectAccountCd + "/edit";
+					$("#editLink").attr("href", url);
+				});
+		//削除ボタンをクリック時のイベント
+		$("#delbutton").on(
+				'click',
+				function() {
+					const selectAccountCd = $(
+							'input:radio[name="selectAccountCd"]:checked')
+							.val();
+					if (selectAccountCd === undefined) {
+						alert('アカウントを選択していません');
+						return false;
+					}
+					if (window.confirm("選択したアカウントを削除します。\nよろしいですか？")) {
+						document.forms["delform"].action = "account/"
+								+ selectAccountCd;
+						document.forms["delform"].submit();
+					} else {
+						return false;
+					}
+				});
+
+		//コピーボタンをクリック時のイベント
+		$('.all-account-copy').click(function() {
+			var copyLink = $(this);
+			var parent = copyLink.parent();
+			var remark = $(".remark", parent);
+		   	let table = document.getElementById('accountTable');
+		    var allAccountInfo = "";
+		   	for (let row of table.rows) {
+		   		allAccountInfo = allAccountInfo + row.innerText + "\n";
+		   	    /* for(let cell of row.cells){
+		   	       console.log(cell.innerText);
+		   	    } */
+		   	}
+			copyToClipboard(allAccountInfo); 
+			remark.css("width", "");
+			remark.text("コピーしました！");
+			return false;
+		});
+		//コピーボタンをマウス触れる時のイベント
+		$('.all-account-copy').mouseover(function() {
+			var copyLink = $(this);
+			var parent = copyLink.parent();
+			var remark = $(".remark", parent);
+			remark.css("width", "30em");
+			remark.text("検索結果のすべてのアカウントのコードをコピーします。");
+		});
+
+		//formがsubmitされた場合スピナー起動
+		$("form[name=searchform]").on("submit", function() {
+			if ($("form[name=searchform]").get(0).checkValidity()) {
+				showSpinner();
+			}
+		});
+		//formがsubmit終わったらスピナー隠し
+		hideSpinner();
+	});
+
+	// スピナー隠しメソッド
+	function hideSpinner() {
+		const spinner = document.getElementById('spinner-modal');
+		spinner.classList.add('loaded');
+	}
+
+	//スピナー表示メソッド
+	function showSpinner() {
+		const spinner = document.getElementById('spinner-modal');
+		spinner.classList.remove('loaded');
+	}
+
+	//コピー用メソッド
+	function copyToClipboard(value) {
+		if (navigator.clipboard) {
+			navigator.clipboard.writeText(value);
+		} else if (window.clipboardData) {
+			window.clipboardData.setData("Text", value);
+		}
+	}
+</script>
+<body>
+	<div id="spinner-modal">
+		<div class="spinner-border"></div>
+	</div>
+	<!-- header_start -->
+	<div th:replace="BRGD :: indexheader"></div>
+	<!-- header_end -->
+	<!-- menubutton_end -->
+	<input type="checkbox" id="openSidebarMenu" class="openSidebarMenu" style="display: none;">
+	<!-- menubutton_end -->
+	<!-- menuset_end -->
+	<div th:replace="BRGD :: labelmenu"></div>
+	<!-- menuset_end -->
+	<!-- menu_start -->
+	<div th:replace="BRGD :: indexmenu"></div>
+	<!-- menu_end -->
+
+	<!-- main start -->
+	<div class="main">
+		<div class="container-fluid">
+			<!-- エラー表示エリア start-->
+			<div class="alert alert-danger" role="alert" th:if="${isError}">
+				<ul>
+					<li th:each="message: ${errorList}" th:text="${message.defaultMessage}"></li>
+				</ul>
+			</div>
+			<!-- エラー表示エリア end-->
+			<!-- form start-->
+			<form name="searchform" th:action="@{/account}" th:method="post" th:object="${accountForm}" class="needs-validation" novalidate>
+				<div class="contents">
+					<div class="contents-header">アカウント検索</div>
+					<div class="contents-body border-0">
+						<!-- 国区分 -->
+						<div class="form-group row  col-sm-12">
+							<label for="sex" class="col-sm-2 col-form-label">国区分</label>
+							<div class="form-check form-check-inline pl-3">
+								<input class="form-check-input" type="radio" name="countryKbn" id="countryKbn0" value="" checked>全て
+							</div>
+							<div th:each="item : ${countryData}" class="form-check form-check-inline ml-3">
+								<input type="radio" class="form-check-input" th:value="${item.key}" th:text="${item.value}" th:field="*{countryKbn}" required>
+							</div>
+						</div>
+						<!-- キーワード -->
+						<div class="form-group row  col-sm-12">
+							<label for="accountUsedName" class="col-sm-2 col-form-label">キーワード</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control" th:field="*{keyword}" placeholder="アカウント利用先名を入してください">
+							</div>
+						</div>
+						<div class="form-group row  col-sm-7">
+							<button type="submit" name="search" class="btn btn-info btn-block">
+								<i class="fas fa-search fa-1x mr-2"></i>上記内容で検索する
+							</button>
+						</div>
+					</div>
+					<!-- /.contents-body -->
+				</div>
+				<!-- /.contents -->
+			</form>
+			<!-- form end-->
+			<!-- contents -->
+			<div class="contents">
+				<div class="contents-header">検索結果一覧</div>
+				<div class="contents-subheader" th:if="${listSize > 0}">
+					アカウント全:<label th:text="${listSize}"></label>件
+				</div>
+				<!-- form start-->
+				<form name="accountform" th:action="@{/account}" th:method="post" th:object="${accountForm}" class="needs-validation" novalidate>
+					<div class="contents-body" th:if="${listSize == 0}">・検索結果ありませんでした</div>
+					<div class="contents-body border-0" th:if="${listSize > 0}">
+						<table id="accountTable" class="table table-striped table-hover table-bordered" th:if="${listSize > 0}">
+							<thead>
+								<tr>
+									<th>選択</th>
+									<th>コード</th>
+									<th>アカウント利用先名</th>
+									<th>利用先絵説明</th>
+									<th>アカウント名</th>
+									<th>パスワード</th>
+									<th>国区分</th>
+									<th>施設区分</th>
+									<th>備考</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="account,stat:${accountForm.accountList}" th:object="${account}" th:id="'account' + ${stat.count}">
+									<td>
+										<div class="form-check">
+											<input class="form-check-input position-static" type="radio" th:name="selectAccountCd" th:id="select_+*{accountCd}" th:value="*{accountCd}">
+										</div>
+									</td>
+									<td><a th:href="@{/account/{accountCd}(accountCd=*{accountCd})}" class="card-link" title="照会する"> <span th:text="*{accountCd}"></span></a></td>
+									<td th:text="*{accountUsedName}"></td>
+									<td th:text="*{usedDetail}"></td>
+									<td th:text="*{accountName}"></td>
+									<td th:text="*{accountPassword}"></td>
+									<td th:text="${countryData['__*{countryKbn}__']}"></td>
+									<td th:text="${facilityData['__*{facilityKbn}__']}"></td>
+									<td th:text="*{biko}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- contents-body -->
+				</form>
+				<!-- from end-->
+				<div class="contents-footer message">
+					<a id="editLink" href="#" class="btn btn-primary"> <i class="fas fa-edit fa-1x mr-2"></i>編集
+					</a> <a href="#" class="btn btn-secondary all-account-copy"> <i class="fas fa-copy fa-1x mr-2"></i> アカウント情報をコピーする <span id="remark" class="remark">クリックボートにコピーする</span>
+					</a>
+					<form name="delform" id="delform" th:method="delete" style="display: inline-block;">
+						<button type="submit" id="delbutton" name="delbutton" class="btn btn-danger">
+							<i class="fas fa-trash-alt fa-1x mr-2"></i>削除
+						</button>
+					</form>
+				</div>
+			</div>
+			<!-- /.contents -->
+		</div>
+		<!-- /.container-fluid -->
+	</div>
+	<!-- main end-->
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+
+</html>

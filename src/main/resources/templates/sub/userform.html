@@ -1,0 +1,115 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<div class="contents-body" th:fragment="userform">
+	<!-- ユーザコード -->
+	<div class="form-group row  col-sm-12 mt-3">
+		<label for="email" class="col-sm-2 col-form-label"> ユーザコード </label>
+		<div class="col-sm-5">
+			<input type="text" class="form-control" th:field="*{user.userCd}" readonly="readonly">
+		</div>
+	</div>
+	<!-- メールアドレス -->
+	<div class="form-group row  col-sm-12 mt-3">
+		<label for="email" class="col-sm-2 col-form-label"> メールアドレス<span class="badge badge-danger ml-2">必須</span>
+		</label>
+		<div class="col-sm-5">
+			<input type="text" class="form-control" th:field="*{user.email}" placeholder="Email" required>
+			<div class="invalid-feedback">メールアドレスが入力されていません</div>
+		</div>
+	</div>
+	<!-- 名前(姓) -->
+	<div class="form-group row  col-sm-12">
+		<label for="firstName" class="col-sm-2 col-form-label"> 名 前 (姓)<span class="badge badge-danger ml-2">必須</span>
+		</label>
+		<div class="col-sm-5">
+			<input type="text" class="form-control" th:field="*{user.firstName}" placeholder="姓" required>
+			<div class="invalid-feedback">名前(姓)が入力されていません</div>
+		</div>
+	</div>
+	<!-- 名前(名) -->
+	<div class="form-group row  col-sm-12">
+		<label for="lastName" class="col-sm-2 col-form-label"> 名 前 (名)<span class="badge badge-danger ml-2">必須</span>
+		</label>
+		<div class="col-sm-5">
+			<input type="text" class="form-control" th:field="*{user.lastName}" placeholder="名" required>
+			<div class="invalid-feedback">名前(名)が入力されていません</div>
+		</div>
+	</div>	
+	<!-- 性別 -->
+	<div class="form-group row  col-sm-12">
+		<label for="sex" class="col-sm-2 col-form-label"> 性 別<span class="badge badge-danger ml-2">必須</span>
+		</label>
+		<div th:each="item : ${sexData}" class="form-check form-check-inline ml-3">
+			<input type="radio" th:value="${item.key}" th:text="${item.value}" th:field="*{user.sex}" class="form-check-input" required />
+		</div>
+	</div>
+	<!-- 生年月日 -->
+	<div class="form-group row  col-sm-12">
+		<label for="birth" class="col-sm-2 col-form-label"> 生 年 月 日<span class="badge badge-danger ml-2">必須</span>
+		</label>
+		<div class="col-sm-5">
+			<div class="input-group date" id="birthGroup" data-target-input="nearest">
+				<input type="text" th:field="*{user.birth}" placeholder="yyyy/mm/dd" class="form-control datetimepicker-input" data-target="#birthGroup">
+				<div class="input-group-append" data-target="#birthGroup" data-toggle="datetimepicker" style="overflow: visible;">
+					<div class="input-group-text">
+						<i class="fa fa-calendar"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 電話番号 -->
+	<div class="form-group row  col-sm-12">
+		<label for="tel" class=" col-sm-2 col-form-label">携 帯 番 号<span class="badge badge-danger ml-2">必須</span>
+		</label>
+		<div class="col-sm-5">
+			<input type="text" class="form-control" th:field="*{user.tel}" placeholder="電話番号" required> <small id="passwordHelpBlock" class="form-text text-muted">xxx-xxxx-xxxx</small>
+			<div class="invalid-feedback">電話番号が入力されていません</div>
+		</div>
+	</div>
+	<!-- 郵便番号 -->
+	<div class="form-group row  col-sm-12">
+		<label for="zip" class="col-sm-2 col-form-label"> 郵 便 番 号<span class="badge badge-danger ml-2">必須</span>
+		</label>
+		<div class="col-sm-2">
+			<input type="text" class="form-control" th:field="*{user.zip}" placeholder="郵便番号" required> <small id="passwordHelpBlock" class="form-text text-muted">xxxxxxx</small>
+			<div class="invalid-feedback">郵便番号が入力されていません</div>
+		</div>
+		<div class="col-sm-3">
+			<small id="passwordHelpBlock" class="form-text text-muted">※郵便番号のフォーカスで住所は自動入力</small>
+		</div>
+	</div>
+	<!-- 住所 -->
+	<div class="form-group row  col-sm-12">
+		<label for="address" class="col-sm-2 col-form-label"> 住 所<span class="badge badge-danger ml-2">必須</span>
+		</label>
+		<div class="col-sm-5">
+			<input type="text" class="form-control" th:field="*{user.address}" placeholder="県市町..." required>
+			<div class="invalid-feedback">住所が入力されていません</div>
+		</div>
+	</div>
+	<!-- 出身 -->
+	<div class="form-group row  col-sm-12">
+		<label for="nutag" class="col-sm-2 col-form-label"> 出 身<span class="badge badge-secondary ml-2">任意</span>
+		</label>
+		<div class="col-sm-3">
+			<select class="form-control" th:field="*{user.nutagPref}">
+				<option th:each="pref:${prefData}" th:value="${pref.key}" th:text="${pref.value}" />
+			</select>
+		</div>
+		<div class="col-sm-2">
+			<select class="form-control" th:field="*{user.nutagCity}">
+				<option th:each="city:${cityList}" th:value="${city.cityCode}" th:text="${city.cityName}" />
+			</select>
+		</div>
+	</div>
+	<!-- メール通知 -->
+	<div class="form-group row col-sm-12 ml-2">
+		<div class="form-check  offset-sm-2">
+		 <input type="checkbox" class="form-check-input col-sm-1" checked data-toggle="toggle" data-size="small" th:field="*{user.sendMailFlg}" th:value="1"><span class="form-check-label ml-2"> メール配信希望 </span>
+		 <!-- <input type="checkbox" class="form-check-input col-sm-4"  th:field="*{user.sendMailFlg}" th:value="1"> <span class="form-check-label col-sm-10 offset-sm-2"> メール配信希望 </span> -->
+		</div>
+	</div>
+</div>
+</html>

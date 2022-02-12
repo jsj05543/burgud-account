@@ -1,0 +1,80 @@
+@charset "UTF-8";
+@media screen and  (max-width: 414px) { 
+    #sidebarMenu {
+        height: 100%;
+        position: fixed;
+        left: 0;
+        width: 100%;
+        margin-top: 60px;
+        transform: translateY(-100%);
+        transition: transform 400ms ease-in-out;
+        background-color: #4990c0;
+        overflow: auto;
+    }
+    input[type="checkbox"]:checked ~ #sidebarMenu {
+        transform: translateY(0);
+        transition: transform 400ms ease-in-out;
+    }
+    input[type="checkbox"]:checked ~ .main {
+        /* transform: scaleX(0.87); */
+        transform:translateX(100%);
+    }
+    .main {
+        transition: transform 400ms ease-in-out; 
+        transform-origin:right center;
+        margin-top: 80px;
+    }
+}
+@media screen and  (min-width: 415px)and  (max-width: 799px) { 
+    #sidebarMenu {
+        height: 100%;
+        position: fixed;
+        left: 0;
+        width: 240px;
+        margin-top: 60px;
+        transform: translateY(-100%);
+        transition: transform 400ms ease-in-out;
+        background-color: #4990c0;
+        overflow: auto;
+    }
+    input[type="checkbox"]:checked ~ #sidebarMenu {
+        transform: translateY(0);
+        transition: transform 400ms ease-in-out;
+    }
+    input[type="checkbox"]:checked ~ .main {
+        /* transform: scaleX(0.87); */
+        transform:translateX(240px);
+    }
+    .main {
+        transition: transform 400ms ease-in-out; 
+        transform-origin:right center;
+        margin-top: 80px;
+    }
+}
+/*ipad*/
+@media screen and (min-width: 800px) and (max-width: 1024px) { 
+    #sidebarMenu {
+        height: 100%;
+        position: fixed;
+        left: 0;
+        width: 240px;
+        margin-top: 60px;
+        transform: translateY(-100%);
+        transition: transform 400ms ease-in-out;
+        background-color: #4990c0;
+        overflow: auto;
+    }
+    input[type="checkbox"]:checked ~ #sidebarMenu {
+        transform: translateY(0);
+        transition: transform 400ms ease-in-out;
+    }
+    input[type="checkbox"]:checked ~ .main {
+        transform: scaleX(0.68);
+        /* transform:translateX(100%); */
+    }
+    .main {
+        transition: transform 400ms ease-in-out; 
+        transform-origin:right center;
+        margin-top: 80px;
+    }
+}

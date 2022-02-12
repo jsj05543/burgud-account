@@ -1,0 +1,102 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="BRGD :: head(権限登録)"></head>
+<meta charset="utf-8">
+<script>
+	$(function() {
+		// validation
+		'use strict';
+		window.addEventListener('load', function() {
+			// Fetch all the forms we want to apply custom Bootstrap validation styles to
+			var forms = document.getElementsByClassName('needs-validation');
+			// Loop over them and prevent submission
+			var validation = Array.prototype.filter.call(forms, function(form) {
+				form.addEventListener('submit', function(event) {
+					if (form.checkValidity() === false) {
+						event.preventDefault();
+						event.stopPropagation();
+					}
+					form.classList.add('was-validated');
+				}, false);
+			});
+		}, false);
+		if ($("#success").val()) {
+			$('#successArea').animate({
+				height : $(this).height() * 0,
+				opacity : 'toggle',
+				width : 'toggle',
+			}, {
+				duration : 3000,
+				easing : 'linear',
+			});
+			setTimeout(function() {
+				window.location.href = '/authority';
+			}, 2800);
+		}
+	});
+</script>
+<body>
+	<!-- header_start -->
+	<div th:replace="BRGD :: indexheader"></div>
+	<!-- header_end -->
+	<!-- menubutton_end -->
+	<input type="checkbox" id="openSidebarMenu" class="openSidebarMenu" style="display: none;">
+	<!-- menubutton_end -->
+	<!-- menuset_end -->
+	<div th:replace="BRGD :: labelmenu"></div>
+	<!-- menuset_end -->
+	<!-- menu_start -->
+	<div th:replace="BRGD :: indexmenu"></div>
+	<!-- menu_end -->
+
+	<!-- main start -->
+	<div class="main">
+		<div class="container-fluid">
+			<!-- エラー表示エリア start-->
+			<div class="alert alert-danger" role="alert" th:if="${isError}">
+				<ul>
+					<li th:each="message: ${errorList}" th:text="${message.defaultMessage}"></li>
+				</ul>
+			</div>
+			<!-- エラー表示エリア end-->
+			<!-- 成功メッセージ表示エリア start-->
+			<div class="alert alert-info" id="successArea" role="alert" th:if="${success}">権限区分登録は成功しました</div>
+			<!-- 成功メッセージ表示エリア end-->
+			<!-- from start-->
+			<form name="form" th:action="@{/authority}" th:method="post" th:object="${form}" class="needs-validation" novalidate>
+								<input type="hidden" id="success" name="success" th:value="${success}" />
+				<!-- contents start-->
+				<div class="contents">
+					<div class="contents-header">権限登録</div>
+					<div class="contents-body pb-5">
+						<div class="form-row">
+							<div class="form-group col-md-4">
+								<label for="authorityKbn">権限区分<span class="badge badge-danger ml-2">必須</span></label> <input type="text" class="form-control" th:field="*{authority.authorityKbn}" placeholder="権限区分" required
+									readonly="readonly">
+								<div class="invalid-tooltip">権限区分が入力されていません</div>
+							</div>
+							<div class="form-group col-md-4">
+								<label for="authorityName">権限名<span class="badge badge-danger ml-2">必須</span></label> <input type="text" class="form-control" th:field="*{authority.authorityName}" placeholder="権限名" required>
+								<div class="invalid-tooltip">権限名が入力されていません</div>
+							</div>
+						</div>
+					</div>
+					<div class="contents-footer border-0">
+						<button type="submit" class="btn btn-primary btn-lg btn-block" id="insert" name="insert" onclick="return confirm('この権限を登録します。\nよろしいですか？')"><i class="fas fa-ad fa-1x mr-2"></i>上記内容で登録する</button>
+					</div>
+				</div>
+				<!-- contents end-->
+			</form>
+			<!-- from end-->
+		</div>
+		<!-- container-fluid -->
+	</div>
+	<!-- main end-->
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+
+</html>

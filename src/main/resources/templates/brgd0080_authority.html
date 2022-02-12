@@ -1,0 +1,147 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="BRGD :: head(権限一覧)"></head>
+<meta charset="utf-8">
+<script>
+	$(function() {
+		if ($('#mode').val() == "update") {
+			console.log("AAAA");
+			$('#contents-body-edit').hide();
+			$('#contents-body-update').show();
+			$('#contents-footer-edit').hide();
+			$('#contents-footer-update').show();
+		}
+
+		//編集ボタンのイベント
+		$('#edit').click(function() {
+			$('#contents-body-edit').hide();
+			$('#contents-body-update').show();
+			$('#contents-footer-edit').hide();
+			$('#contents-footer-update').show();
+		});
+		//編集ボタンのイベント
+		$('#update').click(function() {
+			if (window.confirm("権限区分を更新します。\nよろしいですか？")) {
+				cancel();
+				document.forms["from"].submit();
+			}
+		});
+	});
+	//キャンセルボタンのイベント
+	function cancel() {
+		$('#contents-body-edit').show();
+		$('#contents-body-update').hide();
+		$('#contents-footer-edit').show();
+		$('#contents-footer-update').hide();
+	}
+</script>
+
+<body>
+	<!-- header_start -->
+	<div th:replace="BRGD :: indexheader"></div>
+	<!-- header_end -->
+	<!-- menubutton_end -->
+	<input type="checkbox" id="openSidebarMenu" class="openSidebarMenu" style="display: none;">
+	<!-- menubutton_end -->
+	<!-- menuset_end -->
+	<div th:replace="BRGD :: labelmenu"></div>
+	<!-- menuset_end -->
+	<!-- menu_start -->
+	<div th:replace="BRGD :: indexmenu"></div>
+	<!-- menu_end -->
+
+	<!-- main start -->
+	<div class="main">
+		<div class="container-fluid">
+			<!-- エラー表示エリア start-->
+			<div class="alert alert-danger" role="alert" th:if="${isError}">
+				<ul>
+					<li th:each="message: ${errorList}" th:text="${message.defaultMessage}"></li>
+				</ul>
+			</div>
+			<!-- エラー表示エリア end-->
+			<!-- 成功メッセージ表示エリア start-->
+			<div class="alert alert-info" id="successArea" role="alert" th:if="${success}">権限区分更新は成功しました</div>
+			<!-- 成功メッセージ表示エリア end-->
+			<!-- from start-->
+			<form name="form" th:action="@{/authority}" th:method="post" th:object="${form}" class="needs-validation" novalidate>
+				<input type="hidden" id="mode" name="mode" th:value="${mode}">
+				<!-- contents start-->
+				<div class="contents">
+					<div class="contents-header">権限一覧</div>
+					<div class="contents-body" id="contents-body-edit">
+						<table class="table table-striped table-hover table-bordered">
+							<thead>
+								<tr>
+									<th style="width: 5%;">No.</th>
+									<th style="width: 20%;">権限区分</th>
+									<th style="width: 20%;">権限名</th>
+									<th>作成者</th>
+									<th>作成日時</th>
+									<th>更新者</th>
+									<th>更新日時</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="authority,stat:${form.authorityList}" th:object="${authority}">
+									<td th:text="${stat.count}"></td>
+									<td th:text="*{authorityKbn}"></td>
+									<td th:text="*{authorityName}"></td>
+									<td th:text="*{createUser}"></td>
+									<td th:text="*{createDateTime}"></td>
+									<td th:text="*{updateUser}"></td>
+									<td th:text="*{updateDateTime}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="contents-body" id="contents-body-update" style="display: none;">
+						<table class="table table-striped table-hover table-bordered">
+							<thead>
+								<tr>
+									<th style="width: 5%;">No.</th>
+									<th style="width: 20%;">権限区分</th>
+									<th style="width: 20%;">権限名</th>
+									<th>作成者</th>
+									<th>作成日時</th>
+									<th>更新者</th>
+									<th>更新日時</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="authority,stat : *{authorityList}">
+									<td th:text="${stat.count}"></td>
+									<td><input type="text" class="form-control" th:field="*{authorityList[__${stat.index}__].authorityKbn}" readonly="readonly"></td>
+									<td><input type="text" class="form-control" th:field="*{authorityList[__${stat.index}__].authorityName}"></td>
+									<td th:text="*{authorityList[__${stat.index}__].createUser}"></td>
+									<td th:text="*{authorityList[__${stat.index}__].createDateTime}"></td>
+									<td th:text="*{authorityList[__${stat.index}__].updateUser}"></td>
+									<td th:text="*{authorityList[__${stat.index}__].updateDateTime}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- contents-body -->
+					<div class="contents-footer" id="contents-footer-edit">
+						<button type="button" class="btn btn-primary" id="edit"><i class="fas fa-edit fa-1x mr-2"></i>編集</button>
+					</div>
+					<div class="contents-footer" id="contents-footer-update" style="display: none;">
+						<button type="submit" class="btn btn-primary" id="update" name="update"><i class="fas fa-ad fa-1x mr-2"></i>更新</button>
+						<button type="submit" class="btn btn-secondary" id="cancel" name="cancel" onclick="cancel()"><i class="fas fa-window-close fa-1x mr-2"></i>キャンセル</button>
+					</div>
+					<!-- contents end-->
+				</div>
+			</form>
+			<!-- from end-->
+		</div>
+		<!-- container-fluid -->
+	</div>
+	<!-- main end-->
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+
+</html>

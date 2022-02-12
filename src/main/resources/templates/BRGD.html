@@ -1,0 +1,140 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:fragment="head(title)">
+<title th:text="${title}">title</title>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link rel="shortcut icon" href="img/favicon.ico" type="favicon.ico" />
+<link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}">
+<link rel="stylesheet" href="css/style_mobile.css" th:href="@{/css/style_mobile.css}" type="text/css" media="screen and (max-width: 899px)">
+<link rel="stylesheet" href="css/style_pc.css" th:href="@{/css/style_pc.css}" type="text/css" media="screen and (min-width: 900px)">
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script src="js/common.js" th:src="@{/js/common.js}"></script>
+
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<!-- カレンダ CSS -->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ja.js"></script>
+<script src="https://kit.fontawesome.com/8109f126f6.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js"></script>
+</head>
+
+<body>
+
+	<!-- index共通ヘッダー start-->
+	<div id="header" class="header" th:fragment="indexheader">
+		<script>
+			$(function() {
+				var arr = getCookieArray();
+				var logoId = arr['logoId'];
+				if (logoId == 1) {
+					$("#logoIamge1").show();
+					$("#logoIamge2").hide();
+					$("#logoIamge3").hide();
+				}
+				if (logoId == 2) {
+					$("#logoIamge1").hide();
+					$("#logoIamge2").show();
+					$("#logoIamge3").hide();
+				}
+				if (logoId == 3) {
+					$("#logoIamge1").hide();
+					$("#logoIamge2").hide();
+					$("#logoIamge3").show();
+				}
+			});
+		</script>
+		<div class="row">
+			<img id="logoIamge1" height="60" class="col col-4 col-sm-2 col-md-2 col-lg-2  offset-3 offset-sm-2 offset-md-2 offset-lg-2" src="img/logo1.png" th:src="@{/img/logo1.png}"> <img
+				id="logoIamge2" height="60" class="col col-4 col-sm-2 col-md-2 col-lg-2  offset-3 offset-sm-2 offset-md-2 offset-lg-2" src="img/logo2.png" th:src="@{/img/logo2.png}" style="display: none"> <img
+				id="logoIamge3" height="60" class="col col-4 col-sm-2 col-md-2 col-lg-2  offset-3 offset-sm-2 offset-md-2 offset-lg-2" src="img/logo3.png" th:src="@{/img/logo3.png}" style="display: none">
+			<div class="col col-4 col-sm-2 col-md-2 col-lg-2 offset-1 offset-sm-2 offset-md-2 offset-lg-6 pt-2 bg-success border-left">
+				 <i class="fas fa-user fa-2x mr-2"></i><span class="text-white">山田様</span>
+			</div>
+		</div>
+	</div>
+	<!-- index共通ヘッダー end-->
+
+	<!-- index共通メニュー設定 start-->
+	<div th:fragment="labelmenu">
+		<label for="openSidebarMenu" class="sidebarIconToggle">
+			<div class="spinner diagonal part-1"></div>
+			<div class="spinner horizontal"></div>
+			<div class="spinner diagonal part-2"></div>
+		</label>
+	</div>
+	<!-- index共通メニュー設定 end-->
+
+	<!-- index共通メニュー表示 start -->
+	<div id="sidebarMenu" th:fragment="indexmenu">
+		<ul class="sidebarMenuInner">
+			<li><a href="/" th:href="@{/}" target=""><i class="fas fa-home fa-1x mr-2"></i>ホーム</a></li>
+			<li class="menuBox"><input type="checkbox" id="label1" class="showInner" /> <label class="font-weight-normal" for="label1"><i class="fas fa-eye fa-1x mr-2"></i>アカウント管理</label>
+				<div class="InnerMenu">
+					<ul>
+						<li><a href="account" th:href="@{/account}" target="">アカウント一覧</a></li>
+						<li><a href="account/new" th:href="@{/account/new}" target="">アカウント登録</a></li>
+					</ul>
+				</div></li>
+			<li class="menuBox"><input type="checkbox" id="label2" class="showInner" /> <label class="font-weight-normal" for="label2"> <i class="fas fa-user fa-1x mr-2"></i>ユーザ情報管理
+			</label>
+				<div class="InnerMenu">
+					<ul>
+						<li><a href="user" th:href="@{/user}" target="">ユーザ一覧</a></li>
+						<li><a href="user/new" th:href="@{/user/new}" target="">ユーザ登録</a></li>
+						<li><a href="user/new" th:href="@{/userSetting}" target="">ユーザ権限設定</a></li>
+						<li><a href="password" th:href="@{/password}" target="">パスワード変更</a></li>
+					</ul>
+				</div></li>
+
+			<li class="menuBox"><input type="checkbox" id="label3" class="showInner" /> <label class="font-weight-normal" for="label3"> <i class="fas fa-flag fa-1x mr-2"></i>国区分値管理
+			</label>
+				<div class="InnerMenu">
+					<ul>
+						<li><a href="country" th:href="@{/country}" target="">国区分一覧</a></li>
+						<li><a href="country/new" th:href="@{/country/new}" target="">国区分登録</a></li>
+					</ul>
+				</div></li>
+			<li class="menuBox"><input type="checkbox" id="label4" class="showInner" /> <label class="font-weight-normal" for="label4"> <i class="fas fa-vector-square fa-1x mr-2"></i>施設区分管理
+			</label>
+				<div class="InnerMenu">
+					<ul>
+						<li><a href="facility" th:href="@{/facility}" target="">施設区分一覧</a></li>
+						<li><a href="facility/new" th:href="@{/facility/new}" target="">施設区分登録</a></li>
+					</ul>
+				</div></li>
+			<li class="menuBox"><input type="checkbox" id="label5" class="showInner" /> <label class="font-weight-normal" for="label5"> <i class="fas fa-at fa-1x mr-2"></i>権限情報管理
+			</label>
+				<div class="InnerMenu">
+					<ul>
+						<li><a href="authority" th:href="@{/authority}" target="">権限一覧</a></li>
+						<li><a href="authority/new" th:href="@{/authority/new}" target="">権限登録</a></li>
+					</ul>
+				</div></li>
+			<li class="menuBox"><input type="checkbox" id="label6" class="showInner" /> <label class="font-weight-normal" for="label6"> <i class="fas fa-sliders-h fa-1x mr-2"></i>画面設定管理
+			</label>
+				<div class="InnerMenu">
+					<ul>
+						<li><a href="theme" th:href="@{/theme}" target="">テーマ管理</a></li>
+						<li><a href="logo" th:href="@{/logo}" target="">Logo管理</a></li>
+					</ul>
+				</div></li>
+			<li><a href="/login" th:href="@{/login}" target=""><i class="fas fa-arrow-circle-left fa-1x mr-2"></i>ログアウト</a></li>			
+		</ul>
+	</div>
+	<!-- index共通メニュー表示 end -->
+
+</body>
+</html>
