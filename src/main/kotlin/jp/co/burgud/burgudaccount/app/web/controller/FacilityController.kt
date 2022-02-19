@@ -18,7 +18,7 @@ class FacilityController(
 ) {
     @GetMapping
     private fun index(model: Model): String {
-        val form = FacilityForm(facilityRepository.getAllAuthority())
+        val form = FacilityForm(facilityRepository.getAllFacility())
         model.addAttribute("form", form)
         return "brgd0070_facility"
     }

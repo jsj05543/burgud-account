@@ -4,4 +4,7 @@ import jp.co.burgud.burgudaccount.common.entity.Country
 
 interface CountryRepository {
     fun getAllCountry(): List<Country>
+
+    fun getCountry(): List<Country>
+
 }
