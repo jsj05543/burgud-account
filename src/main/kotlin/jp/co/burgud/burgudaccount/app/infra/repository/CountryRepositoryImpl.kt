@@ -13,4 +13,8 @@ internal class CountryRepositoryImpl(
     override fun getAllCountry(): List<Country> {
         return countryMapper.findAll().map { it.toEntity() }
     }
+
+    override fun getCountry(): List<Country> {
+        return countryMapper.selectCountry().map { it.toEntity() }
+    }
 }
