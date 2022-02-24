@@ -1,8 +1,8 @@
 package jp.co.burgud.burgudaccount.app.web.controller
 
 import jp.co.burgud.burgudaccount.app.domain.repository.SystemRepository
+import jp.co.burgud.burgudaccount.app.domain.usecase.SystemUseCase
 import jp.co.burgud.burgudaccount.app.web.form.SystemForm
-import jp.co.burgud.burgudaccount.common.util.SystemManager
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest
 @Controller
 @RequestMapping
 class SystemController(
-    private val systemManager: SystemManager,
+    private val systemUseCase: SystemUseCase,
     private val systemRepository: SystemRepository
 ) {
 
@@ -23,13 +23,13 @@ class SystemController(
 
         val newCount = systemRepository.getPageCount() + 1
         val systemForm = SystemForm(
-            systemName = systemManager.getSystemName(),
-            systemVersion = systemManager.getSystemVersion(),
-            hostName = systemManager.getHostName(),
-            browser = systemManager.getBrowser(request),
-            iPAddress = systemManager.getHostAddress(),
+            systemName = systemUseCase.getSystemName(),
+            systemVersion = systemUseCase.getSystemVersion(),
+            hostName = systemUseCase.getHostName(),
+            browser = systemUseCase.getBrowser(request),
+            iPAddress = systemUseCase.getHostAddress(),
             pageCount = newCount,
-            unAccess = systemManager.getUnAccess()
+            unAccess = systemUseCase.getUnAccess()
         )
         model.addAttribute("systemForm", systemForm)
         systemRepository.updatePageCount(newCount)

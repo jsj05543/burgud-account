@@ -1,6 +1,6 @@
 package jp.co.burgud.burgudaccount.app.infra.mapper.record
 
-import jp.co.burgud.burgudaccount.common.entity.User
+import jp.co.burgud.burgudaccount.app.domain.entity.User
 import java.time.LocalDateTime
 
 internal data class UserRecord(

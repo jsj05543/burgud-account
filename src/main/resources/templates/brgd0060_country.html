@@ -86,14 +86,14 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="country,stat:${form.countryList}" th:object="${country}">
+								<tr th:each="country,stat:${form.countryList}">
 									<td th:text="${stat.count}"></td>
-									<td th:text="*{countryKbn}"></td>
-									<td th:text="*{countryName}"></td>
-									<td th:text="*{createUser}"></td>
-									<td th:text="*{createDateTime}"></td>
-									<td th:text="*{updateUser}"></td>
-									<td th:text="*{updateDateTime}"></td>
+									<td th:text="${country.countryKbn}"></td>
+									<td th:text="${country.countryName}"></td>
+									<td th:text="${country.createUser}"></td>
+									<td th:text="${country.createDateTime}"></td>
+									<td th:text="${country.updateUser}"></td>
+									<td th:text="${country.updateDateTime}"></td>
 								</tr>
 							</tbody>
 						</table>

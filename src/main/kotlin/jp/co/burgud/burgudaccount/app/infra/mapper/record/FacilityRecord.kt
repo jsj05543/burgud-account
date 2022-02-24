@@ -1,11 +1,10 @@
 package jp.co.burgud.burgudaccount.app.infra.mapper.record
 
-import jp.co.burgud.burgudaccount.common.entity.Country
-import jp.co.burgud.burgudaccount.common.entity.Facility
+import jp.co.burgud.burgudaccount.app.domain.entity.Facility
 import java.time.LocalDateTime
 
 internal data class FacilityRecord(
-    val id: Int,
+    val id: Int = -1,
     val facilityKbn: String,
     val facilityName: String,
     val createUser: String?,
