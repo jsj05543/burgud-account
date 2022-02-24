@@ -12,6 +12,6 @@ data class SystemForm(
     val iPAddress: String?,
     val pageCount: Int?,
     val unAccess: Boolean?
-){
+) {
 
 }

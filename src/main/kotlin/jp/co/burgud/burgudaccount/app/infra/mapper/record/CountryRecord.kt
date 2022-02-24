@@ -1,10 +1,12 @@
 package jp.co.burgud.burgudaccount.app.infra.mapper.record
 
-import jp.co.burgud.burgudaccount.common.entity.Country
+import jp.co.burgud.burgudaccount.app.domain.entity.Country
+import lombok.NoArgsConstructor
 import java.time.LocalDateTime
 
-internal data class CountryRecord(
-    val id: Int,
+@NoArgsConstructor
+data class CountryRecord(
+    val id: Int = -1,
     val countryKbn: String,
     val countryName: String,
     val createUser: String?,

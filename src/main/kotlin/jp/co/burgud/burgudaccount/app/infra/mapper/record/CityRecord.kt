@@ -1,9 +1,6 @@
 package jp.co.burgud.burgudaccount.app.infra.mapper.record
 
-import jp.co.burgud.burgudaccount.common.entity.City
-import jp.co.burgud.burgudaccount.common.entity.Pref
-import jp.co.burgud.burgudaccount.common.entity.User
-import java.time.LocalDateTime
+import jp.co.burgud.burgudaccount.app.domain.entity.City
 
 internal data class CityRecord(
     val prefCode: Int,

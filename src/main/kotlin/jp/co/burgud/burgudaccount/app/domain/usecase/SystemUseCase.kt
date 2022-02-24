@@ -1,5 +1,6 @@
-package jp.co.burgud.burgudaccount.common.util
+package jp.co.burgud.burgudaccount.app.domain.usecase
 
+import jp.co.burgud.burgudaccount.app.domain.entity.Sex
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.net.InetAddress
@@ -9,41 +10,32 @@ import java.util.regex.Pattern
 import javax.servlet.http.HttpServletRequest
 
 @Component
-class SystemManager(
+class SystemUseCase(
     @Value("\${system.name}")
     private val systemName: String,
 
     @Value("\${system.version}")
     private val systemVersion: String,
-
-    /** 不明  */
-    val BROWSER_UNKNOWN: String = "不明",
-
-    /** ブラウザIE  */
-    val BROWSER_IE: String = "IE",
-
-    /** Firefox  */
-    val BROWSER_FIREFOX: String = "Firefox",
-
-    /** Opera  */
-    val BROWSER_OPERA: String = "Opera",
-
-    /** Chrome  */
-    val BROWSER_CHROME: String = "Chrome",
-
-    /** Safari  */
-    val BROWSER_SAFARI: String = "Safari",
-
-    /** Netscape  */
-    val BROWSER_NETSCAPE: String = "Netscape"
 ) {
-    fun getSystemName(): String {
-        return systemName
+    companion object {
+        private const val BROWSER_UNKNOWN: String = "不明"
+
+        private const val BROWSER_IE: String = "IE"
+
+        private const val BROWSER_FIREFOX: String = "Firefox"
+
+        private const val BROWSER_OPERA: String = "Opera"
+
+        private const val BROWSER_CHROME: String = "Chrome"
+
+        private const val BROWSER_SAFARI: String = "Safari"
+
+        private const val BROWSER_NETSCAPE: String = "Netscape"
     }
 
-    fun getSystemVersion(): String {
-        return systemVersion
-    }
+    fun getSystemName(): String = systemName
+
+    fun getSystemVersion(): String = systemVersion
 
     fun getHostName(): String {
         try {
@@ -130,5 +122,9 @@ class SystemManager(
         val pattern: Pattern = Pattern.compile(".*((Netscape)+[0-9]\\.[0-9][0-9]?).*")
         val matcher: Matcher = pattern.matcher(sUserAgent)
         return matcher.matches()
+    }
+
+    fun getSexData(): Map<String, String> {
+        return Sex.asMap()
     }
 }
