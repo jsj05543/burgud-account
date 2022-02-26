@@ -9,8 +9,8 @@ import java.time.LocalDateTime
 data class Certification(
     val userCd: String,
     val authorityKbn: String,
-    val password1: String,
-    val password2: String?,
+    val passwordNow: String,
+    val passwordBefore: String?,
     val loginTime: LocalDateTime?,
     val logoutTime: LocalDateTime?,
     val createUser: String?,

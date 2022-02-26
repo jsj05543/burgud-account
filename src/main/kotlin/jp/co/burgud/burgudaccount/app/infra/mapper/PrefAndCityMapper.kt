@@ -10,12 +10,12 @@ internal interface PrefAndCityMapper {
     @Select(
         """
         SELECT 
-            prefCode,
-            prefName 
+            pref_code,
+            pref_name 
         FROM 
             pref 
         WHERE 
-            disFlag = 0
+            dis_flag = 0
     """
     )
     fun findAllPref(): List<PrefRecord>
@@ -23,9 +23,9 @@ internal interface PrefAndCityMapper {
     @Select(
         """
         SELECT
-            prefCode,
-            cityCode,
-            cityName 
+            pref_code,
+            city_code,
+            city_name 
         FROM 
             city
     """
@@ -35,13 +35,13 @@ internal interface PrefAndCityMapper {
     @Select(
         """
         SELECT 
-            prefCode, 
-            cityCode,
-            cityName 
+            pref_code, 
+            city_code,
+            city_name 
        FROM 
             city 
        WHERE
-            prefCode = #{prefCode}
+            pref_code = #{prefCode}
    """
     )
     fun findCityByPrefCode(prefCode: Int): List<CityRecord>

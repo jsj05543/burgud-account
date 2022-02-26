@@ -15,7 +15,7 @@ internal interface AuthorityMapper {
 
     @Select(
         """
-        SELECT authorityKbn FROM authority
+        SELECT authority_kbn FROM authority
     """
     )
     fun findAuthorityKbnList(): List<String>
@@ -24,8 +24,8 @@ internal interface AuthorityMapper {
         """
         INSERT INTO `authority`
         SET
-            `authorityKbn`     = #{authorityKbn},
-            `authorityName`    = #{authorityName} 
+            `authority_kbn`     = #{authorityKbn},
+            `authority_name`    = #{authorityName} 
     """
     )
     fun insert(record: AuthorityRecord)
@@ -35,8 +35,8 @@ internal interface AuthorityMapper {
         <script>
             INSERT INTO `authority`
                 (
-                    authorityKbn,
-                    authorityName
+                    authority_kbn,
+                    authority_name
                 )
             VALUES
             <foreach collection='records' item='record' separator=',' >

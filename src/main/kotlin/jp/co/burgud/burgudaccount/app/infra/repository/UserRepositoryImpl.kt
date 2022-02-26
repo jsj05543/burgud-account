@@ -84,13 +84,13 @@ internal class UserRepositoryImpl(
 
     override fun updatePassword(
         userCd: String,
-        passwordNew: String,
-        passwordOld: String
+        passwordNow: String,
+        passwordBefore: String
     ) {
         userMapper.updatePassword(
             userCd = userCd,
-            password1 = passwordNew,
-            password2 = passwordOld
+            passwordNow = passwordNow,
+            passwordBefore = passwordBefore
         )
     }
 
@@ -100,22 +100,6 @@ internal class UserRepositoryImpl(
             authorityKbn = authorityKbn
         )
     }
-
-//    override fun createCertification(certification: Certification) {
-//        val certificationRecord = CertificationRecord(
-//            userCd = certification.userCd,
-//            authorityKbn = certification.authorityKbn,
-//            password1 = certification.password1,
-//            password2 = certification.password2,
-//            loginTime = certification.loginTime,
-//            logoutTime = certification.logoutTime,
-//            createUser = certification.createUser,
-//            createDateTime = certification.createDateTime,
-//            updateUser = certification.updateUser,
-//            updateDateTime = certification.updateDateTime
-//        )
-//        userMapper.insertCertification(certificationRecord)
-//    }
 
     override fun delete(userCd: String) {
         userMapper.deleteCertification(userCd)

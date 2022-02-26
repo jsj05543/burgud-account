@@ -10,32 +10,32 @@ internal interface UserMapper {
     @Select("SELECT * FROM user")
     fun findAll(): List<UserRecord>
 
-    @Select("SELECT * FROM user WHERE userCd = #{userCd}")
+    @Select("SELECT * FROM user WHERE user_cd = #{userCd}")
     fun findByUserCd(userCd: String): UserRecord
 
-    @Select("SELECT * FROM certification WHERE userCd = #{userCd}")
+    @Select("SELECT * FROM certification WHERE user_cd = #{userCd}")
     fun findCertificationByUserCd(userCd: String): CertificationRecord
 
-    @Select("SELECT userCd FROM user")
+    @Select("SELECT user_cd FROM user")
     fun findUserCdList(): List<String>
 
     @Insert(
         """
 		INSERT INTO `user`
         SET
-            userCd =    #{userCd},
+            user_cd =    #{userCd},
 		    email = 	#{email},
-            fullName =  #{fullName},
-		    firstName = #{firstName},
-		    lastName =  #{lastName},
+            full_name =  #{fullName},
+		    first_name = #{firstName},
+		    last_name =  #{lastName},
 		    sex =       #{sex},
 		    birth =     #{birth},
 		    tel =       #{tel},
 		    zip =       #{zip},
 		    address =   #{address},
-		    nutagPref = #{nutagPref},
-		    nutagCity = #{nutagCity},
-		    sendMailFlg = #{sendMailFlg}
+		    nutag_pref = #{nutagPref},
+		    nutag_city = #{nutagCity},
+		    send_mail_flg = #{sendMailFlg}
     """
     )
     fun insertUser(record: UserRecord)
@@ -44,9 +44,9 @@ internal interface UserMapper {
         """
         INSERT INTO `certification`
         SET
-            `userCd`          = #{userCd},
-            `authorityKbn`    = #{authorityKbn}, 
-            `password1`       = #{password}
+            `user_cd`          = #{userCd},
+            `authority_kbn`    = #{authorityKbn}, 
+            `password_now`       = #{password}
     """
     )
     fun insertCertification(userCd: String, authorityKbn: String, password: String)
@@ -55,18 +55,18 @@ internal interface UserMapper {
         """
         UPDATE `user` 
         SET
-		    firstName=#{firstName},
-		    lastName=#{lastName},
+		    first_name=#{firstName},
+		    last_name=#{lastName},
 		    sex=#{sex},
 		    birth=#{birth},
 		    tel=#{tel},
 		    zip=#{zip},
 		    address=#{address},
-		    nutagPref=#{nutagPref},
-		    nutagCity=#{nutagCity},
-		    sendMailFlg=#{sendMailFlg}
+		    nutag_pref=#{nutagPref},
+		    nutag_city=#{nutagCity},
+		    send_mail_flg=#{sendMailFlg}
 		WHERE 
-            userCd=#{userCd}
+            user_cd=#{userCd}
     """
     )
     fun update(userRecord: UserRecord)
@@ -75,34 +75,34 @@ internal interface UserMapper {
         """
         UPDATE `certification` 
         SET 
-            userCd = #{userCd},
-            password1 = #{password1},
-            password2 = #{password2} 
+            user_cd = #{userCd},
+            password_now = #{passwordNow},
+            password_before = #{passwordBefore} 
         WHERE 
-            userCd = #{userCd}
+            user_cd = #{userCd}
     """
     )
     fun updatePassword(
         userCd: String,
-        password1: String,
-        password2: String
+        passwordNow: String,
+        passwordBefore: String
     )
 
     @Update(
         """
         UPDATE `certification` 
         SET 
-            authorityKbn = #{authorityKbn} 
+            authority_kbn = #{authorityKbn} 
         WHERE 
-            userCd = #{userCd}
+            user_cd = #{userCd}
     """
     )
     fun updateUserAuth(userCd: String, authorityKbn: String)
 
 
-    @Delete("DELETE FROM certification WHERE userCd = #{userCd}")
+    @Delete("DELETE FROM certification WHERE user_cd = #{userCd}")
     fun deleteCertification(userCd: String)
 
-    @Delete("DELETE FROM user WHERE userCd = #{userCd}")
+    @Delete("DELETE FROM user WHERE user_cd = #{userCd}")
     fun deleteUser(userCd: String)
 }

@@ -47,9 +47,10 @@ class UserService(
         passwordNew?.let {
             userRepository.updatePassword(
                 userCd = certification.userCd,
-                passwordNew = passwordNew,
-                passwordOld = certification.password1,
+                passwordNow = passwordNew,
+                passwordBefore = certification.passwordNow
             )
+
         }
     }
 

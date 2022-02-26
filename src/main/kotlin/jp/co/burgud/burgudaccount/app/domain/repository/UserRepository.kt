@@ -20,8 +20,8 @@ interface UserRepository {
 
     fun updatePassword(
         userCd: String,
-        passwordNew: String,
-        passwordOld: String
+        passwordNow: String,
+        passwordBefore: String
     )
 
     fun updateUserAuth(

@@ -10,8 +10,8 @@ import java.time.LocalDateTime
 data class CertificationRecord(
     val userCd: String,
     val authorityKbn: String,
-    val password1: String,
-    val password2: String?,
+    val passwordNow: String,
+    val passwordBefore: String?,
     val loginTime: LocalDateTime?,
     val logoutTime: LocalDateTime?,
     val createUser: String?,
@@ -24,8 +24,8 @@ internal fun CertificationRecord.toEntity(): Certification =
     Certification(
         userCd = userCd,
         authorityKbn = authorityKbn,
-        password1 = password1,
-        password2 = password2,
+        passwordNow = passwordNow,
+        passwordBefore = passwordBefore,
         loginTime = loginTime,
         logoutTime = logoutTime,
         createUser = createUser,

@@ -8,15 +8,15 @@ internal interface FacilityMapper {
     @Select("""SELECT * FROM facility""")
     fun findAll(): List<FacilityRecord>
 
-    @Select("""SELECT facilityKbn FROM facility""")
+    @Select("""SELECT facility_kbn FROM facility""")
     fun findFacilityKbnList(): List<String>
 
     @Insert(
         """
         INSERT INTO `facility`
         SET
-            `facilityKbn`     = #{facilityKbn},
-            `facilityName`    = #{facilityName} 
+            `facility_kbn`     = #{facilityKbn},
+            `facility_name`    = #{facilityName} 
     """
     )
     fun insert(record: FacilityRecord)
@@ -26,8 +26,8 @@ internal interface FacilityMapper {
         <script>
             INSERT INTO `facility`
                 (
-                    facilityKbn,
-                    facilityName
+                    facility_kbn,
+                    facility_name
                 )
             VALUES
             <foreach collection='records' item='record' separator=',' >

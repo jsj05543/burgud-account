@@ -8,15 +8,15 @@ internal interface CountryMapper {
     @Select("""SELECT * FROM country""")
     fun findAll(): List<CountryRecord>
 
-    @Select("""SELECT countryKbn FROM country""")
+    @Select("""SELECT country_kbn FROM country""")
     fun findCountryKbnList(): List<String>
 
     @Insert(
         """
         INSERT INTO `country`
         SET
-            `countryKbn`     = #{countryKbn},
-            `countryName`    = #{countryName} 
+            `country_kbn`     = #{countryKbn},
+            `country_name`    = #{countryName} 
     """
     )
     fun insert(record: CountryRecord)
@@ -26,8 +26,8 @@ internal interface CountryMapper {
         <script>
             INSERT INTO `country`
                 (
-                    countryKbn,
-                    countryName
+                    country_kbn,
+                    country_name
                 )
             VALUES
             <foreach collection='records' item='record' separator=',' >
