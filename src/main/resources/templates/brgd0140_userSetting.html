@@ -28,14 +28,14 @@
 					<div class="contents-body">
 						<!-- ユーザコード -->
 						<div class="form-group row  col-sm-12 mt-3">
-							<label for="email" class="col-sm-2 col-form-label"> ユーザコード </label>
+							<label class="col-sm-2 col-form-label"> ユーザコード </label>
 							<div class="col-sm-5">
 								<input type="text" class="form-control" th:field="*{userCd}" readonly="readonly">
 							</div>
 						</div>
 						<!-- 性別 -->
 						<div class="form-group row  col-sm-12">
-							<label for="sex" class="col-sm-2 col-form-label">ユーザ権限<span class="badge badge-danger ml-2">必須</span>
+							<label class="col-sm-2 col-form-label">ユーザ権限<span class="badge badge-danger ml-2">必須</span>
 							</label>
 							<div th:each="item : ${authorList}" class="form-check form-check-inline ml-3">
 								<input type="radio" th:value="${item.authorityKbn}" th:text="${item.authorityName}" th:field="*{authorityKbn}" class="form-check-input" required />
