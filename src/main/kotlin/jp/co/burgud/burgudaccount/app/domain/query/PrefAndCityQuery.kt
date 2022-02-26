@@ -8,5 +8,5 @@ interface PrefAndCityQuery {
 
     fun findAllCity(): List<City>
 
-    fun findCityByPrefCode(): List<City>
+    fun findCityByPrefCode(prefCode: Int): List<City>
 }
