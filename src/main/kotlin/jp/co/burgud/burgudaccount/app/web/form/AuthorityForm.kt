@@ -6,5 +6,6 @@ import lombok.NoArgsConstructor
 
 @NoArgsConstructor
 data class AuthorityForm(
-    val authorityList: List<Authority>
+    val authorityKbn: String,
+    val authorityName: String?
 )

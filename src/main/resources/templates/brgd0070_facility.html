@@ -64,7 +64,7 @@
 			<div class="alert alert-info" id="successArea" role="alert" th:if="${success}">施設区分更新は成功しました</div>
 			<!-- 成功メッセージ表示エリア end-->
 			<!-- from -->
-			<form name="form" th:action="@{/facility}" th:method="post" th:object="${form}" class="needs-validation" novalidate>
+			<form id="form" name="form" th:action="@{/facility}" th:method="post" th:object="${form}" class="needs-validation" novalidate>
 				<input type="hidden" id="mode" name="mode" th:value="${mode}">
 				<div class="contents">
 					<div class="contents-header">施設区分一覧</div>
@@ -86,10 +86,6 @@
 									<td th:text="${stat.count}"></td>
 									<td th:text="*{facilityKbn}"></td>
 									<td th:text="*{facilityName}"></td>
-									<td th:text="*{createUser}"></td>
-									<td th:text="*{createDateTime}"></td>
-									<td th:text="*{updateUser}"></td>
-									<td th:text="*{updateDateTime}"></td>
 								</tr>
 							</tbody>
 						</table>
@@ -112,10 +108,6 @@
 									<td th:text="${stat.count}"></td>
 									<td><input type="text" class="form-control" th:field="*{facilityList[__${stat.index}__].facilityKbn}" readonly="readonly"></td>
 									<td><input type="text" class="form-control" th:field="*{facilityList[__${stat.index}__].facilityName}"></td>
-									<td th:text="*{facilityList[__${stat.index}__].createUser}"></td>
-									<td th:text="*{facilityList[__${stat.index}__].createDateTime}"></td>
-									<td th:text="*{facilityList[__${stat.index}__].updateUser}"></td>
-									<td th:text="*{facilityList[__${stat.index}__].updateDateTime}"></td>
 								</tr>
 							</tbody>
 						</table>

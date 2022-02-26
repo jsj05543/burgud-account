@@ -1,14 +1,17 @@
 package jp.co.burgud.burgudaccount.app.web.controller
 
-import jp.co.burgud.burgudaccount.app.domain.entity.Facility
 import jp.co.burgud.burgudaccount.app.domain.repository.FacilityRepository
 import jp.co.burgud.burgudaccount.app.domain.usecase.FacilityUseCase
+import jp.co.burgud.burgudaccount.app.web.form.FacilityEditForm
 import jp.co.burgud.burgudaccount.app.web.form.FacilityForm
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.validation.BindingResult
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import java.time.LocalDateTime
 
 
 @Controller
@@ -19,15 +22,53 @@ class FacilityController(
 ) {
     @GetMapping
     private fun index(model: Model): String {
-        val form = FacilityForm(facilityRepository.getAllFacility())
+        val form = FacilityEditForm(
+            facilityList = facilityRepository.getAllFacility()
+        )
         model.addAttribute("form", form)
         return "brgd0070_facility"
     }
 
+    @PostMapping(params = ["cancel"])
+    private fun cancel(model: Model): String {
+        return index(model)
+    }
+
+    @PostMapping(params = ["update"])
+    private fun updateFacility(model: Model, @ModelAttribute("form") form: FacilityEditForm): String {
+        model.addAttribute("form", form)
+
+        facilityUseCase.update(form.facilityList)
+        model.addAttribute("success", true)
+        return index(model)
+    }
+
     @GetMapping("new")
-    fun newCountry(model: Model): String {
-        val facility = Facility(facilityUseCase.createNewCountryKbn(), "", "", LocalDateTime.MAX, "", LocalDateTime.MAX)
-        model.addAttribute("form", facility)
+    fun newFacility(model: Model): String {
+        val form = FacilityForm(
+            facilityKbn = facilityUseCase.createNewCountryKbn(),
+            facilityName = null
+        )
+        model.addAttribute("form", form)
         return "brgd0071_facility.html";
+    }
+
+    @PostMapping(params = ["insert"])
+    fun createFacility(model: Model, @Validated form: FacilityForm, result: BindingResult): String {
+        model.addAttribute("form", form)
+        if (result.hasErrors()) {
+            val errorList = result.allErrors
+            val isError = if (errorList.size > 0) true else false
+            model.addAttribute("isError", isError)
+            model.addAttribute("errorList", errorList)
+            return "brgd0071_facility"
+        }
+
+        facilityUseCase.create(
+            facilityKbn = form.facilityKbn,
+            facilityName = form.facilityName
+        )
+        model.addAttribute("success", true)
+        return index(model)
     }
 }

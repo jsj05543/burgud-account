@@ -14,4 +14,8 @@ internal class AccountRepositoryImpl(
     override fun getAllAccount(): List<Account> {
         return accountMapper.findAll().map { it.toEntity() }
     }
+
+    override fun getAccountCdList(): List<String> {
+        return  accountMapper.findAccountCdList()
+    }
 }

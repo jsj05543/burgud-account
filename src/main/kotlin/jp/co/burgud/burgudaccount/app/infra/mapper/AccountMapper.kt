@@ -10,4 +10,7 @@ import org.apache.ibatis.annotations.Select
 internal interface AccountMapper {
     @Select("SELECT * FROM account")
     fun findAll(): List<AccountRecord>
+
+    @Select("SELECT accountCd FROM account")
+    fun findAccountCdList(): List<String>
 }
