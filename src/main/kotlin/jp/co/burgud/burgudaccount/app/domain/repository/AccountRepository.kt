@@ -4,4 +4,6 @@ import jp.co.burgud.burgudaccount.app.domain.entity.Account
 
 interface AccountRepository {
     fun getAllAccount(): List<Account>
+
+    fun getAccountCdList(): List<String>
 }

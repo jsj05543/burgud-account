@@ -13,4 +13,8 @@ internal class UserRepositoryImpl(
     override fun getAllUser(): List<User> {
         return userMapper.findAll().map { it.toEntity() }
     }
+
+    override fun getUserCdList(): List<String> {
+        return userMapper.findUserCdList()
+    }
 }

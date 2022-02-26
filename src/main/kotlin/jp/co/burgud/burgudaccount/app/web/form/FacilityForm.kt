@@ -1,10 +1,11 @@
 package jp.co.burgud.burgudaccount.app.web.form
 
 
-import jp.co.burgud.burgudaccount.app.domain.entity.Facility
 import lombok.NoArgsConstructor
+import java.time.LocalDateTime
 
 @NoArgsConstructor
 data class FacilityForm(
-    val facilityList: List<Facility>
+    val facilityKbn: String,
+    val facilityName: String?,
 )

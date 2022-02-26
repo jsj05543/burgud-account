@@ -1,5 +1,6 @@
 package jp.co.burgud.burgudaccount.app.domain.usecase
 
+import jp.co.burgud.burgudaccount.app.domain.entity.Authority
 import jp.co.burgud.burgudaccount.app.domain.repository.AuthorityRepository
 import jp.co.burgud.burgudaccount.app.domain.service.AuthorityService
 import jp.co.burgud.burgudaccount.app.domain.service.CreateKbnService
@@ -28,5 +29,24 @@ class AuthorityUseCase(
         return authorityRepository.getAllAuthority().map {
             it.authorityKbn to it.authorityName
         }.toMap()
+    }
+
+    fun create(authorityKbn: String, authorityName: String?) {
+        if(authorityName != null){
+            val authority = Authority(
+                authorityKbn = authorityKbn,
+                authorityName =authorityName,
+                createUser = null,
+                createDateTime = null,
+                updateUser = null,
+                updateDateTime = null
+            )
+            authorityRepository.create(authority)
+        }
+
+    }
+
+    fun update(authorityList: List<Authority>) {
+        authorityRepository.update(authorityList)
     }
 }

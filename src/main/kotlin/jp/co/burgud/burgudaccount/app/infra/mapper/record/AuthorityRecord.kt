@@ -15,6 +15,10 @@ internal data class AuthorityRecord(
 internal fun AuthorityRecord.toEntity(): Authority =
     Authority(
         authorityKbn = authorityKbn,
-        authorityName = authorityName
+        authorityName = authorityName,
+        createUser = createUser,
+        createDateTime = createDateTime,
+        updateUser = updateUser,
+        updateDateTime= updateDateTime
     )
 

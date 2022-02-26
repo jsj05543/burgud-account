@@ -1,5 +1,6 @@
 package jp.co.burgud.burgudaccount.app.domain.usecase
 
+import jp.co.burgud.burgudaccount.app.domain.entity.Facility
 import jp.co.burgud.burgudaccount.app.domain.repository.FacilityRepository
 import jp.co.burgud.burgudaccount.app.domain.service.CreateKbnService
 import jp.co.burgud.burgudaccount.app.domain.service.FacilityService
@@ -28,5 +29,23 @@ class FacilityUseCase(
         return facilityRepository.getAllFacility().map {
             it.facilityKbn to it.facilityName
         }.toMap()
+    }
+
+    fun create(facilityKbn: String, facilityName: String?) {
+        if (facilityName != null) {
+            val facility = Facility(
+                facilityKbn = facilityKbn,
+                facilityName = facilityName,
+                createUser = null,
+                createDateTime = null,
+                updateUser = null,
+                updateDateTime = null
+            )
+            facilityRepository.create(facility)
+        }
+    }
+
+    fun update(facilityList: List<Facility>) {
+        facilityRepository.update(facilityList)
     }
 }
