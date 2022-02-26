@@ -1,11 +1,12 @@
 package jp.co.burgud.burgudaccount.app.web.form
 
 
-import jp.co.burgud.burgudaccount.common.entity.Country
+import jp.co.burgud.burgudaccount.app.domain.entity.Country
+import jp.co.burgud.burgudaccount.app.web.message.BusinessMessages
 import lombok.NoArgsConstructor
+import java.time.LocalDateTime
 
-@NoArgsConstructor
 data class CountryForm(
-   // val country: Country,
-    val countryList: List<Country>
+    val countryKbn: String,
+    val countryName: String?
 )

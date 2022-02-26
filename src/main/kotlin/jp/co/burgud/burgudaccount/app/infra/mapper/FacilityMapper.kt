@@ -1,18 +1,48 @@
 package jp.co.burgud.burgudaccount.app.infra.mapper
 
 import jp.co.burgud.burgudaccount.app.infra.mapper.record.FacilityRecord
-import jp.co.burgud.burgudaccount.common.entity.Country
-import jp.co.burgud.burgudaccount.common.entity.Facility
-import org.apache.ibatis.annotations.Mapper
-import org.apache.ibatis.annotations.Select
-import org.springframework.jdbc.core.BeanPropertyRowMapper
-
+import org.apache.ibatis.annotations.*
 
 @Mapper
 internal interface FacilityMapper {
-    @Select("SELECT * FROM facility")
+    @Select("""SELECT * FROM facility""")
     fun findAll(): List<FacilityRecord>
 
-    @Select("SELECT * FROM facility")
-    fun selectFacility(): List<FacilityRecord>
+    @Select("""SELECT facilityKbn FROM facility""")
+    fun findFacilityKbnList(): List<String>
+
+    @Insert(
+        """
+        INSERT INTO `facility`
+        SET
+            `facilityKbn`     = #{facilityKbn},
+            `facilityName`    = #{facilityName} 
+    """
+    )
+    fun insert(record: FacilityRecord)
+
+    @Insert(
+        """
+        <script>
+            INSERT INTO `facility`
+                (
+                    facilityKbn,
+                    facilityName
+                )
+            VALUES
+            <foreach collection='records' item='record' separator=',' >
+            (
+                #{record.facilityKbn},
+                #{record.facilityName})
+            )
+            </foreach>
+        </script>
+        """
+    )
+    fun insertBulk(
+        @Param("records") records: List<FacilityRecord>
+    )
+
+    @Delete("""DELETE FROM facility""")
+    fun delete()
 }

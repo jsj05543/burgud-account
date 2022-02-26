@@ -16,4 +16,8 @@ internal class SystemRepositoryImpl(
         systemMapper.update(count);
     }
 
+    override fun getCodeVal(code: String): String {
+        return systemMapper.findCodeValByCode(code)
+    }
+
 }

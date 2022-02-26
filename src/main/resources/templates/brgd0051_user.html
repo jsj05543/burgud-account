@@ -24,11 +24,11 @@
 
 		// 新規モードの時
 		if ($('#mode').val() == "new") {
-			$("#successMessage").text("ユーザー成功は成功しました");
+			$("#successMessage").text("ユーザー作成は成功しました");
 		}
 		// 編集モードの時
 		if ($('#mode').val() == "edit") {
-			document.getElementById("user.email").readOnly = true;
+			document.getElementById("email").readOnly = true;
 			$("#successMessage").text("ユーザー更新は成功しました");
 		}
 		// 参照モードの時
@@ -56,10 +56,10 @@
 		});
 
 		// 郵便番号自動入力
-		$('#user\\.zip').change(function() {
+		$('#zip').change(function() {
 			//入力値をセット
 			var param = {
-				zipcode : $('#user\\.zip').val()
+				zipcode : $('#zip').val()
 			}
 			//zipcloudのAPIのURL
 			var send_url = "http://zipcloud.ibsnet.co.jp/api/search";
@@ -80,7 +80,7 @@
 							var address2 = result.address2;
 							var address3 = result.address3;
 							var address = address1 + address2 + address3;
-							$('#user\\.address').val(address);
+							$('#address').val(address);
 						}
 					}
 				}
@@ -88,12 +88,12 @@
 		});
 
 		// 出身情報処理
-		$('#user\\.nutagPref').change(
+		$('#nutagPref').change(
 				function() {
 					//入力値をセット
 					var param = {
-						prefCode : $("#user\\.nutagPref").val(),
-						prefName : $("#user\\.nutagPref option:selected")
+						prefCode : $("#nutagPref").val(),
+						prefName : $("#nutagPref option:selected")
 								.text(),
 					}
 					//県コードを送信URL
@@ -112,7 +112,7 @@
 										+ res[i].cityName + "</option>";
 								cityList.push(city);
 							}
-							$("#user\\.nutagCity").html(cityList);
+							$("#nutagCity").html(cityList);
 						}
 					});
 				});

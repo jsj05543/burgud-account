@@ -1,0 +1,6 @@
+CREATE TABLE `answer` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `val` varchar(100) DEFAULT NULL,
+  `flag` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8

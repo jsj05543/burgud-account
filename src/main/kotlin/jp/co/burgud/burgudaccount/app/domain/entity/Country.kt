@@ -1,4 +1,4 @@
-package jp.co.burgud.burgudaccount.common.entity
+package jp.co.burgud.burgudaccount.app.domain.entity
 
 import java.time.LocalDateTime
 
