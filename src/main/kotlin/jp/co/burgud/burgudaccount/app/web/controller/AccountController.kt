@@ -5,6 +5,7 @@ import jp.co.burgud.burgudaccount.app.domain.usecase.AccountUseCase
 import jp.co.burgud.burgudaccount.app.domain.usecase.CountryUseCase
 import jp.co.burgud.burgudaccount.app.domain.usecase.FacilityUseCase
 import jp.co.burgud.burgudaccount.app.web.form.AccountForm
+import jp.co.burgud.burgudaccount.app.web.form.AccountSearchForm
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -34,13 +35,18 @@ class AccountController(
 
     @GetMapping
     fun index(model: Model): String {
+        val searchForm = AccountSearchForm(
+            countryKbn = null,
+            keyword = null
+        )
         val accountList = accountUseCase.getAllAccount()
-        val accountForm = AccountForm(accountList = accountList)
+        val accountForm = AccountForm(
+            accountList = accountList
+        )
+        model.addAttribute("searchForm", searchForm)
         model.addAttribute("countryData", countryUseCase.getCountryData())
         model.addAttribute("facilityData", facilityUseCase.getFacilityData())
         model.addAttribute("listSize", accountList.size)
-        model.addAttribute("countryKbn", "")
-        model.addAttribute("keyword", "")
         model.addAttribute("accountForm", accountForm)
         return "brgd0020_account"
     }
@@ -51,13 +57,19 @@ class AccountController(
         @RequestParam("countryKbn") countryKbn: String,
         @RequestParam("keyword") keyword: String
     ): String {
+        val searchForm = AccountSearchForm(
+            countryKbn = countryKbn,
+            keyword = keyword
+        )
         val accountList = accountUseCase.searchAccount(countryKbn, keyword)
-
-        val accountForm = AccountForm(accountList = accountList)
+        val accountForm = AccountForm(
+            accountList = accountList
+        )
+        model.addAttribute("searchForm", searchForm)
+        model.addAttribute("countryData", countryUseCase.getCountryData())
+        model.addAttribute("facilityData", facilityUseCase.getFacilityData())
         model.addAttribute("listSize", accountList.size)
-        model.addAttribute("countryKbn", "")
-        model.addAttribute("keyword", "")
-        model.addAttribute("accountForm", "")
+        model.addAttribute("accountForm", accountForm)
         return "brgd0020_account"
     }
 

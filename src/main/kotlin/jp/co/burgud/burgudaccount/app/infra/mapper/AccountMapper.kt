@@ -18,6 +18,46 @@ internal interface AccountMapper {
     )
     fun findByAccountCd(accountCd: String): AccountRecord
 
+    @Select(
+        """
+        <script>
+            SELECT
+                accountCd,
+                accountUsedName,
+                usedDetail,
+                accountName,
+                accountPassword,
+                countryKbn,
+                facilityKbn,
+                query1,
+                answer1,
+                query2,
+                answer2,
+                query3,
+                answer3,
+                oldPassword1,
+                oldPassword2,
+                oldPassword3,
+                biko,
+                createUser,
+                createDateTime,
+                updateUser,
+                updateDateTime
+            From
+                account
+            <where>
+                used_flg = 0 
+                <if test="countryKbn != null and countryKbn != all">
+                    AND countryKbn = #{countryKbn}
+                </if>
+                <if test="keyword != null">
+                    AND (accountName LIKE CONCAT('%', #{keyword}, '%') OR accountUsedName LIKE CONCAT('%', #{keyword}, '%'))
+                </if>       
+            </where>
+        </script>
+    """)
+    fun findAccountListByCountryKbnAndKeyword(countryKbn: String?, keyword: String?,all:String): List<AccountRecord>
+
     @Select("""SELECT id, val FROM question""")
     fun findAllQuestion(): List<Pair<Int, String>>
 

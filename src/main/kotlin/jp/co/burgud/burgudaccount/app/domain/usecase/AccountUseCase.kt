@@ -29,7 +29,7 @@ class AccountUseCase(
         return accountService.getAllAccount()
     }
 
-    fun searchAccount(countryKbn: String, keyword: String): List<Account> {
+    fun searchAccount(countryKbn: String?, keyword: String?): List<Account> {
         return accountService.searchAccount(countryKbn, keyword)
     }
 

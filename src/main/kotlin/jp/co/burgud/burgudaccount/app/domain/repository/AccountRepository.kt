@@ -7,7 +7,7 @@ interface AccountRepository {
 
     fun getAccountCdList(): List<String>
 
-    fun findAccountListByCountryKbnAndKeyword(countryKbn: String, keyword: String): List<Account>
+    fun findAccountListByCountryKbnAndKeyword(countryKbn: String?, keyword: String?): List<Account>
 
     fun getOneAccount(accountCd: String): Account
 
