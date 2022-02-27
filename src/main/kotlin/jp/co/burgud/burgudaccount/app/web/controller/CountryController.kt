@@ -9,7 +9,6 @@ import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
@@ -21,7 +20,7 @@ class CountryController(
     private val countryUseCase: CountryUseCase
 ) {
     @GetMapping
-    private fun index(model: Model): String {
+    fun index(model: Model): String {
         val form = CountryEditForm(
             countryList = countryRepository.getAllCountry()
         )
@@ -30,16 +29,23 @@ class CountryController(
     }
 
     @PostMapping(params = ["cancel"])
-    private fun cancel(model: Model): String {
+    fun cancel(model: Model): String {
         return index(model)
     }
 
     @PostMapping(params = ["update"])
-    fun updateContry(model: Model, @ModelAttribute @Validated form: CountryEditForm?): String {
-        //model.addAttribute("form", form)
-        //countryRepository.update(form)
-        //model.addAttribute("success", true)
-        println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    fun updateContry(model: Model, @Validated form: CountryEditForm, result: BindingResult): String? {
+        model.addAttribute("form", form)
+        if (result.hasErrors()) {
+            val errorList = result.allErrors
+            val isError = if (errorList.size > 0) true else false
+            model.addAttribute("isError", isError)
+            model.addAttribute("errorList", errorList)
+            model.addAttribute("mode", "update")
+            return "brgd0060_country"
+        }
+        countryUseCase.updateCountry(form.countryList)
+        model.addAttribute("success", true)
         return index(model)
     }
 
@@ -70,6 +76,4 @@ class CountryController(
         model.addAttribute("success", true)
         return index(model)
     }
-
-
 }

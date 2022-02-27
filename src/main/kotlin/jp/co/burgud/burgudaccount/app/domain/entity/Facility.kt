@@ -3,10 +3,10 @@ package jp.co.burgud.burgudaccount.app.domain.entity
 import java.time.LocalDateTime
 
 data class Facility(
-    val facilityKbn: String,
-    val facilityName: String,
-    val createUser: String?,
-    val createDateTime: LocalDateTime?,
-    val updateUser: String?,
-    val updateDateTime: LocalDateTime?
+    var facilityKbn: String = "",
+    var facilityName: String = "",
+    var createUser: String? =null,
+    var createDateTime: LocalDateTime?=null,
+    var updateUser: String? = null,
+    var updateDateTime: LocalDateTime? = null
 )

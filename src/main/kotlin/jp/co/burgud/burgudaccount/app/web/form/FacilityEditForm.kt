@@ -8,6 +8,5 @@ import javax.validation.Valid
 
 @NoArgsConstructor
 data class FacilityEditForm(
-    @field:[Valid NonNull]
     var facilityList: List<Facility> = mutableListOf()
 )

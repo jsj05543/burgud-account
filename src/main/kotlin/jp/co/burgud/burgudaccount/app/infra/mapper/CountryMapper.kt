@@ -33,7 +33,7 @@ internal interface CountryMapper {
             <foreach collection='records' item='record' separator=',' >
             (
                 #{record.countryKbn},
-                #{record.countryName})
+                #{record.countryName}
             )
             </foreach>
         </script>

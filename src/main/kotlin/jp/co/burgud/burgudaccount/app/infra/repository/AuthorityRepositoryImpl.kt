@@ -24,7 +24,7 @@ internal class AuthorityRepositoryImpl(
     override fun update(authorityList: List<Authority>) {
         authorityMapper.delete()
 
-        val authorityRecords = authorityList.map {
+        val authorityRecords = authorityList.filter { it.authorityName != "" }.map {
             AuthorityRecord(
                 authorityKbn = it.authorityKbn,
                 authorityName = it.authorityName,

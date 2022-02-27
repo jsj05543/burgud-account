@@ -47,4 +47,8 @@ class CountryUseCase(
             countryRepository.create(country)
         }
     }
+
+    fun updateCountry(countryList: List<Country>) {
+        countryRepository.update(countryList)
+    }
 }

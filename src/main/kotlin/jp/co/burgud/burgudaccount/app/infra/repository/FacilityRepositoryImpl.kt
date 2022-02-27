@@ -23,7 +23,7 @@ internal class FacilityRepositoryImpl(
     override fun update(facilityList: List<Facility>) {
         facilityMapper.delete()
 
-        val facilityRecords = facilityList.map {
+        val facilityRecords = facilityList.filter { it.facilityName != "" }.map {
             FacilityRecord(
                 facilityKbn = it.facilityKbn,
                 facilityName = it.facilityName,

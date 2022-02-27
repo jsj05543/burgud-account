@@ -9,7 +9,6 @@ import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
@@ -21,7 +20,7 @@ class FacilityController(
     private val facilityUseCase: FacilityUseCase
 ) {
     @GetMapping
-    private fun index(model: Model): String {
+    fun index(model: Model): String {
         val form = FacilityEditForm(
             facilityList = facilityRepository.getAllFacility()
         )
@@ -30,14 +29,21 @@ class FacilityController(
     }
 
     @PostMapping(params = ["cancel"])
-    private fun cancel(model: Model): String {
+    fun cancel(model: Model): String {
         return index(model)
     }
 
     @PostMapping(params = ["update"])
-    private fun updateFacility(model: Model, @ModelAttribute("form") form: FacilityEditForm): String {
+    fun updateFacility(model: Model, @Validated form: FacilityEditForm, result: BindingResult): String? {
         model.addAttribute("form", form)
-
+        if (result.hasErrors()) {
+            val errorList = result.allErrors
+            val isError = if (errorList.size > 0) true else false
+            model.addAttribute("isError", isError)
+            model.addAttribute("errorList", errorList)
+            model.addAttribute("mode", "update")
+            return "brgd0070_facility"
+        }
         facilityUseCase.update(form.facilityList)
         model.addAttribute("success", true)
         return index(model)
@@ -50,7 +56,7 @@ class FacilityController(
             facilityName = null
         )
         model.addAttribute("form", form)
-        return "brgd0071_facility.html";
+        return "brgd0071_facility.html"
     }
 
     @PostMapping(params = ["insert"])

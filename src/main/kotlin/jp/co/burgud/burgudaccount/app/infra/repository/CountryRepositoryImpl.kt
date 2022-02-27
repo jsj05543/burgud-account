@@ -23,7 +23,7 @@ internal class CountryRepositoryImpl(
     override fun update(countryList: List<Country>) {
         countryMapper.delete()
 
-        val countryRecords = countryList.map {
+        val countryRecords = countryList.filter { it.countryName != "" }. map {
             CountryRecord(
                 countryKbn = it.countryKbn,
                 countryName = it.countryName,

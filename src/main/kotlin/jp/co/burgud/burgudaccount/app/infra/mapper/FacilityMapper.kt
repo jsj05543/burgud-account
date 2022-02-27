@@ -33,7 +33,7 @@ internal interface FacilityMapper {
             <foreach collection='records' item='record' separator=',' >
             (
                 #{record.facilityKbn},
-                #{record.facilityName})
+                #{record.facilityName}
             )
             </foreach>
         </script>

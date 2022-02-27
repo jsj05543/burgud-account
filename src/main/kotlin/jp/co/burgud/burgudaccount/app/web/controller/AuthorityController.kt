@@ -21,7 +21,7 @@ class AuthorityController(
 
 ) {
     @GetMapping
-    private fun index(model: Model): String {
+    fun index(model: Model): String {
         val form = AuthorityEditForm(
             authorityList = authorityRepository.getAllAuthority()
         )
@@ -30,12 +30,12 @@ class AuthorityController(
     }
 
     @PostMapping(params = ["cancel"])
-    private fun cancel(model: Model): String {
+    fun cancel(model: Model): String {
         return index(model)
     }
 
     @PostMapping(params = ["update"])
-    private fun updateAuthority(model: Model, @Validated form: AuthorityEditForm, result: BindingResult): String? {
+    fun updateAuthority(model: Model, @Validated form: AuthorityEditForm, result: BindingResult): String {
         model.addAttribute("form", form)
         if (result.hasErrors()) {
             val errorList = result.allErrors

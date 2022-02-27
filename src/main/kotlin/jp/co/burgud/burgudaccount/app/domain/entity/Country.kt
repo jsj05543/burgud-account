@@ -3,10 +3,10 @@ package jp.co.burgud.burgudaccount.app.domain.entity
 import java.time.LocalDateTime
 
 data class Country(
-    val countryKbn: String,
-    val countryName: String,
-    val createUser: String?,
-    val createDateTime: LocalDateTime?,
-    val updateUser: String?,
-    val updateDateTime: LocalDateTime?
+    var countryKbn: String = "",
+    var countryName: String = "",
+    var createUser: String? = null,
+    var createDateTime: LocalDateTime? = null,
+    var updateUser: String? = null,
+    var updateDateTime: LocalDateTime? = null
 )

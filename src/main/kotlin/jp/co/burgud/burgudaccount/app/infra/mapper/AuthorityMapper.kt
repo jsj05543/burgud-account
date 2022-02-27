@@ -42,7 +42,7 @@ internal interface AuthorityMapper {
             <foreach collection='records' item='record' separator=',' >
             (
                 #{record.authorityKbn},
-                #{record.authorityName})
+                #{record.authorityName}
             )
             </foreach>
         </script>
