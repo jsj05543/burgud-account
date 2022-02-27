@@ -23,4 +23,12 @@ class AccountService(
     fun getOneAccount(accountCd: String): Account {
         return accountRepository.getOneAccount(accountCd)
     }
+
+    fun update(account: Account) {
+        accountRepository.update(account)
+    }
+
+    fun create(account: Account) {
+        accountRepository.create(account)
+    }
 }
