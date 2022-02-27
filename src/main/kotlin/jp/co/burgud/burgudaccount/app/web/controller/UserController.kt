@@ -4,7 +4,6 @@ import jp.co.burgud.burgudaccount.app.domain.entity.User
 import jp.co.burgud.burgudaccount.app.domain.usecase.PrefAndCityUseCase
 import jp.co.burgud.burgudaccount.app.domain.usecase.SystemUseCase
 import jp.co.burgud.burgudaccount.app.domain.usecase.UserUseCase
-import jp.co.burgud.burgudaccount.app.web.form.UserForm
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -37,7 +36,7 @@ class UserController(
 
     @GetMapping
     fun index(model: Model): String {
-        val userList =  userUseCase.getAllUser()
+        val userList = userUseCase.getAllUser()
         model.addAttribute("userList", userList)
         model.addAttribute("sexData", systemUseCase.getSexData())
         model.addAttribute("prefData", prefAndCityUseCase.getPrefData())
@@ -85,7 +84,7 @@ class UserController(
     fun createUser(model: Model, @Validated user: User, result: BindingResult): String {
         addAttribute(model, user, MODE_NEW)
         if (result.hasErrors()) {
-           // setError(model, result)
+            // setError(model, result)
             return "brgd0051_user"
         }
         userUseCase.create(user, AUTHORITYKBN_ETURAN, "123456789")
