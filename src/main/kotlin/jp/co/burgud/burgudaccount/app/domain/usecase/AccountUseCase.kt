@@ -37,16 +37,28 @@ class AccountUseCase(
         return accountService.getOneAccount(accountCd)
     }
 
-    fun getQuestionData(): Map<Int, String>  {
+    fun getQuestionData(): Map<Int, String> {
         return accountRepository.getAllQuestion().map {
             it.first to it.second
         }.toMap()
 
     }
 
-    fun getAnswerData(): Map<Int, String>  {
+    fun getAnswerData(): Map<Int, String> {
         return accountRepository.getAllAnswer().map {
             it.first to it.second
         }.toMap()
+    }
+
+    fun delete(accountCd: String) {
+        accountRepository.delete(accountCd)
+    }
+
+    fun update(account: Account) {
+        accountService.update(account)
+    }
+
+    fun create(account: Account) {
+        accountService.create(account)
     }
 }

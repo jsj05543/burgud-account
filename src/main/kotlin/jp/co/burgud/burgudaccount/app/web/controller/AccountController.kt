@@ -1,14 +1,14 @@
 package jp.co.burgud.burgudaccount.app.web.controller
 
 import jp.co.burgud.burgudaccount.app.domain.entity.Account
-import jp.co.burgud.burgudaccount.app.domain.repository.AccountRepository
 import jp.co.burgud.burgudaccount.app.domain.usecase.AccountUseCase
 import jp.co.burgud.burgudaccount.app.domain.usecase.CountryUseCase
 import jp.co.burgud.burgudaccount.app.domain.usecase.FacilityUseCase
-import jp.co.burgud.burgudaccount.app.domain.usecase.PrefAndCityUseCase
 import jp.co.burgud.burgudaccount.app.web.form.AccountForm
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.validation.BindingResult
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
 
@@ -102,6 +102,36 @@ class AccountController(
         val account = accountUseCase.getOneAccount(accountCd)
         addAttribute(model, account, MODE_EDIT)
         return "brgd0030_detail"
+    }
+
+    @PutMapping
+    fun updateAccount(model: Model, @Validated accountForm: Account, result: BindingResult): String {
+        addAttribute(model, accountForm, MODE_EDIT)
+        if (result.hasErrors()) {
+            //setError(model, result)
+            return "brgd0030_detail"
+        }
+        accountUseCase.update(accountForm)
+        model.addAttribute("success", true)
+        return "brgd0030_detail"
+    }
+
+    @PostMapping(params = ["insert"])
+    fun createAccount(model: Model, @Validated accountForm: Account, result: BindingResult): String? {
+        addAttribute(model, accountForm, MODE_NEW)
+        if (result.hasErrors()) {
+            //setError(model, result)
+            return "brgd0030_detail"
+        }
+        accountUseCase.create(accountForm)
+        model.addAttribute("success", true)
+        return "brgd0030_detail"
+    }
+
+    @DeleteMapping("{accountCd}")
+    fun delete(@PathVariable("accountCd") accountCd: String): String {
+        accountUseCase.delete(accountCd)
+        return "redirect:/account"
     }
 
     private fun addAttribute(model: Model, account: Account, mode: String) {

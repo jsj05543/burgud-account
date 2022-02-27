@@ -1,6 +1,5 @@
 package jp.co.burgud.burgudaccount.app.web.controller
 
-import jp.co.burgud.burgudaccount.app.domain.entity.Certification
 import jp.co.burgud.burgudaccount.app.domain.repository.AuthorityRepository
 import jp.co.burgud.burgudaccount.app.domain.usecase.UserUseCase
 import jp.co.burgud.burgudaccount.app.web.form.AuthSettingForm
@@ -21,7 +20,7 @@ class SettingController(
 ) {
     @GetMapping
     fun index(model: Model): String {
-        val certification =  userUseCase.getOneUserCertification("BU01")
+        val certification = userUseCase.getOneUserCertification("BU01")
         val form = AuthSettingForm(
             certification.userCd,
             certification.authorityKbn
@@ -33,7 +32,7 @@ class SettingController(
 
     @PostMapping
     fun index(model: Model, @RequestParam("userCd") userCd: String): String {
-        val certification =  userUseCase.getOneUserCertification(userCd)
+        val certification = userUseCase.getOneUserCertification(userCd)
         val form = AuthSettingForm(
             certification.userCd,
             certification.authorityKbn
