@@ -1,5 +1,6 @@
 package jp.co.burgud.burgudaccount.app.domain.service
 
+import jp.co.burgud.burgudaccount.app.domain.entity.Account
 import jp.co.burgud.burgudaccount.app.domain.repository.AccountRepository
 import org.springframework.stereotype.Service
 
@@ -11,5 +12,15 @@ class AccountService(
         return accountRepository.getAccountCdList()
     }
 
+    fun getAllAccount(): List<Account> {
+        return accountRepository.getAllAccount()
+    }
 
+    fun searchAccount(countryKbn: String, keyword: String): List<Account> {
+        return accountRepository.findAccountListByCountryKbnAndKeyword(countryKbn, keyword)
+    }
+
+    fun getOneAccount(accountCd: String): Account {
+        return accountRepository.getOneAccount(accountCd)
+    }
 }
