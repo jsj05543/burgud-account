@@ -8,12 +8,12 @@ internal interface AccountMapper {
     @Select("SELECT * FROM account")
     fun findAll(): List<AccountRecord>
 
-    @Select("SELECT accountCd FROM account")
+    @Select("SELECT account_cd FROM account")
     fun findAccountCdList(): List<String>
 
     @Select(
         """
-        SELECT * FROM account WHERE accountCd = #{accountCd}
+        SELECT * FROM account WHERE account_cd = #{accountCd}
     """
     )
     fun findByAccountCd(accountCd: String): AccountRecord
@@ -22,13 +22,13 @@ internal interface AccountMapper {
         """
         <script>
             SELECT
-                accountCd,
-                accountUsedName,
-                usedDetail,
-                accountName,
-                accountPassword,
-                countryKbn,
-                facilityKbn,
+                account_cd,
+                account_used_name,
+                used_detail,
+                account_name,
+                account_password,
+                country_kbn,
+                facility_kbn,
                 query1,
                 answer1,
                 query2,
@@ -39,19 +39,19 @@ internal interface AccountMapper {
                 oldPassword2,
                 oldPassword3,
                 biko,
-                createUser,
-                createDateTime,
-                updateUser,
-                updateDateTime
+                create_user,
+                create_at,
+                update_user,
+                update_at
             From
                 account
             <where>
                 used_flg = 0 
                 <if test="countryKbn != null and countryKbn != all">
-                    AND countryKbn = #{countryKbn}
+                    AND country_kbn = #{countryKbn}
                 </if>
                 <if test="keyword != null">
-                    AND (accountName LIKE CONCAT('%', #{keyword}, '%') OR accountUsedName LIKE CONCAT('%', #{keyword}, '%'))
+                    AND (account_name LIKE CONCAT('%', #{keyword}, '%') OR account_used_name LIKE CONCAT('%', #{keyword}, '%'))
                 </if>       
             </where>
         </script>
@@ -68,12 +68,12 @@ internal interface AccountMapper {
         """
         UPDATE account 
         SET
-		    accountUsedName   = #{accountUsedName},
-		    usedDetail        = #{usedDetail},
-		    accountName       = #{accountName},
-		    accountPassword   = #{accountPassword},
-		    countryKbn        = #{countryKbn},
-		    facilityKbn       = #{facilityKbn},
+		    account_used_name   = #{accountUsedName},
+		    used_detail        = #{usedDetail},
+		    account_name       = #{accountName},
+		    account_password   = #{accountPassword},
+		    country_kbn        = #{countryKbn},
+		    facility_kbn       = #{facilityKbn},
 		    query1            = #{query1},
 		    answer1           = #{answer1},
 		    query2            = #{query2},
@@ -85,7 +85,7 @@ internal interface AccountMapper {
 		    oldPassword3      = #{oldPassword3},
 		    biko              = #{biko}
 		WHERE 
-            accountCd         = #{accountCd}
+            account_cd         = #{accountCd}
     """
     )
     fun update(record: AccountRecord)
@@ -94,13 +94,13 @@ internal interface AccountMapper {
         """
         INSERT INTO account
         SET
-            accountCd         = #{accountCd},
-            accountUsedName   = #{accountUsedName},
-		    usedDetail        = #{usedDetail},
-		    accountName       = #{accountName},
-		    accountPassword   = #{accountPassword},
-		    countryKbn        = #{countryKbn},
-		    facilityKbn       = #{facilityKbn},
+            account_cd         = #{accountCd},
+            account_used_name   = #{accountUsedName},
+		    used_detail        = #{usedDetail},
+		    account_name       = #{accountName},
+		    account_password   = #{accountPassword},
+		    country_kbn        = #{countryKbn},
+		    facility_kbn       = #{facilityKbn},
 		    query1            = #{query1},
 		    answer1           = #{answer1},
 		    query2            = #{query2},
@@ -115,6 +115,6 @@ internal interface AccountMapper {
     )
     fun insert(record: AccountRecord)
 
-    @Delete("""DELETE FROM account WHERE accountCd = #{accountCd}""")
+    @Delete("""DELETE FROM account WHERE account_cd = #{accountCd}""")
     fun delete(accountCd: String)
 }
