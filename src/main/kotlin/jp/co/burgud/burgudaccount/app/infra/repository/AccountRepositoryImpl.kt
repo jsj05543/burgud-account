@@ -20,8 +20,17 @@ internal class AccountRepositoryImpl(
         return accountMapper.findAccountCdList()
     }
 
-    override fun findAccountListByCountryKbnAndKeyword(countryKbn: String, keyword: String): List<Account> {
-        TODO("Not yet implemented")
+    override fun findAccountListByCountryKbnAndKeyword(countryKbn: String?, keyword: String?): List<Account> {
+        println("~~~~~~~~~~~~~~~~~~~~~~~~")
+        println(countryKbn)
+        println(keyword)
+
+        println("~~~~~~~~~~~~~~~~~~~~~~~~")
+        return accountMapper.findAccountListByCountryKbnAndKeyword(
+            countryKbn = countryKbn,
+            keyword =keyword,
+            all = "ALL"
+        ).map { it.toEntity() }
     }
 
     override fun getOneAccount(accountCd: String): Account {
