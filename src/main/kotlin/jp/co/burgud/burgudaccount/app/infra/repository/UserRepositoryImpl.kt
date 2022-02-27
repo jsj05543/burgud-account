@@ -45,9 +45,9 @@ internal class UserRepositoryImpl(
             nutagCity = user.nutagCity,
             sendMailFlg = user.sendMailFlg,
             createUser = user.createUser,
-            createDateTime = user.createDateTime,
+            createAt = user.createAt,
             updateUser = null,
-            updateDateTime = null
+            updateAt = null
         )
         userMapper.insertUser(userRecord)
     }
@@ -57,14 +57,14 @@ internal class UserRepositoryImpl(
         authorityKbn: String,
         password: String,
         createUser: String,
-        createDateTime: LocalDateTime
+        createAt: LocalDateTime
     ) {
         userMapper.insertCertification(
             userCd = userCd,
             authorityKbn = authorityKbn,
             password = password,
             createUser = createUser,
-            createDateTime = createDateTime,
+            createAt = createAt,
         )
     }
 
@@ -84,9 +84,9 @@ internal class UserRepositoryImpl(
             nutagCity = user.nutagCity,
             sendMailFlg = user.sendMailFlg,
             createUser = oldUser.createUser,
-            createDateTime = oldUser.createDateTime,
+            createAt = oldUser.createAt,
             updateUser = loginUser,
-            updateDateTime = LocalDateTime.now()
+            updateAt = LocalDateTime.now()
         )
         userMapper.update(userRecord)
     }
@@ -102,7 +102,7 @@ internal class UserRepositoryImpl(
             passwordNow = passwordNow,
             passwordBefore = passwordBefore,
             updateUser = loginUser,
-            updateDateTime = LocalDateTime.now()
+            updateAt = LocalDateTime.now()
         )
     }
 
@@ -115,7 +115,7 @@ internal class UserRepositoryImpl(
             userCd = userCd,
             authorityKbn = authorityKbn,
             updateUser = loginUser,
-            updateDateTime = LocalDateTime.now()
+            updateAt = LocalDateTime.now()
         )
     }
 

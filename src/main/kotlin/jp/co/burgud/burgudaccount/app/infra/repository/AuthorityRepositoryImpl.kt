@@ -6,7 +6,6 @@ import jp.co.burgud.burgudaccount.app.infra.mapper.AuthorityMapper
 import jp.co.burgud.burgudaccount.app.infra.mapper.record.AuthorityRecord
 import jp.co.burgud.burgudaccount.app.infra.mapper.record.toEntity
 import org.springframework.stereotype.Repository
-import java.time.LocalDateTime
 
 @Repository
 internal class AuthorityRepositoryImpl(
@@ -29,9 +28,9 @@ internal class AuthorityRepositoryImpl(
                 authorityKbn = it.authorityKbn,
                 authorityName = it.authorityName,
                 createUser = loginUser,
-                createDateTime = it.createDateTime,
+                createAt = it.createAt,
                 updateUser = null,
-                updateDateTime = null,
+                updateAt = null,
             )
         }
         authorityMapper.insertBulk(authorityRecords)
@@ -42,9 +41,9 @@ internal class AuthorityRepositoryImpl(
             authorityKbn = authority.authorityKbn,
             authorityName = authority.authorityName,
             createUser = authority.createUser,
-            createDateTime = authority.createDateTime,
+            createAt = authority.createAt,
             updateUser = null,
-            updateDateTime = null,
+            updateAt = null,
         )
         authorityMapper.insert(authorityRecord)
     }

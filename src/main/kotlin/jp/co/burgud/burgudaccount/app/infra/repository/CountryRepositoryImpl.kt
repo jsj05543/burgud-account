@@ -30,9 +30,9 @@ internal class CountryRepositoryImpl(
                 countryKbn = it.countryKbn,
                 countryName = it.countryName,
                 createUser = loginUser,
-                createDateTime = it.createDateTime,
+                createAt = it.createAt,
                 updateUser = null,
-                updateDateTime = null,
+                updateAt = null,
             )
         }
         countryMapper.insertBulk(countryRecords)
@@ -43,9 +43,9 @@ internal class CountryRepositoryImpl(
             countryKbn = country.countryKbn,
             countryName = country.countryName,
             createUser = country.createUser,
-            createDateTime = country.createDateTime,
+            createAt = country.createAt,
             updateUser = null,
-            updateDateTime = null,
+            updateAt = null,
         )
         countryMapper.insert(countryRecord)
     }

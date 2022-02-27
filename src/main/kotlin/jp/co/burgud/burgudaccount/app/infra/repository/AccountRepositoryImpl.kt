@@ -71,9 +71,9 @@ internal class AccountRepositoryImpl(
             oldPassword3 = account.oldPassword3,
             biko = account.biko,
             createUser = oldAccount.createUser,
-            createDateTime = oldAccount.createDateTime,
+            createAt = oldAccount.createAt,
             updateUser = loginUser,
-            updateDateTime = LocalDateTime.now()
+            updateAt = LocalDateTime.now()
         )
         accountMapper.update(record)
     }
@@ -98,9 +98,9 @@ internal class AccountRepositoryImpl(
             oldPassword3 = account.oldPassword3,
             biko = account.biko,
             createUser = account.createUser,
-            createDateTime = account.createDateTime,
+            createAt = account.createAt,
             updateUser = null,
-            updateDateTime = null
+            updateAt = null
         )
         accountMapper.insert(record)
     }

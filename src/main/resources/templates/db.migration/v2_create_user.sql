@@ -1,10 +1,21 @@
-CREATE TABLE `country` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `countryKbn` varchar(10) NOT NULL,
-  `countryName` varchar(10) NOT NULL,
-  `createUser` varchar(50) DEFAULT NULL,
-  `createDateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updateUser` varchar(50) DEFAULT NULL,
-  `updateDateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=249 DEFAULT CHARSET=utf8
+CREATE TABLE `user` (
+  `user_cd` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `full_name` varchar(50) NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `sex` varchar(50) NOT NULL,
+  `birth` varchar(50) NOT NULL,
+  `tel` varchar(50) NOT NULL,
+  `zip` varchar(50) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `nutag_pref` int(11) NOT NULL,
+  `nutag_city` int(11) NOT NULL,
+  `send_mail_flg` tinyint(1) DEFAULT NULL,
+  `create_user` varchar(50) NOT NULL,
+  `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `update_user` varchar(50) DEFAULT NULL,
+  `update_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`user_cd`,`email`),
+  UNIQUE KEY `idx_tab_kbn_user_cd` (`user_cd`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8

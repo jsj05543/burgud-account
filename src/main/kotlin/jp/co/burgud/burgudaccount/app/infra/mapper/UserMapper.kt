@@ -38,7 +38,7 @@ internal interface UserMapper {
 		    nutag_city      = #{nutagCity},
 		    send_mail_flg   = #{sendMailFlg},
 		    create_user     = #{createUser},
-		    create_at       = #{createDateTime}
+		    create_at       = #{createAt}
     """
     )
     fun insertUser(record: UserRecord)
@@ -51,7 +51,7 @@ internal interface UserMapper {
             `authority_kbn`    = #{authorityKbn}, 
             `password_now`     = #{password},
              create_user       = #{createUser},
-		     create_at         = #{createDateTime}
+		     create_at         = #{createAt}
     """
     )
     fun insertCertification(
@@ -59,7 +59,7 @@ internal interface UserMapper {
         authorityKbn: String,
         password: String,
         createUser: String,
-        createDateTime: LocalDateTime
+        createAt: LocalDateTime
     )
 
     @Update(
@@ -77,7 +77,7 @@ internal interface UserMapper {
 		    nutag_city    = #{nutagCity},
 		    send_mail_flg = #{sendMailFlg},
 		    update_user   = #{updateUser},
-		    update_at     = #{updateDateTime}
+		    update_at     = #{updateAt}
 		WHERE 
             user_cd       = #{userCd}
     """
@@ -92,7 +92,7 @@ internal interface UserMapper {
             password_now    = #{passwordNow},
             password_before = #{passwordBefore},
             update_user     = #{updateUser},
-            update_at       = #{updateDateTime} 
+            update_at       = #{updateAt} 
         WHERE 
             user_cd = #{userCd}
     """
@@ -102,7 +102,7 @@ internal interface UserMapper {
         passwordNow: String,
         passwordBefore: String,
         updateUser: String,
-        updateDateTime: LocalDateTime
+        updateAt: LocalDateTime
 
     )
 
@@ -112,7 +112,7 @@ internal interface UserMapper {
         SET 
             authority_kbn = #{authorityKbn},
             update_user = #{updateUser},
-            update_at = #{updateDateTime} 
+            update_at = #{updateAt} 
         WHERE 
             user_cd = #{userCd}
     """
@@ -121,7 +121,7 @@ internal interface UserMapper {
         userCd: String,
         authorityKbn: String,
         updateUser: String,
-        updateDateTime: LocalDateTime
+        updateAt: LocalDateTime
     )
 
     @Delete("DELETE FROM certification WHERE user_cd = #{userCd}")

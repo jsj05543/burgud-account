@@ -67,9 +67,9 @@ class UserController(
             nutagCity = "",
             sendMailFlg = SENDMAILFLAG_OFF,
             createUser = "AA",
-            createDateTime = LocalDateTime.now(),
+            createAt = LocalDateTime.now(),
             updateUser = null,
-            updateDateTime = null
+            updateAt = null
         )
         addAttribute(model, user, MODE_NEW)
         return "brgd0051_user"

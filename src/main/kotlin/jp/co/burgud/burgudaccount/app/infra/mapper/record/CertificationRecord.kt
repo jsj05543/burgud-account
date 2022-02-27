@@ -15,9 +15,9 @@ data class CertificationRecord(
     val loginTime: LocalDateTime?,
     val logoutTime: LocalDateTime?,
     val createUser: String,
-    val createDateTime: LocalDateTime,
+    val createAt: LocalDateTime,
     val updateUser: String?,
-    val updateDateTime: LocalDateTime?
+    val updateAt: LocalDateTime?
 )
 
 internal fun CertificationRecord.toEntity(): Certification =
@@ -29,7 +29,7 @@ internal fun CertificationRecord.toEntity(): Certification =
         loginTime = loginTime,
         logoutTime = logoutTime,
         createUser = createUser,
-        createDateTime = createDateTime,
+        createAt = createAt,
         updateUser = updateUser,
-        updateDateTime = updateDateTime
+        updateAt = updateAt
     )

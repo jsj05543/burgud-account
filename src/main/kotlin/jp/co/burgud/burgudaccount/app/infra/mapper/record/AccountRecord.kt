@@ -22,9 +22,9 @@ internal data class AccountRecord(
     val oldPassword3: String?,
     val biko: String?,
     val createUser: String,
-    val createDateTime: LocalDateTime,
+    val createAt: LocalDateTime,
     val updateUser: String?,
-    val updateDateTime: LocalDateTime?
+    val updateAt: LocalDateTime?
 )
 
 internal fun AccountRecord.toEntity(): Account =
@@ -47,7 +47,7 @@ internal fun AccountRecord.toEntity(): Account =
         oldPassword3 = oldPassword3,
         biko = biko,
         createUser = createUser,
-        createDateTime = createDateTime,
+        createAt = createAt,
         updateUser = updateUser,
-        updateDateTime = updateDateTime
+        updateAt = updateAt
     )

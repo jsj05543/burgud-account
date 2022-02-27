@@ -8,7 +8,7 @@ data class Facility(
     var facilityKbn: String = "",
     var facilityName: String = "",
     var createUser: String = "",
-    var createDateTime: LocalDateTime = LocalDateTime.now(),
+    var createAt: LocalDateTime = LocalDateTime.now(),
     var updateUser: String? = null,
-    var updateDateTime: LocalDateTime? = null
+    var updateAt: LocalDateTime? = null
 )

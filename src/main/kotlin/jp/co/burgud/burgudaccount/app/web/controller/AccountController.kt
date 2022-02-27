@@ -95,9 +95,9 @@ class AccountController(
             oldPassword3 = null,
             biko = null,
             createUser = "",
-            createDateTime = LocalDateTime.now(),
+            createAt = LocalDateTime.now(),
             updateUser = null,
-            updateDateTime = null
+            updateAt = null
         )
         addAttribute(model, account, MODE_NEW)
         return "brgd0030_detail"

@@ -1,6 +1,5 @@
 package jp.co.burgud.burgudaccount.app.domain.entity
 
-import lombok.AllArgsConstructor
 import lombok.NoArgsConstructor
 import java.time.LocalDateTime
 
@@ -13,7 +12,7 @@ data class Certification(
     val loginTime: LocalDateTime?,
     val logoutTime: LocalDateTime?,
     val createUser: String,
-    val createDateTime: LocalDateTime,
+    val createAt: LocalDateTime,
     val updateUser: String?,
-    val updateDateTime: LocalDateTime?
+    val updateAt: LocalDateTime?
 )

@@ -8,17 +8,17 @@ internal data class AuthorityRecord(
     val authorityKbn: String,
     val authorityName: String,
     val createUser: String,
-    val createDateTime: LocalDateTime,
+    val createAt: LocalDateTime,
     val updateUser: String?,
-    val updateDateTime: LocalDateTime?
+    val updateAt: LocalDateTime?
 )
 internal fun AuthorityRecord.toEntity(): Authority =
     Authority(
         authorityKbn = authorityKbn,
         authorityName = authorityName,
         createUser = createUser,
-        createDateTime = createDateTime,
+        createAt = createAt,
         updateUser = updateUser,
-        updateDateTime= updateDateTime
+        updateAt= updateAt
     )
 

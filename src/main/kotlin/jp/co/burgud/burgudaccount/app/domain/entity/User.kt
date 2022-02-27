@@ -18,7 +18,7 @@ data class User(
     val nutagCity: String,
     val sendMailFlg: String?,
     val createUser: String,
-    val createDateTime: LocalDateTime,
+    val createAt: LocalDateTime,
     val updateUser: String?,
-    val updateDateTime: LocalDateTime?
+    val updateAt: LocalDateTime?
 )

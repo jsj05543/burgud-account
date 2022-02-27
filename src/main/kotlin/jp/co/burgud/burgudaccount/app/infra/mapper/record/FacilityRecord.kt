@@ -8,17 +8,17 @@ internal data class FacilityRecord(
     val facilityKbn: String,
     val facilityName: String,
     val createUser: String,
-    val createDateTime: LocalDateTime,
+    val createAt: LocalDateTime,
     val updateUser: String?,
-    val updateDateTime: LocalDateTime?
+    val updateAt: LocalDateTime?
 )
 internal fun FacilityRecord.toEntity(): Facility =
     Facility(
         facilityKbn = facilityKbn,
         facilityName = facilityName,
         createUser = createUser,
-        createDateTime = createDateTime,
+        createAt = createAt,
         updateUser = updateUser,
-        updateDateTime= updateDateTime
+        updateAt= updateAt
     )
 

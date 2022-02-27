@@ -23,7 +23,7 @@ data class Account(
     val oldPassword3: String?,
     val biko: String?,
     val createUser: String,
-    val createDateTime: LocalDateTime,
+    val createAt: LocalDateTime,
     val updateUser: String?,
-    val updateDateTime: LocalDateTime?
+    val updateAt: LocalDateTime?
 )

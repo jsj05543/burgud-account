@@ -20,7 +20,7 @@ interface UserRepository {
         authorityKbn: String,
         password: String,
         createUser: String,
-        createDateTime: LocalDateTime
+        createAt: LocalDateTime
     )
 
     fun update(user: User,oldUser: User, loginUser: String)

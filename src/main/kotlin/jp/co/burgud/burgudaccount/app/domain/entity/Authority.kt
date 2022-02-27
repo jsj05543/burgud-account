@@ -8,7 +8,7 @@ data class Authority(
     var authorityKbn: String = "",
     var authorityName: String = "",
     var createUser: String = "",
-    var createDateTime: LocalDateTime = LocalDateTime.now(),
+    var createAt: LocalDateTime = LocalDateTime.now(),
     var updateUser: String? = null,
-    var updateDateTime: LocalDateTime? = null
+    var updateAt: LocalDateTime? = null
 )

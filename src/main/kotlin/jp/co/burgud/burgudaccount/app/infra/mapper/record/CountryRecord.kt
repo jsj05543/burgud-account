@@ -10,17 +10,17 @@ data class CountryRecord(
     val countryKbn: String,
     val countryName: String,
     val createUser: String,
-    val createDateTime: LocalDateTime,
+    val createAt: LocalDateTime,
     val updateUser: String?,
-    val updateDateTime: LocalDateTime?
+    val updateAt: LocalDateTime?
 )
 internal fun CountryRecord.toEntity(): Country =
     Country(
         countryKbn = countryKbn,
         countryName =countryName,
         createUser = createUser,
-        createDateTime = createDateTime,
+        createAt = createAt,
         updateUser = updateUser,
-        updateDateTime= updateDateTime
+        updateAt= updateAt
     )
 

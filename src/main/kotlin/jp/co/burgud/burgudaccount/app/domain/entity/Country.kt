@@ -8,7 +8,7 @@ data class Country(
     var countryKbn: String = "",
     var countryName: String = "",
     var createUser: String = "",
-    var createDateTime: LocalDateTime = LocalDateTime.now(),
+    var createAt: LocalDateTime = LocalDateTime.now(),
     var updateUser: String? = null,
-    var updateDateTime: LocalDateTime? = null
+    var updateAt: LocalDateTime? = null
 )

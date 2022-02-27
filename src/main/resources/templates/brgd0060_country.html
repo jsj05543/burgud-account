@@ -91,9 +91,9 @@
 									<td th:text="${country.countryKbn}"></td>
 									<td th:text="${country.countryName}"></td>
 									<td th:text="${country.createUser}"></td>
-									<td th:text="${country.createDateTime}"></td>
+									<td th:text="${country.createAt}"></td>
 									<td th:text="${country.updateUser}"></td>
-									<td th:text="${country.updateDateTime}"></td>
+									<td th:text="${country.updateAt}"></td>
 								</tr>
 							</tbody>
 						</table>
@@ -119,9 +119,9 @@
 									<td><input type="text" class="form-control" th:name="'countryList['+${stat.index}+'].countryKbn'" th:value="${country.countryKbn}"></td>
 									<td><input type="text" class="form-control" th:name="'countryList['+${stat.index}+'].countryName'" th:value="${country.countryName}"></td>
 									<td th:text="*{countryList[__${stat.index}__].createUser}"></td>
-									<td th:text="*{countryList[__${stat.index}__].createDateTime}"></td>
+									<td th:text="*{countryList[__${stat.index}__].createAt}"></td>
 									<td th:text="*{countryList[__${stat.index}__].updateUser}"></td>
-									<td th:text="*{countryList[__${stat.index}__].updateDateTime}"></td>
+									<td th:text="*{countryList[__${stat.index}__].updateAt}"></td>
 								</tr>
 							</tbody>
 						</table>

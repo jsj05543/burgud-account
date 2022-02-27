@@ -42,9 +42,9 @@ class AuthorityUseCase(
                 authorityKbn = authorityKbn,
                 authorityName =authorityName,
                 createUser = loginUser,
-                createDateTime = LocalDateTime.now(),
+                createAt = LocalDateTime.now(),
                 updateUser = null,
-                updateDateTime = null
+                updateAt = null
             )
             authorityRepository.create(authority)
         }

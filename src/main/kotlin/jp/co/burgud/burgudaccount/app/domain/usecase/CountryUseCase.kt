@@ -42,9 +42,9 @@ class CountryUseCase(
                 countryKbn = countryKbn,
                 countryName = countryName,
                 createUser = loginUser,
-                createDateTime = LocalDateTime.now(),
+                createAt = LocalDateTime.now(),
                 updateUser = null,
-                updateDateTime = null
+                updateAt = null
             )
             countryRepository.create(country)
         }

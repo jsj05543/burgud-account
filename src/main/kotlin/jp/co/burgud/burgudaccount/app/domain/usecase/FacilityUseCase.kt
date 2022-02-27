@@ -42,9 +42,9 @@ class FacilityUseCase(
                 facilityKbn = facilityKbn,
                 facilityName = facilityName,
                 createUser = loginUser,
-                createDateTime = LocalDateTime.now(),
+                createAt = LocalDateTime.now(),
                 updateUser = null,
-                updateDateTime = null
+                updateAt = null
             )
             facilityRepository.create(facility)
         }

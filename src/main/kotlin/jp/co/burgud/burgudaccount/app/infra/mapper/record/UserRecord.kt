@@ -18,9 +18,9 @@ internal data class UserRecord(
     val nutagCity: String,
     val sendMailFlg: String?,
     val createUser: String,
-    val createDateTime: LocalDateTime,
+    val createAt: LocalDateTime,
     val updateUser: String?,
-    val updateDateTime: LocalDateTime?
+    val updateAt: LocalDateTime?
 )
 
 internal fun UserRecord.toEntity(): User =
@@ -38,7 +38,7 @@ internal fun UserRecord.toEntity(): User =
         nutagCity = nutagCity,
         sendMailFlg = sendMailFlg,
         createUser = createUser,
-        createDateTime = createDateTime,
+        createAt = createAt,
         updateUser = updateUser,
-        updateDateTime = updateDateTime
+        updateAt = updateAt
     )

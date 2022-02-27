@@ -87,9 +87,9 @@
 									<td th:text="*{facilityKbn}"></td>
 									<td th:text="*{facilityName}"></td>
 									<td th:text="*{createUser}"></td>
-									<td th:text="*{createDateTime}"></td>
+									<td th:text="*{createAt}"></td>
 									<td th:text="*{updateUser}"></td>
-									<td th:text="*{updateDateTime}"></td>
+									<td th:text="*{updateAt}"></td>
 								</tr>
 							</tbody>
 						</table>
@@ -113,9 +113,9 @@
 									<td><input type="text" class="form-control" th:field="*{facilityList[__${stat.index}__].facilityKbn}" readonly="readonly"></td>
 									<td><input type="text" class="form-control" th:field="*{facilityList[__${stat.index}__].facilityName}"></td>
 									<td th:text="*{facilityList[__${stat.index}__].createUser}"></td>
-									<td th:text="*{facilityList[__${stat.index}__].createDateTime}"></td>
+									<td th:text="*{facilityList[__${stat.index}__].createAt}"></td>
 									<td th:text="*{facilityList[__${stat.index}__].updateUser}"></td>
-									<td th:text="*{facilityList[__${stat.index}__].updateDateTime}"></td>
+									<td th:text="*{facilityList[__${stat.index}__].updateAt}"></td>
 								</tr>
 							</tbody>
 						</table>

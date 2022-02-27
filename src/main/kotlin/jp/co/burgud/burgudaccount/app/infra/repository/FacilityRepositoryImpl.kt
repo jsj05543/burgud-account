@@ -27,9 +27,9 @@ internal class FacilityRepositoryImpl(
                 facilityKbn = it.facilityKbn,
                 facilityName = it.facilityName,
                 createUser = loginUser,
-                createDateTime = it.createDateTime,
+                createAt = it.createAt,
                 updateUser = null,
-                updateDateTime = null,
+                updateAt = null,
             )
         }
         facilityMapper.insertBulk(facilityRecords)
@@ -40,9 +40,9 @@ internal class FacilityRepositoryImpl(
             facilityKbn = facility.facilityKbn,
             facilityName = facility.facilityName,
             createUser = facility.createUser,
-            createDateTime = facility.createDateTime,
+            createAt = facility.createAt,
             updateUser = null,
-            updateDateTime = null,
+            updateAt = null,
         )
         facilityMapper.insert(facilityRecord)
     }
