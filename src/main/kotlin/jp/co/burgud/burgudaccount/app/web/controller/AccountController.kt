@@ -11,6 +11,7 @@ import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDateTime
 
 
 @Controller
@@ -93,8 +94,8 @@ class AccountController(
             oldPassword2 = null,
             oldPassword3 = null,
             biko = null,
-            createUser = null,
-            createDateTime = null,
+            createUser = "",
+            createDateTime = LocalDateTime.now(),
             updateUser = null,
             updateDateTime = null
         )
@@ -123,7 +124,7 @@ class AccountController(
             //setError(model, result)
             return "brgd0030_detail"
         }
-        accountUseCase.update(accountForm)
+        accountUseCase.update(accountForm, loginUser = "AAAAAAA")
         model.addAttribute("success", true)
         return "brgd0030_detail"
     }

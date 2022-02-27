@@ -21,8 +21,8 @@ internal data class AccountRecord(
     val oldPassword2: String?,
     val oldPassword3: String?,
     val biko: String?,
-    val createUser: String?,
-    val createDateTime: LocalDateTime?,
+    val createUser: String,
+    val createDateTime: LocalDateTime,
     val updateUser: String?,
     val updateDateTime: LocalDateTime?
 )

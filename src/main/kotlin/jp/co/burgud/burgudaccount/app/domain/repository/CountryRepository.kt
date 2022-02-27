@@ -7,7 +7,7 @@ interface CountryRepository {
 
     fun getAuthorityKbnList(): List<String>
 
-    fun update(countryList: List<Country>)
+    fun update(countryList: List<Country>, loginUser: String)
 
     fun create(country: Country)
 }

@@ -1,7 +1,9 @@
 package jp.co.burgud.burgudaccount.app.domain.entity
 
+import lombok.NoArgsConstructor
 import java.time.LocalDateTime
 
+@NoArgsConstructor
 data class User(
     val userCd: String,
     val email: String,
@@ -15,8 +17,8 @@ data class User(
     val nutagPref: String,
     val nutagCity: String,
     val sendMailFlg: String?,
-    val createUser: String?,
-    val createDateTime: LocalDateTime?,
+    val createUser: String,
+    val createDateTime: LocalDateTime,
     val updateUser: String?,
     val updateDateTime: LocalDateTime?
 )

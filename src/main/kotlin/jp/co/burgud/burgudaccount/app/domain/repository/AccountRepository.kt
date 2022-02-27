@@ -15,7 +15,7 @@ interface AccountRepository {
 
     fun getAllAnswer(): List<Pair<Int, String>>
 
-    fun update(account: Account)
+    fun update(account: Account, oldAccount: Account, loginUser: String)
 
     fun create(account: Account)
 

@@ -44,7 +44,7 @@ class FacilityController(
             model.addAttribute("mode", "update")
             return "brgd0070_facility"
         }
-        facilityUseCase.update(form.facilityList)
+        facilityUseCase.update(form.facilityList, loginUser = "hakuei_up")
         model.addAttribute("success", true)
         return index(model)
     }
@@ -72,7 +72,8 @@ class FacilityController(
 
         facilityUseCase.create(
             facilityKbn = form.facilityKbn,
-            facilityName = form.facilityName
+            facilityName = form.facilityName,
+            loginUser = "hakuei_create"
         )
         model.addAttribute("success", true)
         return index(model)

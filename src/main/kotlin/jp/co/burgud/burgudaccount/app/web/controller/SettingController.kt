@@ -46,7 +46,8 @@ class SettingController(
     fun updateUser(model: Model, @Validated form: AuthSettingForm): String {
         userUseCase.updateUserAuth(
             userCd = form.userCd,
-            authorityKbn = form.authorityKbn
+            authorityKbn = form.authorityKbn,
+            loginUser = "dddddd"
         )
         model.addAttribute("form", form)
         model.addAttribute("authorList", authorityRepository.getAllAuthority())

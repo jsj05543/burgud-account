@@ -24,8 +24,13 @@ class AccountService(
         return accountRepository.getOneAccount(accountCd)
     }
 
-    fun update(account: Account) {
-        accountRepository.update(account)
+    fun update(account: Account, loginUser: String) {
+        val oldAccount = accountRepository.getOneAccount(account.accountCd)
+        accountRepository.update(
+            account = account,
+            oldAccount = oldAccount,
+            loginUser = loginUser
+        )
     }
 
     fun create(account: Account) {

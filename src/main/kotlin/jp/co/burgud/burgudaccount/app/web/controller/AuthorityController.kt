@@ -45,7 +45,7 @@ class AuthorityController(
             model.addAttribute("mode", "update")
             return "brgd0080_authority"
         }
-        authorityUseCase.update(form.authorityList)
+        authorityUseCase.update(form.authorityList, loginUser = "hakuei_update")
         model.addAttribute("success", true)
         return index(model)
     }
@@ -55,7 +55,7 @@ class AuthorityController(
         val form = AuthorityForm(
             authorityKbn = authorityUseCase.createNewAuthorityKbn(),
             authorityName = null
-            )
+        )
         model.addAttribute("form", form)
         return "brgd0081_authority.html"
     }
@@ -72,7 +72,8 @@ class AuthorityController(
         }
         authorityUseCase.create(
             authorityKbn = form.authorityKbn,
-            authorityName = form.authorityName
+            authorityName = form.authorityName,
+            loginUser = "hakuei_create"
         )
         model.addAttribute("success", true)
         return index(model)

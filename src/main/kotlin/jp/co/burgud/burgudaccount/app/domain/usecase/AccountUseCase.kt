@@ -54,8 +54,8 @@ class AccountUseCase(
         accountRepository.delete(accountCd)
     }
 
-    fun update(account: Account) {
-        accountService.update(account)
+    fun update(account: Account, loginUser: String) {
+        accountService.update(account, loginUser)
     }
 
     fun create(account: Account) {

@@ -5,6 +5,7 @@ import jp.co.burgud.burgudaccount.app.domain.repository.FacilityRepository
 import jp.co.burgud.burgudaccount.app.domain.service.CreateKbnService
 import jp.co.burgud.burgudaccount.app.domain.service.FacilityService
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
 
 @Component
 class FacilityUseCase(
@@ -31,13 +32,17 @@ class FacilityUseCase(
         }.toMap()
     }
 
-    fun create(facilityKbn: String, facilityName: String?) {
+    fun create(
+        facilityKbn: String,
+        facilityName: String?,
+        loginUser: String
+    ) {
         if (facilityName != null) {
             val facility = Facility(
                 facilityKbn = facilityKbn,
                 facilityName = facilityName,
-                createUser = null,
-                createDateTime = null,
+                createUser = loginUser,
+                createDateTime = LocalDateTime.now(),
                 updateUser = null,
                 updateDateTime = null
             )
@@ -45,7 +50,10 @@ class FacilityUseCase(
         }
     }
 
-    fun update(facilityList: List<Facility>) {
-        facilityRepository.update(facilityList)
+    fun update(facilityList: List<Facility>, loginUser: String) {
+        facilityRepository.update(
+            facilityList = facilityList,
+            loginUser = loginUser
+        )
     }
 }

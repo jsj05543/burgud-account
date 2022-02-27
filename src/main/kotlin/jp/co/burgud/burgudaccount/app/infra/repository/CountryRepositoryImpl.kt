@@ -1,12 +1,11 @@
 package jp.co.burgud.burgudaccount.app.infra.repository
 
+import jp.co.burgud.burgudaccount.app.domain.entity.Country
 import jp.co.burgud.burgudaccount.app.domain.repository.CountryRepository
 import jp.co.burgud.burgudaccount.app.infra.mapper.CountryMapper
-import jp.co.burgud.burgudaccount.app.infra.mapper.record.toEntity
-import jp.co.burgud.burgudaccount.app.domain.entity.Country
 import jp.co.burgud.burgudaccount.app.infra.mapper.record.CountryRecord
+import jp.co.burgud.burgudaccount.app.infra.mapper.record.toEntity
 import org.springframework.stereotype.Repository
-import java.time.LocalDateTime
 
 @Repository
 internal class CountryRepositoryImpl(
@@ -20,17 +19,20 @@ internal class CountryRepositoryImpl(
         return countryMapper.findCountryKbnList()
     }
 
-    override fun update(countryList: List<Country>) {
+    override fun update(
+        countryList: List<Country>,
+        loginUser: String
+    ) {
         countryMapper.delete()
 
-        val countryRecords = countryList.filter { it.countryName != "" }. map {
+        val countryRecords = countryList.filter { it.countryName != "" }.map {
             CountryRecord(
                 countryKbn = it.countryKbn,
                 countryName = it.countryName,
-                createUser = "AA",
-                createDateTime = LocalDateTime.now(),
-                updateUser = "BB",
-                updateDateTime = LocalDateTime.now(),
+                createUser = loginUser,
+                createDateTime = it.createDateTime,
+                updateUser = null,
+                updateDateTime = null,
             )
         }
         countryMapper.insertBulk(countryRecords)
@@ -40,10 +42,10 @@ internal class CountryRepositoryImpl(
         val countryRecord = CountryRecord(
             countryKbn = country.countryKbn,
             countryName = country.countryName,
-            createUser = "AA",
-            createDateTime = LocalDateTime.now(),
-            updateUser = "BB",
-            updateDateTime = LocalDateTime.now(),
+            createUser = country.createUser,
+            createDateTime = country.createDateTime,
+            updateUser = null,
+            updateDateTime = null,
         )
         countryMapper.insert(countryRecord)
     }

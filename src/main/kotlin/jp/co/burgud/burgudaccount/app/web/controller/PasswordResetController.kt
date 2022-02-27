@@ -34,7 +34,8 @@ class PasswordResetController(
         }
         userUseCase.updatePassword(
             userCd = form.userCd,
-            passwordNew = form.passwordNew
+            passwordNew = form.passwordNew,
+            loginUser = "AAAAAAA"
         )
         model.addAttribute("success", true)
         return "brgd0130_pass"

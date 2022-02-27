@@ -16,7 +16,8 @@ internal interface FacilityMapper {
         INSERT INTO `facility`
         SET
             `facility_kbn`     = #{facilityKbn},
-            `facility_name`    = #{facilityName} 
+            `facility_name`    = #{facilityName},
+            `create_user`     = #{createUser} 
     """
     )
     fun insert(record: FacilityRecord)
@@ -27,13 +28,15 @@ internal interface FacilityMapper {
             INSERT INTO `facility`
                 (
                     facility_kbn,
-                    facility_name
+                    facility_name,
+                    create_user
                 )
             VALUES
             <foreach collection='records' item='record' separator=',' >
             (
                 #{record.facilityKbn},
-                #{record.facilityName}
+                #{record.facilityName},
+                #{record.createUser}
             )
             </foreach>
         </script>

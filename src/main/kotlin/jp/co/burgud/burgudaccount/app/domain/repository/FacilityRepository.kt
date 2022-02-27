@@ -7,7 +7,7 @@ interface FacilityRepository {
 
     fun getFacilityKbnList(): List<String>
 
-    fun update(facilityList: List<Facility>)
+    fun update(facilityList: List<Facility>, loginUser: String)
 
     fun create(facility: Facility)
 }

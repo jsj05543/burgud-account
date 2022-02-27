@@ -44,16 +44,32 @@ class UserUseCase(
         userService.delete(userCd)
     }
 
-    fun update(user: User) {
-        userService.update(user)
+    fun update(user: User, loginUser:String) {
+        userService.update(user, loginUser)
     }
 
-    fun updatePassword(userCd: String, passwordNew: String?) {
-        userService.updatePassword(userCd, passwordNew)
+    fun updatePassword(
+        userCd: String,
+        passwordNew: String?,
+        loginUser: String
+    ) {
+        userService.updatePassword(
+            userCd = userCd,
+            passwordNew = passwordNew,
+            loginUser = loginUser
+        )
     }
 
-    fun updateUserAuth(userCd: String, authorityKbn: String) {
-        userService.updateUserAuth(userCd, authorityKbn)
+    fun updateUserAuth(
+        userCd: String,
+        authorityKbn: String,
+        loginUser: String
+    ) {
+        userService.updateUserAuth(
+            userCd = userCd,
+            authorityKbn = authorityKbn,
+            loginUser = loginUser
+        )
     }
 
 

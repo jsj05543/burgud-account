@@ -14,8 +14,8 @@ data class CertificationRecord(
     val passwordBefore: String?,
     val loginTime: LocalDateTime?,
     val logoutTime: LocalDateTime?,
-    val createUser: String?,
-    val createDateTime: LocalDateTime?,
+    val createUser: String,
+    val createDateTime: LocalDateTime,
     val updateUser: String?,
     val updateDateTime: LocalDateTime?
 )

@@ -21,17 +21,17 @@ internal class AuthorityRepositoryImpl(
         return authorityMapper.findAuthorityKbnList()
     }
 
-    override fun update(authorityList: List<Authority>) {
+    override fun update(authorityList: List<Authority>, loginUser: String) {
         authorityMapper.delete()
 
         val authorityRecords = authorityList.filter { it.authorityName != "" }.map {
             AuthorityRecord(
                 authorityKbn = it.authorityKbn,
                 authorityName = it.authorityName,
-                createUser = "AA",
-                createDateTime = LocalDateTime.now(),
-                updateUser = "BB",
-                updateDateTime = LocalDateTime.now(),
+                createUser = loginUser,
+                createDateTime = it.createDateTime,
+                updateUser = null,
+                updateDateTime = null,
             )
         }
         authorityMapper.insertBulk(authorityRecords)
@@ -41,10 +41,10 @@ internal class AuthorityRepositoryImpl(
         val authorityRecord = AuthorityRecord(
             authorityKbn = authority.authorityKbn,
             authorityName = authority.authorityName,
-            createUser = "AA",
-            createDateTime = LocalDateTime.now(),
-            updateUser = "BB",
-            updateDateTime = LocalDateTime.now(),
+            createUser = authority.createUser,
+            createDateTime = authority.createDateTime,
+            updateUser = null,
+            updateDateTime = null,
         )
         authorityMapper.insert(authorityRecord)
     }

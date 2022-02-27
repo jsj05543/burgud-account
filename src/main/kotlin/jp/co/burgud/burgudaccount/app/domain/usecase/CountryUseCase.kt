@@ -5,6 +5,7 @@ import jp.co.burgud.burgudaccount.app.domain.repository.CountryRepository
 import jp.co.burgud.burgudaccount.app.domain.service.CountryService
 import jp.co.burgud.burgudaccount.app.domain.service.CreateKbnService
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
 
 @Component
 class CountryUseCase(
@@ -33,14 +34,15 @@ class CountryUseCase(
 
     fun create(
         countryKbn: String,
-        countryName: String?
+        countryName: String?,
+        loginUser: String
     ) {
         if (countryName != null) {
             val country = Country(
                 countryKbn = countryKbn,
                 countryName = countryName,
-                createUser = null,
-                createDateTime = null,
+                createUser = loginUser,
+                createDateTime = LocalDateTime.now(),
                 updateUser = null,
                 updateDateTime = null
             )
@@ -48,7 +50,13 @@ class CountryUseCase(
         }
     }
 
-    fun updateCountry(countryList: List<Country>) {
-        countryRepository.update(countryList)
+    fun updateCountry(
+        countryList: List<Country>,
+        loginUser: String
+    ) {
+        countryRepository.update(
+            countryList = countryList,
+            loginUser = loginUser
+        )
     }
 }

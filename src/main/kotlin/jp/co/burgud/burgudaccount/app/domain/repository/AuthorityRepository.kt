@@ -8,7 +8,7 @@ interface AuthorityRepository {
 
     fun getAuthorityKbnList(): List<String>
 
-    fun update(authorityList: List<Authority>)
+    fun update(authorityList: List<Authority>, loginUser: String)
 
     fun create(authority: Authority)
 }

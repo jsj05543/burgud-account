@@ -7,8 +7,8 @@ internal data class AuthorityRecord(
     val id: Int = -1,
     val authorityKbn: String,
     val authorityName: String,
-    val createUser: String?,
-    val createDateTime: LocalDateTime?,
+    val createUser: String,
+    val createDateTime: LocalDateTime,
     val updateUser: String?,
     val updateDateTime: LocalDateTime?
 )

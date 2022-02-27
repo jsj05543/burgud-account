@@ -34,30 +34,43 @@ class UserService(
         userRepository.createCertification(
             userCd = user.userCd,
             authorityKbn = authorityKbn,
-            password = password
+            password = password,
+            createUser = user.createUser,
+            createDateTime = user.createDateTime
         )
     }
 
-    fun update(user: User) {
-        userRepository.update(user)
+    fun update(user: User, loginUser: String) {
+        val oldUser = userRepository.getOneUser(userCd = user.userCd)
+            userRepository.update(
+                user = user,
+                oldUser = oldUser,
+                loginUser = loginUser
+
+            )
     }
 
-    fun updatePassword(userCd: String, passwordNew: String?) {
+    fun updatePassword(userCd: String, passwordNew: String?, loginUser: String) {
         val certification = userRepository.getOneUserCertification(userCd)
         passwordNew?.let {
             userRepository.updatePassword(
                 userCd = certification.userCd,
                 passwordNow = passwordNew,
-                passwordBefore = certification.passwordNow
+                passwordBefore = certification.passwordNow,
+                loginUser = loginUser
             )
-
         }
     }
 
-    fun updateUserAuth(userCd: String, authorityKbn: String) {
+    fun updateUserAuth(
+        userCd: String,
+        authorityKbn: String,
+        loginUser: String
+    ) {
         userRepository.updateUserAuth(
             userCd = userCd,
-            authorityKbn = authorityKbn
+            authorityKbn = authorityKbn,
+            loginUser = loginUser
         )
     }
 }

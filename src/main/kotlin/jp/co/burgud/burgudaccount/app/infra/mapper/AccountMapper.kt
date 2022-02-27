@@ -110,7 +110,9 @@ internal interface AccountMapper {
 		    oldPassword1      = #{oldPassword1},
 		    oldPassword2      = #{oldPassword2},
 		    oldPassword3      = #{oldPassword3},
-		    biko              = #{biko}
+		    biko              = #{biko},
+		    create_user       = #{createUser},
+		    create_at         = #{createDateTime}
     """
     )
     fun insert(record: AccountRecord)

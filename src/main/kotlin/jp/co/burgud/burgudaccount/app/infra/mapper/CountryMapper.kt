@@ -16,7 +16,8 @@ internal interface CountryMapper {
         INSERT INTO `country`
         SET
             `country_kbn`     = #{countryKbn},
-            `country_name`    = #{countryName} 
+            `country_name`    = #{countryName},
+            `create_user`     = #{createUser} 
     """
     )
     fun insert(record: CountryRecord)
@@ -27,13 +28,15 @@ internal interface CountryMapper {
             INSERT INTO `country`
                 (
                     country_kbn,
-                    country_name
+                    country_name,
+                    create_user
                 )
             VALUES
             <foreach collection='records' item='record' separator=',' >
             (
                 #{record.countryKbn},
-                #{record.countryName}
+                #{record.countryName},
+                #{record.createUser}
             )
             </foreach>
         </script>

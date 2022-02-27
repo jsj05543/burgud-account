@@ -25,7 +25,8 @@ internal interface AuthorityMapper {
         INSERT INTO `authority`
         SET
             `authority_kbn`     = #{authorityKbn},
-            `authority_name`    = #{authorityName} 
+            `authority_name`    = #{authorityName},
+            `create_user`       = #{createUser} 
     """
     )
     fun insert(record: AuthorityRecord)
@@ -36,13 +37,15 @@ internal interface AuthorityMapper {
             INSERT INTO `authority`
                 (
                     authority_kbn,
-                    authority_name
+                    authority_name,
+                    create_user
                 )
             VALUES
             <foreach collection='records' item='record' separator=',' >
             (
                 #{record.authorityKbn},
-                #{record.authorityName}
+                #{record.authorityName},
+                #{record.createUser}
             )
             </foreach>
         </script>

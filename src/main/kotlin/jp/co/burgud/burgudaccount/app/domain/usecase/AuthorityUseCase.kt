@@ -5,6 +5,7 @@ import jp.co.burgud.burgudaccount.app.domain.repository.AuthorityRepository
 import jp.co.burgud.burgudaccount.app.domain.service.AuthorityService
 import jp.co.burgud.burgudaccount.app.domain.service.CreateKbnService
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
 
 @Component
 class AuthorityUseCase(
@@ -31,13 +32,17 @@ class AuthorityUseCase(
         }.toMap()
     }
 
-    fun create(authorityKbn: String, authorityName: String?) {
+    fun create(
+        authorityKbn: String,
+        authorityName: String?,
+        loginUser: String
+    ) {
         if(authorityName != null){
             val authority = Authority(
                 authorityKbn = authorityKbn,
                 authorityName =authorityName,
-                createUser = null,
-                createDateTime = null,
+                createUser = loginUser,
+                createDateTime = LocalDateTime.now(),
                 updateUser = null,
                 updateDateTime = null
             )
@@ -46,7 +51,10 @@ class AuthorityUseCase(
 
     }
 
-    fun update(authorityList: List<Authority>) {
-        authorityRepository.update(authorityList)
+    fun update(authorityList: List<Authority>, loginUser: String) {
+        authorityRepository.update(
+            authorityList = authorityList,
+            loginUser = loginUser
+        )
     }
 }

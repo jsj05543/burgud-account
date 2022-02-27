@@ -17,8 +17,8 @@ internal data class UserRecord(
     val nutagPref: String,
     val nutagCity: String,
     val sendMailFlg: String?,
-    val createUser: String?,
-    val createDateTime: LocalDateTime?,
+    val createUser: String,
+    val createDateTime: LocalDateTime,
     val updateUser: String?,
     val updateDateTime: LocalDateTime?
 )

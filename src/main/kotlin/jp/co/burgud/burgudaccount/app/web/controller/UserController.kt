@@ -9,6 +9,7 @@ import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDateTime
 
 
 @Controller
@@ -65,8 +66,8 @@ class UserController(
             nutagPref = NUTAGCITY_TOKYO.toString(),
             nutagCity = "",
             sendMailFlg = SENDMAILFLAG_OFF,
-            createUser = null,
-            createDateTime = null,
+            createUser = "AA",
+            createDateTime = LocalDateTime.now(),
             updateUser = null,
             updateDateTime = null
         )
@@ -99,7 +100,7 @@ class UserController(
             //setError(model, result)
             return "brgd0051_user"
         }
-        userUseCase.update(user)
+        userUseCase.update(user, loginUser = "userhakuei")
         model.addAttribute("success", true)
         return "brgd0051_user"
     }

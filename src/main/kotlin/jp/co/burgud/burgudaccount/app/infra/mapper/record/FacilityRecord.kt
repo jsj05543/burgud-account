@@ -7,8 +7,8 @@ internal data class FacilityRecord(
     val id: Int = -1,
     val facilityKbn: String,
     val facilityName: String,
-    val createUser: String?,
-    val createDateTime: LocalDateTime?,
+    val createUser: String,
+    val createDateTime: LocalDateTime,
     val updateUser: String?,
     val updateDateTime: LocalDateTime?
 )

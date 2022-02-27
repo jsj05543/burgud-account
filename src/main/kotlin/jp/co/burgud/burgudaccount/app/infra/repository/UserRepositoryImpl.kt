@@ -7,6 +7,7 @@ import jp.co.burgud.burgudaccount.app.infra.mapper.UserMapper
 import jp.co.burgud.burgudaccount.app.infra.mapper.record.UserRecord
 import jp.co.burgud.burgudaccount.app.infra.mapper.record.toEntity
 import org.springframework.stereotype.Repository
+import java.time.LocalDateTime
 
 @Repository
 internal class UserRepositoryImpl(
@@ -45,21 +46,29 @@ internal class UserRepositoryImpl(
             sendMailFlg = user.sendMailFlg,
             createUser = user.createUser,
             createDateTime = user.createDateTime,
-            updateUser = user.updateUser,
-            updateDateTime = user.updateDateTime
+            updateUser = null,
+            updateDateTime = null
         )
         userMapper.insertUser(userRecord)
     }
 
-    override fun createCertification(userCd: String, authorityKbn: String, password: String) {
+    override fun createCertification(
+        userCd: String,
+        authorityKbn: String,
+        password: String,
+        createUser: String,
+        createDateTime: LocalDateTime
+    ) {
         userMapper.insertCertification(
             userCd = userCd,
             authorityKbn = authorityKbn,
-            password = password
+            password = password,
+            createUser = createUser,
+            createDateTime = createDateTime,
         )
     }
 
-    override fun update(user: User) {
+    override fun update(user: User, oldUser: User, loginUser: String) {
         val userRecord = UserRecord(
             userCd = user.userCd,
             email = user.email,
@@ -74,10 +83,10 @@ internal class UserRepositoryImpl(
             nutagPref = user.nutagPref,
             nutagCity = user.nutagCity,
             sendMailFlg = user.sendMailFlg,
-            createUser = user.createUser,
-            createDateTime = user.createDateTime,
-            updateUser = user.updateUser,
-            updateDateTime = user.updateDateTime
+            createUser = oldUser.createUser,
+            createDateTime = oldUser.createDateTime,
+            updateUser = loginUser,
+            updateDateTime = LocalDateTime.now()
         )
         userMapper.update(userRecord)
     }
@@ -85,19 +94,28 @@ internal class UserRepositoryImpl(
     override fun updatePassword(
         userCd: String,
         passwordNow: String,
-        passwordBefore: String
+        passwordBefore: String,
+        loginUser: String,
     ) {
         userMapper.updatePassword(
             userCd = userCd,
             passwordNow = passwordNow,
-            passwordBefore = passwordBefore
+            passwordBefore = passwordBefore,
+            updateUser = loginUser,
+            updateDateTime = LocalDateTime.now()
         )
     }
 
-    override fun updateUserAuth(userCd: String, authorityKbn: String) {
+    override fun updateUserAuth(
+        userCd: String,
+        authorityKbn: String,
+        loginUser: String
+    ) {
         userMapper.updateUserAuth(
             userCd = userCd,
-            authorityKbn = authorityKbn
+            authorityKbn = authorityKbn,
+            updateUser = loginUser,
+            updateDateTime = LocalDateTime.now()
         )
     }
 

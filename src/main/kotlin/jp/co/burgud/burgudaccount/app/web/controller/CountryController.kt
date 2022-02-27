@@ -34,7 +34,7 @@ class CountryController(
     }
 
     @PostMapping(params = ["update"])
-    fun updateContry(model: Model, @Validated form: CountryEditForm, result: BindingResult): String? {
+    fun updateContry(model: Model, @Validated form: CountryEditForm, result: BindingResult): String {
         model.addAttribute("form", form)
         if (result.hasErrors()) {
             val errorList = result.allErrors
@@ -44,7 +44,7 @@ class CountryController(
             model.addAttribute("mode", "update")
             return "brgd0060_country"
         }
-        countryUseCase.updateCountry(form.countryList)
+        countryUseCase.updateCountry(form.countryList, loginUser = "hakuei_update")
         model.addAttribute("success", true)
         return index(model)
     }
@@ -71,7 +71,8 @@ class CountryController(
         }
         countryUseCase.create(
             countryKbn = form.countryKbn,
-            countryName = form.countryName
+            countryName = form.countryName,
+            loginUser = "hakuei_create"
         )
         model.addAttribute("success", true)
         return index(model)

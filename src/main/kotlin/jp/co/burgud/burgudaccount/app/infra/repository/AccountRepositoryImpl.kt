@@ -6,6 +6,7 @@ import jp.co.burgud.burgudaccount.app.infra.mapper.AccountMapper
 import jp.co.burgud.burgudaccount.app.infra.mapper.record.AccountRecord
 import jp.co.burgud.burgudaccount.app.infra.mapper.record.toEntity
 import org.springframework.stereotype.Repository
+import java.time.LocalDateTime
 
 @Repository
 internal class AccountRepositoryImpl(
@@ -28,7 +29,7 @@ internal class AccountRepositoryImpl(
         println("~~~~~~~~~~~~~~~~~~~~~~~~")
         return accountMapper.findAccountListByCountryKbnAndKeyword(
             countryKbn = countryKbn,
-            keyword =keyword,
+            keyword = keyword,
             all = "ALL"
         ).map { it.toEntity() }
     }
@@ -45,7 +46,11 @@ internal class AccountRepositoryImpl(
         return accountMapper.findAllAnswer()
     }
 
-    override fun update(account: Account) {
+    override fun update(
+        account: Account,
+        oldAccount: Account,
+        loginUser: String
+    ) {
 
         val record = AccountRecord(
             accountCd = account.accountCd,
@@ -65,10 +70,10 @@ internal class AccountRepositoryImpl(
             oldPassword2 = account.oldPassword2,
             oldPassword3 = account.oldPassword3,
             biko = account.biko,
-            createUser = account.createUser,
-            createDateTime = account.createDateTime,
-            updateUser = account.updateUser,
-            updateDateTime = account.updateDateTime
+            createUser = oldAccount.createUser,
+            createDateTime = oldAccount.createDateTime,
+            updateUser = loginUser,
+            updateDateTime = LocalDateTime.now()
         )
         accountMapper.update(record)
     }
@@ -94,8 +99,8 @@ internal class AccountRepositoryImpl(
             biko = account.biko,
             createUser = account.createUser,
             createDateTime = account.createDateTime,
-            updateUser = account.updateUser,
-            updateDateTime = account.updateDateTime
+            updateUser = null,
+            updateDateTime = null
         )
         accountMapper.insert(record)
     }

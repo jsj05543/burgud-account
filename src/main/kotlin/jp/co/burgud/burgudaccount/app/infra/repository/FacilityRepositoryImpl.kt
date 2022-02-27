@@ -6,7 +6,6 @@ import jp.co.burgud.burgudaccount.app.infra.mapper.FacilityMapper
 import jp.co.burgud.burgudaccount.app.infra.mapper.record.FacilityRecord
 import jp.co.burgud.burgudaccount.app.infra.mapper.record.toEntity
 import org.springframework.stereotype.Repository
-import java.time.LocalDateTime
 
 @Repository
 internal class FacilityRepositoryImpl(
@@ -20,17 +19,17 @@ internal class FacilityRepositoryImpl(
         return facilityMapper.findFacilityKbnList()
     }
 
-    override fun update(facilityList: List<Facility>) {
+    override fun update(facilityList: List<Facility>, loginUser: String) {
         facilityMapper.delete()
 
         val facilityRecords = facilityList.filter { it.facilityName != "" }.map {
             FacilityRecord(
                 facilityKbn = it.facilityKbn,
                 facilityName = it.facilityName,
-                createUser = "AA",
-                createDateTime = LocalDateTime.now(),
-                updateUser = "BB",
-                updateDateTime = LocalDateTime.now(),
+                createUser = loginUser,
+                createDateTime = it.createDateTime,
+                updateUser = null,
+                updateDateTime = null,
             )
         }
         facilityMapper.insertBulk(facilityRecords)
@@ -40,10 +39,10 @@ internal class FacilityRepositoryImpl(
         val facilityRecord = FacilityRecord(
             facilityKbn = facility.facilityKbn,
             facilityName = facility.facilityName,
-            createUser = "AA",
-            createDateTime = LocalDateTime.now(),
-            updateUser = "BB",
-            updateDateTime = LocalDateTime.now(),
+            createUser = facility.createUser,
+            createDateTime = facility.createDateTime,
+            updateUser = null,
+            updateDateTime = null,
         )
         facilityMapper.insert(facilityRecord)
     }

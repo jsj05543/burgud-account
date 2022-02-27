@@ -3,6 +3,7 @@ package jp.co.burgud.burgudaccount.app.infra.mapper
 import jp.co.burgud.burgudaccount.app.infra.mapper.record.CertificationRecord
 import jp.co.burgud.burgudaccount.app.infra.mapper.record.UserRecord
 import org.apache.ibatis.annotations.*
+import java.time.LocalDateTime
 
 
 @Mapper
@@ -23,19 +24,21 @@ internal interface UserMapper {
         """
 		INSERT INTO `user`
         SET
-            user_cd =    #{userCd},
-		    email = 	#{email},
-            full_name =  #{fullName},
-		    first_name = #{firstName},
-		    last_name =  #{lastName},
-		    sex =       #{sex},
-		    birth =     #{birth},
-		    tel =       #{tel},
-		    zip =       #{zip},
-		    address =   #{address},
-		    nutag_pref = #{nutagPref},
-		    nutag_city = #{nutagCity},
-		    send_mail_flg = #{sendMailFlg}
+            user_cd         = #{userCd},
+		    email           = #{email},
+            full_name       = #{fullName},
+		    first_name      = #{firstName},
+		    last_name       = #{lastName},
+		    sex             = #{sex},
+		    birth           = #{birth},
+		    tel             = #{tel},
+		    zip             = #{zip},
+		    address         = #{address},
+		    nutag_pref      = #{nutagPref},
+		    nutag_city      = #{nutagCity},
+		    send_mail_flg   = #{sendMailFlg},
+		    create_user     = #{createUser},
+		    create_at       = #{createDateTime}
     """
     )
     fun insertUser(record: UserRecord)
@@ -46,27 +49,37 @@ internal interface UserMapper {
         SET
             `user_cd`          = #{userCd},
             `authority_kbn`    = #{authorityKbn}, 
-            `password_now`       = #{password}
+            `password_now`     = #{password},
+             create_user       = #{createUser},
+		     create_at         = #{createDateTime}
     """
     )
-    fun insertCertification(userCd: String, authorityKbn: String, password: String)
+    fun insertCertification(
+        userCd: String,
+        authorityKbn: String,
+        password: String,
+        createUser: String,
+        createDateTime: LocalDateTime
+    )
 
     @Update(
         """
         UPDATE `user` 
         SET
-		    first_name=#{firstName},
-		    last_name=#{lastName},
-		    sex=#{sex},
-		    birth=#{birth},
-		    tel=#{tel},
-		    zip=#{zip},
-		    address=#{address},
-		    nutag_pref=#{nutagPref},
-		    nutag_city=#{nutagCity},
-		    send_mail_flg=#{sendMailFlg}
+		    first_name    = #{firstName},
+		    last_name     = #{lastName},
+		    sex           = #{sex},
+		    birth         = #{birth},
+		    tel           = #{tel},
+		    zip           = #{zip},
+		    address       = #{address},
+		    nutag_pref    = #{nutagPref},
+		    nutag_city    = #{nutagCity},
+		    send_mail_flg = #{sendMailFlg},
+		    update_user   = #{updateUser},
+		    update_at     = #{updateDateTime}
 		WHERE 
-            user_cd=#{userCd}
+            user_cd       = #{userCd}
     """
     )
     fun update(userRecord: UserRecord)
@@ -75,9 +88,11 @@ internal interface UserMapper {
         """
         UPDATE `certification` 
         SET 
-            user_cd = #{userCd},
-            password_now = #{passwordNow},
-            password_before = #{passwordBefore} 
+            user_cd         = #{userCd},
+            password_now    = #{passwordNow},
+            password_before = #{passwordBefore},
+            update_user     = #{updateUser},
+            update_at       = #{updateDateTime} 
         WHERE 
             user_cd = #{userCd}
     """
@@ -85,20 +100,29 @@ internal interface UserMapper {
     fun updatePassword(
         userCd: String,
         passwordNow: String,
-        passwordBefore: String
+        passwordBefore: String,
+        updateUser: String,
+        updateDateTime: LocalDateTime
+
     )
 
     @Update(
         """
         UPDATE `certification` 
         SET 
-            authority_kbn = #{authorityKbn} 
+            authority_kbn = #{authorityKbn},
+            update_user = #{updateUser},
+            update_at = #{updateDateTime} 
         WHERE 
             user_cd = #{userCd}
     """
     )
-    fun updateUserAuth(userCd: String, authorityKbn: String)
-
+    fun updateUserAuth(
+        userCd: String,
+        authorityKbn: String,
+        updateUser: String,
+        updateDateTime: LocalDateTime
+    )
 
     @Delete("DELETE FROM certification WHERE user_cd = #{userCd}")
     fun deleteCertification(userCd: String)

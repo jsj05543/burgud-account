@@ -1,7 +1,9 @@
 package jp.co.burgud.burgudaccount.app.domain.entity
 
+import lombok.NoArgsConstructor
 import java.time.LocalDateTime
 
+@NoArgsConstructor
 data class Account(
     val accountCd: String,
     val accountUsedName: String,
@@ -20,8 +22,8 @@ data class Account(
     val oldPassword2: String?,
     val oldPassword3: String?,
     val biko: String?,
-    val createUser: String?,
-    val createDateTime: LocalDateTime?,
+    val createUser: String,
+    val createDateTime: LocalDateTime,
     val updateUser: String?,
     val updateDateTime: LocalDateTime?
 )

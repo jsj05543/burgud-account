@@ -9,8 +9,8 @@ data class CountryRecord(
     val id: Int = -1,
     val countryKbn: String,
     val countryName: String,
-    val createUser: String?,
-    val createDateTime: LocalDateTime?,
+    val createUser: String,
+    val createDateTime: LocalDateTime,
     val updateUser: String?,
     val updateDateTime: LocalDateTime?
 )
