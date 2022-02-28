@@ -1,6 +1,7 @@
 package jp.co.burgud.burgudaccount.app.web.controller
 
 import jp.co.burgud.burgudaccount.app.domain.entity.User
+import jp.co.burgud.burgudaccount.app.domain.repository.UserRepository
 import jp.co.burgud.burgudaccount.app.domain.usecase.PrefAndCityUseCase
 import jp.co.burgud.burgudaccount.app.domain.usecase.SystemUseCase
 import jp.co.burgud.burgudaccount.app.domain.usecase.UserUseCase
@@ -17,7 +18,8 @@ import java.time.LocalDateTime
 class UserController(
     private val prefAndCityUseCase: PrefAndCityUseCase,
     private val systemUseCase: SystemUseCase,
-    private val userUseCase: UserUseCase
+    private val userUseCase: UserUseCase,
+    private val userRepository: UserRepository
 ) {
     companion object {
         private const val SEX_MEN = "1"
@@ -41,6 +43,10 @@ class UserController(
         @CookieValue(value = "id", required = false) sid: String?
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
+        model.addAttribute("userName", loginUser)
+
         val userList = userUseCase.getAllUser()
         model.addAttribute("userList", userList)
         model.addAttribute("sexData", systemUseCase.getSexData())
@@ -56,6 +62,10 @@ class UserController(
         @CookieValue(value = "id", required = false) sid: String?
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
+        model.addAttribute("userName", loginUser)
+
         addAttribute(model, userUseCase.getOneUser(userCd), MODE_SHOW)
         return "brgd0051_user"
     }
@@ -66,6 +76,10 @@ class UserController(
         @CookieValue(value = "id", required = false) sid: String?
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
+        model.addAttribute("userName", loginUser)
+
         val user = User(
             userCd = userUseCase.createNewUserCd(),
             email = "",
@@ -95,6 +109,10 @@ class UserController(
         @CookieValue(value = "id", required = false) sid: String?,
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
+        model.addAttribute("userName", loginUser)
+
         addAttribute(model, userUseCase.getOneUser(userCd), MODE_EDIT)
         return "brgd0051_user"
     }
@@ -125,12 +143,14 @@ class UserController(
         result: BindingResult
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
         addAttribute(model, user, MODE_EDIT)
         if (result.hasErrors()) {
             //setError(model, result)
             return "brgd0051_user"
         }
-        userUseCase.update(user, loginUser = "userhakuei")
+        userUseCase.update(user, loginUser = loginUser)
         model.addAttribute("success", true)
         return "brgd0051_user"
     }

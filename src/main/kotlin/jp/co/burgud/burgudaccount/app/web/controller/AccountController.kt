@@ -1,9 +1,12 @@
 package jp.co.burgud.burgudaccount.app.web.controller
 
 import jp.co.burgud.burgudaccount.app.domain.entity.Account
+import jp.co.burgud.burgudaccount.app.domain.repository.SystemRepository
+import jp.co.burgud.burgudaccount.app.domain.repository.UserRepository
 import jp.co.burgud.burgudaccount.app.domain.usecase.AccountUseCase
 import jp.co.burgud.burgudaccount.app.domain.usecase.CountryUseCase
 import jp.co.burgud.burgudaccount.app.domain.usecase.FacilityUseCase
+import jp.co.burgud.burgudaccount.app.domain.usecase.SystemUseCase
 import jp.co.burgud.burgudaccount.app.web.form.AccountForm
 import jp.co.burgud.burgudaccount.app.web.form.AccountSearchForm
 import org.springframework.stereotype.Controller
@@ -19,8 +22,9 @@ import java.time.LocalDateTime
 class AccountController(
     private val accountUseCase: AccountUseCase,
     private val countryUseCase: CountryUseCase,
-    private val facilityUseCase: FacilityUseCase
-
+    private val facilityUseCase: FacilityUseCase,
+    private val systemUseCase: SystemUseCase,
+    private val userRepository: UserRepository
 ) {
     companion object {
         private const val COUNTRYKBN_JAPAN = "CY04"
@@ -40,6 +44,10 @@ class AccountController(
         @CookieValue(value = "id", required = false) sid: String?
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
+        model.addAttribute("userName", loginUser)
+
         val searchForm = AccountSearchForm(
             countryKbn = null,
             keyword = null
@@ -64,6 +72,10 @@ class AccountController(
         @CookieValue(value = "id", required = false) sid: String?
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
+        model.addAttribute("userName", loginUser)
+
         val searchForm = AccountSearchForm(
             countryKbn = countryKbn,
             keyword = keyword
@@ -86,6 +98,10 @@ class AccountController(
         @CookieValue(value = "id", required = false) sid: String?
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
+        model.addAttribute("userName", loginUser)
+
         val account = Account(
             accountCd = accountUseCase.createNewAccountCd(),
             accountUsedName = "",
@@ -120,6 +136,10 @@ class AccountController(
         @CookieValue(value = "id", required = false) sid: String?
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
+        model.addAttribute("userName", loginUser)
+
         val account = accountUseCase.getOneAccount(accountCd)
         addAttribute(model, account, MODE_SHOW)
         return "brgd0030_detail"
@@ -132,6 +152,10 @@ class AccountController(
         @CookieValue(value = "id", required = false) sid: String?
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
+        model.addAttribute("userName", loginUser)
+
         val account = accountUseCase.getOneAccount(accountCd)
         addAttribute(model, account, MODE_EDIT)
         return "brgd0030_detail"
@@ -145,12 +169,16 @@ class AccountController(
         result: BindingResult
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
+        model.addAttribute("userName", loginUser)
+
         addAttribute(model, accountForm, MODE_EDIT)
         if (result.hasErrors()) {
             //setError(model, result)
             return "brgd0030_detail"
         }
-        accountUseCase.update(accountForm, loginUser = "AAAAAAA")
+        accountUseCase.update(accountForm, loginUser = loginUser)
         model.addAttribute("success", true)
         return "brgd0030_detail"
     }

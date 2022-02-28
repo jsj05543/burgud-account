@@ -1,7 +1,9 @@
 package jp.co.burgud.burgudaccount.app.web.controller
 
 import jp.co.burgud.burgudaccount.app.domain.repository.CountryRepository
+import jp.co.burgud.burgudaccount.app.domain.repository.UserRepository
 import jp.co.burgud.burgudaccount.app.domain.usecase.CountryUseCase
+import jp.co.burgud.burgudaccount.app.domain.usecase.SystemUseCase
 import jp.co.burgud.burgudaccount.app.web.form.CountryEditForm
 import jp.co.burgud.burgudaccount.app.web.form.CountryForm
 import org.springframework.stereotype.Controller
@@ -18,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping("country")
 class CountryController(
     private val countryRepository: CountryRepository,
-    private val countryUseCase: CountryUseCase
+    private val countryUseCase: CountryUseCase,
+    private val systemUseCase: SystemUseCase,
+    private val userRepository: UserRepository
 ) {
     @GetMapping
     fun index(
@@ -26,6 +30,10 @@ class CountryController(
         @CookieValue(value = "id", required = false) sid: String?,
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
+        model.addAttribute("userName", loginUser)
+
         val form = CountryEditForm(
             countryList = countryRepository.getAllCountry()
         )
@@ -50,6 +58,9 @@ class CountryController(
         result: BindingResult
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
+        model.addAttribute("userName", loginUser)
         model.addAttribute("form", form)
         if (result.hasErrors()) {
             val errorList = result.allErrors
@@ -59,7 +70,7 @@ class CountryController(
             model.addAttribute("mode", "update")
             return "brgd0060_country"
         }
-        countryUseCase.updateCountry(form.countryList, loginUser = "hakuei_update")
+        countryUseCase.updateCountry(form.countryList, loginUser = loginUser)
         model.addAttribute("success", true)
         return index(model, sid)
     }
@@ -70,6 +81,9 @@ class CountryController(
         @CookieValue(value = "id", required = false) sid: String?,
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
+        model.addAttribute("userName", loginUser)
         val form = CountryForm(
             countryKbn = countryUseCase.createNewCountryKbn(),
             countryName = null
@@ -86,6 +100,8 @@ class CountryController(
         result: BindingResult
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
         model.addAttribute("form", form)
         if (result.hasErrors()) {
             val errorList = result.allErrors
@@ -97,7 +113,7 @@ class CountryController(
         countryUseCase.create(
             countryKbn = form.countryKbn,
             countryName = form.countryName,
-            loginUser = "hakuei_create"
+            loginUser = loginUser
         )
         model.addAttribute("success", true)
         return index(model, sid)

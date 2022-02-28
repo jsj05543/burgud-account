@@ -107,7 +107,7 @@ class SystemController(
             logoutAt = null
         )
         val cookie = Cookie("id", sessionId)
-        //cookie.maxAge = (265 * 24 * 60 * 60)
+        cookie.maxAge = (265 * 24 * 60 * 60)
         cookie.path = "/"
         response.addCookie(cookie)
         systemUseCase.createSession(loginSession)

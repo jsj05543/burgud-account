@@ -1,5 +1,7 @@
 package jp.co.burgud.burgudaccount.app.web.controller
 
+import jp.co.burgud.burgudaccount.app.domain.repository.UserRepository
+import jp.co.burgud.burgudaccount.app.domain.usecase.SystemUseCase
 import jp.co.burgud.burgudaccount.app.domain.usecase.UserUseCase
 import jp.co.burgud.burgudaccount.app.web.form.PasswordForm
 import org.springframework.stereotype.Controller
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Controller
 @RequestMapping("password")
 class PasswordResetController(
-    private val userUseCase: UserUseCase
+    private val userUseCase: UserUseCase,
+    private val systemUseCase: SystemUseCase,
+    private val userRepository: UserRepository
 ) {
     @GetMapping
     fun index(
@@ -24,6 +28,10 @@ class PasswordResetController(
         @CookieValue(value = "id", required = false) sid: String?,
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
+        model.addAttribute("userName", loginUser)
+
         model.addAttribute("form", form)
         return "brgd0130_pass.html"
     }
@@ -37,6 +45,9 @@ class PasswordResetController(
     ): String {
         sid ?: return "redirect:/login"
         model.addAttribute("form", form)
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
+        model.addAttribute("userName", loginUser)
         if (result.hasErrors()) {
             val errorList = result.allErrors
             val isError = if (errorList.size > 0) true else false
@@ -45,9 +56,9 @@ class PasswordResetController(
             return "brgd0130_pass"
         }
         userUseCase.updatePassword(
-            userCd = form.userCd,
+            userCd = loginSession.userCd,
             passwordNew = form.passwordNew,
-            loginUser = "AAAAAAA"
+            loginUser = loginUser
         )
         model.addAttribute("success", true)
         return "brgd0130_pass"

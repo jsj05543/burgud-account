@@ -1,7 +1,9 @@
 package jp.co.burgud.burgudaccount.app.web.controller
 
 import jp.co.burgud.burgudaccount.app.domain.repository.AuthorityRepository
+import jp.co.burgud.burgudaccount.app.domain.repository.UserRepository
 import jp.co.burgud.burgudaccount.app.domain.usecase.AuthorityUseCase
+import jp.co.burgud.burgudaccount.app.domain.usecase.SystemUseCase
 import jp.co.burgud.burgudaccount.app.web.form.AuthorityEditForm
 import jp.co.burgud.burgudaccount.app.web.form.AuthorityForm
 import org.springframework.stereotype.Controller
@@ -18,8 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping("authority")
 class AuthorityController(
     private val authorityRepository: AuthorityRepository,
-    private val authorityUseCase: AuthorityUseCase
-
+    private val authorityUseCase: AuthorityUseCase,
+    private val systemUseCase: SystemUseCase,
+    private val userRepository: UserRepository
 ) {
     @GetMapping
     fun index(
@@ -27,6 +30,9 @@ class AuthorityController(
         @CookieValue(value = "id", required = false) sid: String?
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
+        model.addAttribute("userName", loginUser)
         val form = AuthorityEditForm(
             authorityList = authorityRepository.getAllAuthority()
         )
@@ -51,6 +57,8 @@ class AuthorityController(
         result: BindingResult
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
         model.addAttribute("form", form)
         if (result.hasErrors()) {
             val errorList = result.allErrors
@@ -60,7 +68,7 @@ class AuthorityController(
             model.addAttribute("mode", "update")
             return "brgd0080_authority"
         }
-        authorityUseCase.update(form.authorityList, loginUser = "hakuei_update")
+        authorityUseCase.update(form.authorityList, loginUser = loginUser)
         model.addAttribute("success", true)
         return index(model, sid)
     }
@@ -71,6 +79,9 @@ class AuthorityController(
         @CookieValue(value = "id", required = false) sid: String?,
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
+        model.addAttribute("userName", loginUser)
         val form = AuthorityForm(
             authorityKbn = authorityUseCase.createNewAuthorityKbn(),
             authorityName = null
@@ -87,6 +98,8 @@ class AuthorityController(
         result: BindingResult
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
         model.addAttribute("form", form)
         if (result.hasErrors()) {
             val errorList = result.allErrors
@@ -98,7 +111,7 @@ class AuthorityController(
         authorityUseCase.create(
             authorityKbn = form.authorityKbn,
             authorityName = form.authorityName,
-            loginUser = "hakuei_create"
+            loginUser = loginUser
         )
         model.addAttribute("success", true)
         return index(model, sid)

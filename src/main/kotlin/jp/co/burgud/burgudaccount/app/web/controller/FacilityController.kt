@@ -1,7 +1,9 @@
 package jp.co.burgud.burgudaccount.app.web.controller
 
 import jp.co.burgud.burgudaccount.app.domain.repository.FacilityRepository
+import jp.co.burgud.burgudaccount.app.domain.repository.UserRepository
 import jp.co.burgud.burgudaccount.app.domain.usecase.FacilityUseCase
+import jp.co.burgud.burgudaccount.app.domain.usecase.SystemUseCase
 import jp.co.burgud.burgudaccount.app.web.form.FacilityEditForm
 import jp.co.burgud.burgudaccount.app.web.form.FacilityForm
 import org.springframework.stereotype.Controller
@@ -18,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping("facility")
 class FacilityController(
     private val facilityRepository: FacilityRepository,
-    private val facilityUseCase: FacilityUseCase
+    private val facilityUseCase: FacilityUseCase,
+    private val systemUseCase: SystemUseCase,
+    private val userRepository: UserRepository
 ) {
     @GetMapping
     fun index(
@@ -26,6 +30,10 @@ class FacilityController(
         @CookieValue(value = "id", required = false) sid: String?,
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
+        model.addAttribute("userName", loginUser)
+
         val form = FacilityEditForm(
             facilityList = facilityRepository.getAllFacility()
         )
@@ -50,6 +58,8 @@ class FacilityController(
         result: BindingResult
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
         model.addAttribute("form", form)
         if (result.hasErrors()) {
             val errorList = result.allErrors
@@ -59,7 +69,7 @@ class FacilityController(
             model.addAttribute("mode", "update")
             return "brgd0070_facility"
         }
-        facilityUseCase.update(form.facilityList, loginUser = "hakuei_up")
+        facilityUseCase.update(form.facilityList, loginUser = loginUser)
         model.addAttribute("success", true)
         return index(model, sid)
     }
@@ -70,6 +80,9 @@ class FacilityController(
         @CookieValue(value = "id", required = false) sid: String?,
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
+        model.addAttribute("userName", loginUser)
         val form = FacilityForm(
             facilityKbn = facilityUseCase.createNewCountryKbn(),
             facilityName = null
@@ -86,6 +99,9 @@ class FacilityController(
         result: BindingResult
     ): String {
         sid ?: return "redirect:/login"
+        val loginSession = systemUseCase.findSession(sid) ?: return "redirect:/login"
+        val loginUser = userRepository.getUserName(loginSession.userCd)
+        model.addAttribute("userName", loginUser)
         model.addAttribute("form", form)
         if (result.hasErrors()) {
             val errorList = result.allErrors
@@ -98,7 +114,7 @@ class FacilityController(
         facilityUseCase.create(
             facilityKbn = form.facilityKbn,
             facilityName = form.facilityName,
-            loginUser = "hakuei_create"
+            loginUser = loginUser
         )
         model.addAttribute("success", true)
         return index(model, sid)
