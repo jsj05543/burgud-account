@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.CookieValue
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -17,13 +18,24 @@ class PasswordResetController(
     private val userUseCase: UserUseCase
 ) {
     @GetMapping
-    fun index(model: Model, form: PasswordForm): String {
+    fun index(
+        model: Model,
+        form: PasswordForm,
+        @CookieValue(value = "id", required = false) sid: String?,
+    ): String {
+        sid ?: return "redirect:/login"
         model.addAttribute("form", form)
         return "brgd0130_pass.html"
     }
 
     @PostMapping(params = ["reset"])
-    fun updateUser(model: Model, @Validated form: PasswordForm, result: BindingResult): String {
+    fun updateUser(
+        model: Model,
+        @Validated form: PasswordForm,
+        @CookieValue(value = "id", required = false) sid: String?,
+        result: BindingResult
+    ): String {
+        sid ?: return "redirect:/login"
         model.addAttribute("form", form)
         if (result.hasErrors()) {
             val errorList = result.allErrors

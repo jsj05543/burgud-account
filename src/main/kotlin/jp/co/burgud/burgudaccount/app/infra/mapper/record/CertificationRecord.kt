@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor
 import java.time.LocalDateTime
 
 @NoArgsConstructor
-@AllArgsConstructor
 data class CertificationRecord(
     val userCd: String,
     val authorityKbn: String,

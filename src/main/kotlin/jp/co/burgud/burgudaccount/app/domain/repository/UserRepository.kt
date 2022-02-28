@@ -9,6 +9,8 @@ interface UserRepository {
 
     fun getOneUser(userCd: String): User
 
+    fun getUserName(userCd: String): String
+
     fun getOneUserCertification(userCd: String): Certification
 
     fun getUserCdList(): List<String>

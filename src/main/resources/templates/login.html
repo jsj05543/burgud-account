@@ -12,7 +12,7 @@
 </head>
 
 <body>
-  <form class="form-signin">
+  <form class="form-signin" name="form" th:action="@{/}" th:method="post" th:object="${form}">
     <div class="login-box">
 
       <div class="text-center mb-4">
@@ -20,13 +20,13 @@
       </div>
 
       <div class="form-label-group">
-        <input type="email" id="inputEmail" class="form-control" placeholder="Emailアドレス" required autofocus>
-        <label for="inputEmail">Emailアドレス</label>
+        <input type="email" th:field="*{email}" class="form-control" placeholder="Emailアドレス" required autofocus>
+        <label>Emailアドレス</label>
       </div>
 
       <div class="form-label-group">
-        <input type="password" id="inputPassword" class="form-control" placeholder="パスワード" required>
-        <label for="inputPassword">パスワード</label>
+        <input type="password" th:field="*{password}" class="form-control" placeholder="パスワード" required>
+        <label>パスワード</label>
       </div>
 
       <div class="checkbox mb-3">
@@ -34,8 +34,9 @@
           <input type="checkbox" value="remember-me"> 記憶する
         </label>
       </div>
-      <!-- <button class="btn btn-lg btn-primary btn-block" type="submit">サインイン</button> -->
-      <a class="btn btn-lg btn-primary btn-block" href="/" th:href="@{/}" role="button"><i class="fas fa-sign-in-alt fa-1x mr-2"></i>サインイン</a>
+      <div class="btn btn-lg btn-primary btn-block">
+        <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="fas fa-sign-in-alt fa-1x mr-2"></i>サインイン</button>
+      </div>
       <p class="mt-5 mb-3 text-muted text-center">&copy; 2019-2021</p>
     </div>
     <!-- フッタ -->

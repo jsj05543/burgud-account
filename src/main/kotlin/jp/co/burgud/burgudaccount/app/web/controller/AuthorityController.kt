@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.CookieValue
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -21,7 +22,11 @@ class AuthorityController(
 
 ) {
     @GetMapping
-    fun index(model: Model): String {
+    fun index(
+        model: Model,
+        @CookieValue(value = "id", required = false) sid: String?
+    ): String {
+        sid ?: return "redirect:/login"
         val form = AuthorityEditForm(
             authorityList = authorityRepository.getAllAuthority()
         )
@@ -30,12 +35,22 @@ class AuthorityController(
     }
 
     @PostMapping(params = ["cancel"])
-    fun cancel(model: Model): String {
-        return index(model)
+    fun cancel(
+        model: Model,
+        @CookieValue(value = "id", required = false) sid: String?
+    ): String {
+        sid ?: return "redirect:/login"
+        return index(model, sid)
     }
 
     @PostMapping(params = ["update"])
-    fun updateAuthority(model: Model, @Validated form: AuthorityEditForm, result: BindingResult): String {
+    fun updateAuthority(
+        model: Model,
+        @Validated form: AuthorityEditForm,
+        @CookieValue(value = "id", required = false) sid: String?,
+        result: BindingResult
+    ): String {
+        sid ?: return "redirect:/login"
         model.addAttribute("form", form)
         if (result.hasErrors()) {
             val errorList = result.allErrors
@@ -47,11 +62,15 @@ class AuthorityController(
         }
         authorityUseCase.update(form.authorityList, loginUser = "hakuei_update")
         model.addAttribute("success", true)
-        return index(model)
+        return index(model, sid)
     }
 
     @GetMapping("new")
-    fun newAurhority(model: Model): String {
+    fun newAurhority(
+        model: Model,
+        @CookieValue(value = "id", required = false) sid: String?,
+    ): String {
+        sid ?: return "redirect:/login"
         val form = AuthorityForm(
             authorityKbn = authorityUseCase.createNewAuthorityKbn(),
             authorityName = null
@@ -61,7 +80,13 @@ class AuthorityController(
     }
 
     @PostMapping(params = ["insert"])
-    fun createAuthority(model: Model, @Validated form: AuthorityForm, result: BindingResult): String {
+    fun createAuthority(
+        model: Model,
+        @Validated form: AuthorityForm,
+        @CookieValue(value = "id", required = false) sid: String?,
+        result: BindingResult
+    ): String {
+        sid ?: return "redirect:/login"
         model.addAttribute("form", form)
         if (result.hasErrors()) {
             val errorList = result.allErrors
@@ -76,6 +101,6 @@ class AuthorityController(
             loginUser = "hakuei_create"
         )
         model.addAttribute("success", true)
-        return index(model)
+        return index(model, sid)
     }
 }

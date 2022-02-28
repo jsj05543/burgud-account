@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.CookieValue
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -20,7 +21,11 @@ class FacilityController(
     private val facilityUseCase: FacilityUseCase
 ) {
     @GetMapping
-    fun index(model: Model): String {
+    fun index(
+        model: Model,
+        @CookieValue(value = "id", required = false) sid: String?,
+    ): String {
+        sid ?: return "redirect:/login"
         val form = FacilityEditForm(
             facilityList = facilityRepository.getAllFacility()
         )
@@ -29,12 +34,22 @@ class FacilityController(
     }
 
     @PostMapping(params = ["cancel"])
-    fun cancel(model: Model): String {
-        return index(model)
+    fun cancel(
+        model: Model,
+        @CookieValue(value = "id", required = false) sid: String?,
+    ): String {
+        sid ?: return "redirect:/login"
+        return index(model, sid)
     }
 
     @PostMapping(params = ["update"])
-    fun updateFacility(model: Model, @Validated form: FacilityEditForm, result: BindingResult): String? {
+    fun updateFacility(
+        model: Model,
+        @Validated form: FacilityEditForm,
+        @CookieValue(value = "id", required = false) sid: String?,
+        result: BindingResult
+    ): String {
+        sid ?: return "redirect:/login"
         model.addAttribute("form", form)
         if (result.hasErrors()) {
             val errorList = result.allErrors
@@ -46,11 +61,15 @@ class FacilityController(
         }
         facilityUseCase.update(form.facilityList, loginUser = "hakuei_up")
         model.addAttribute("success", true)
-        return index(model)
+        return index(model, sid)
     }
 
     @GetMapping("new")
-    fun newFacility(model: Model): String {
+    fun newFacility(
+        model: Model,
+        @CookieValue(value = "id", required = false) sid: String?,
+    ): String {
+        sid ?: return "redirect:/login"
         val form = FacilityForm(
             facilityKbn = facilityUseCase.createNewCountryKbn(),
             facilityName = null
@@ -60,7 +79,13 @@ class FacilityController(
     }
 
     @PostMapping(params = ["insert"])
-    fun createFacility(model: Model, @Validated form: FacilityForm, result: BindingResult): String {
+    fun createFacility(
+        model: Model,
+        @Validated form: FacilityForm,
+        @CookieValue(value = "id", required = false) sid: String?,
+        result: BindingResult
+    ): String {
+        sid ?: return "redirect:/login"
         model.addAttribute("form", form)
         if (result.hasErrors()) {
             val errorList = result.allErrors
@@ -76,6 +101,6 @@ class FacilityController(
             loginUser = "hakuei_create"
         )
         model.addAttribute("success", true)
-        return index(model)
+        return index(model, sid)
     }
 }

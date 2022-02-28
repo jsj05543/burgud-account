@@ -14,6 +14,9 @@ internal interface UserMapper {
     @Select("SELECT * FROM user WHERE user_cd = #{userCd}")
     fun findByUserCd(userCd: String): UserRecord
 
+    @Select("SELECT full_name FROM user WHERE user_cd = #{userCd}")
+    fun findUserNameByUserCd(userCd: String): String
+
     @Select("SELECT * FROM certification WHERE user_cd = #{userCd}")
     fun findCertificationByUserCd(userCd: String): CertificationRecord
 

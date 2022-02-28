@@ -1,9 +1,11 @@
 package jp.co.burgud.burgudaccount.app.infra.mapper.record
 
 import jp.co.burgud.burgudaccount.app.domain.entity.User
+import lombok.NoArgsConstructor
 import java.time.LocalDateTime
 
-internal data class UserRecord(
+@NoArgsConstructor
+data class UserRecord(
     val userCd: String,
     val email: String,
     val fullName: String,

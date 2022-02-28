@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:object="${form}">
 
 <head th:replace="BRGD :: head(システム情報)"></head>
 <meta charset="utf-8">
@@ -23,7 +23,7 @@
 	<div class="main">
 		<div class="container-fluid">
 			<!-- from -->
-			<form name="form" th:object="${systemForm}">
+			<form name="form">
 				<!-- contents -->
 				<div class="contents">
 					<div class="contents-header">システム情報</div>
@@ -46,12 +46,10 @@
 								<div class="card border-success">
 									<div class="card-header bg-success">ログイン情報</div>
 									<div class="card-body">
-										<h5 class="card-title">白英様</h5>
+										<h5 class="card-title" th:text="*{userName} + '様'">白英様</h5>
 										<ul class="list-group list-group-flush">
-
-											<li class="list-group-item">前回:20200101 00:00:00</li>
-											<li class="list-group-item">前回退出:20200101 00:00:00</li>
-											<li class="list-group-item">今回:20200101 00:00:00</li>
+											<li class="list-group-item" th:text="'前回退出：' + *{logoutAt}"></li>
+											<li class="list-group-item" th:text="'今回：' + *{loginAt}"></li>
 										</ul>
 									</div>
 								</div>

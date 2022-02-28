@@ -1,9 +1,11 @@
 package jp.co.burgud.burgudaccount.app.infra.mapper.record
 
 import jp.co.burgud.burgudaccount.app.domain.entity.Facility
+import lombok.NoArgsConstructor
 import java.time.LocalDateTime
 
-internal data class FacilityRecord(
+@NoArgsConstructor
+data class FacilityRecord(
     val id: Int = -1,
     val facilityKbn: String,
     val facilityName: String,

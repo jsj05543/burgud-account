@@ -2,6 +2,7 @@ package jp.co.burgud.burgudaccount.app.web.form
 
 
 import lombok.NoArgsConstructor
+import java.time.LocalDateTime
 
 @NoArgsConstructor
 data class SystemForm(
@@ -11,7 +12,10 @@ data class SystemForm(
     val browser: String?,
     val iPAddress: String?,
     val pageCount: Int?,
-    val unAccess: Boolean?
+    val unAccess: Boolean?,
+    val userName: String?,
+    val logoutAt: LocalDateTime?,
+    val loginAt: LocalDateTime?
 ) {
 
 }

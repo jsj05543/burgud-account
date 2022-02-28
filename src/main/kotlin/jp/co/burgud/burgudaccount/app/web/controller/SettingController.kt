@@ -6,10 +6,7 @@ import jp.co.burgud.burgudaccount.app.web.form.AuthSettingForm
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.*
 
 
 @Controller
@@ -19,7 +16,12 @@ class SettingController(
     private val authorityRepository: AuthorityRepository
 ) {
     @GetMapping
-    fun index(model: Model): String {
+    fun index(
+        model: Model,
+        @CookieValue(value = "id", required = false) sid: String?
+
+    ): String {
+        sid ?: return "redirect:/login"
         val certification = userUseCase.getOneUserCertification("BU01")
         val form = AuthSettingForm(
             certification.userCd,
@@ -31,7 +33,12 @@ class SettingController(
     }
 
     @PostMapping
-    fun index(model: Model, @RequestParam("userCd") userCd: String): String {
+    fun index(
+        model: Model,
+        @RequestParam("userCd") userCd: String,
+        @CookieValue(value = "id", required = false) sid: String?
+    ): String {
+        sid ?: return "redirect:/login"
         val certification = userUseCase.getOneUserCertification(userCd)
         val form = AuthSettingForm(
             certification.userCd,
@@ -43,7 +50,12 @@ class SettingController(
     }
 
     @PostMapping(params = ["setting"])
-    fun updateUser(model: Model, @Validated form: AuthSettingForm): String {
+    fun updateUser(
+        model: Model,
+        @Validated form: AuthSettingForm,
+        @CookieValue(value = "id", required = false) sid: String?
+    ): String {
+        sid ?: return "redirect:/login"
         userUseCase.updateUserAuth(
             userCd = form.userCd,
             authorityKbn = form.authorityKbn,

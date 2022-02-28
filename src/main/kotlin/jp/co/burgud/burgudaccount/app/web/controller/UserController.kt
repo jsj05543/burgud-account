@@ -36,7 +36,11 @@ class UserController(
     }
 
     @GetMapping
-    fun index(model: Model): String {
+    fun index(
+        model: Model,
+        @CookieValue(value = "id", required = false) sid: String?
+    ): String {
+        sid ?: return "redirect:/login"
         val userList = userUseCase.getAllUser()
         model.addAttribute("userList", userList)
         model.addAttribute("sexData", systemUseCase.getSexData())
@@ -46,13 +50,22 @@ class UserController(
     }
 
     @GetMapping("{userCd}")
-    fun showUser(model: Model, @PathVariable("userCd") userCd: String): String {
+    fun showUser(
+        model: Model,
+        @PathVariable("userCd") userCd: String,
+        @CookieValue(value = "id", required = false) sid: String?
+    ): String {
+        sid ?: return "redirect:/login"
         addAttribute(model, userUseCase.getOneUser(userCd), MODE_SHOW)
         return "brgd0051_user"
     }
 
     @GetMapping("new")
-    fun newUser(model: Model): String {
+    fun newUser(
+        model: Model,
+        @CookieValue(value = "id", required = false) sid: String?
+    ): String {
+        sid ?: return "redirect:/login"
         val user = User(
             userCd = userUseCase.createNewUserCd(),
             email = "",
@@ -76,13 +89,24 @@ class UserController(
     }
 
     @GetMapping("{userCd}/edit")
-    fun editUser(model: Model, @PathVariable("userCd") userCd: String): String {
+    fun editUser(
+        model: Model,
+        @PathVariable("userCd") userCd: String,
+        @CookieValue(value = "id", required = false) sid: String?,
+    ): String {
+        sid ?: return "redirect:/login"
         addAttribute(model, userUseCase.getOneUser(userCd), MODE_EDIT)
         return "brgd0051_user"
     }
 
     @PostMapping(params = ["insert"])
-    fun createUser(model: Model, @Validated user: User, result: BindingResult): String {
+    fun createUser(
+        model: Model,
+        @Validated user: User,
+        @CookieValue(value = "id", required = false) sid: String?,
+        result: BindingResult
+    ): String {
+        sid ?: return "redirect:/login"
         addAttribute(model, user, MODE_NEW)
         if (result.hasErrors()) {
             // setError(model, result)
@@ -94,7 +118,13 @@ class UserController(
     }
 
     @PutMapping
-    fun updateUser(model: Model, @Validated user: User, result: BindingResult): String {
+    fun updateUser(
+        model: Model,
+        @Validated user: User,
+        @CookieValue(value = "id", required = false) sid: String?,
+        result: BindingResult
+    ): String {
+        sid ?: return "redirect:/login"
         addAttribute(model, user, MODE_EDIT)
         if (result.hasErrors()) {
             //setError(model, result)
@@ -106,7 +136,11 @@ class UserController(
     }
 
     @DeleteMapping("{userCd}")
-    fun delete(@PathVariable("userCd") userCd: String): String {
+    fun delete(
+        @PathVariable("userCd") userCd: String,
+        @CookieValue(value = "id", required = false) sid: String?,
+    ): String {
+        sid ?: return "redirect:/login"
         userUseCase.delete(userCd)
         return "redirect:/user"
     }

@@ -35,7 +35,11 @@ class AccountController(
     }
 
     @GetMapping
-    fun index(model: Model): String {
+    fun index(
+        model: Model,
+        @CookieValue(value = "id", required = false) sid: String?
+    ): String {
+        sid ?: return "redirect:/login"
         val searchForm = AccountSearchForm(
             countryKbn = null,
             keyword = null
@@ -56,8 +60,10 @@ class AccountController(
     fun searchAccount(
         model: Model,
         @RequestParam("countryKbn") countryKbn: String,
-        @RequestParam("keyword") keyword: String
+        @RequestParam("keyword") keyword: String,
+        @CookieValue(value = "id", required = false) sid: String?
     ): String {
+        sid ?: return "redirect:/login"
         val searchForm = AccountSearchForm(
             countryKbn = countryKbn,
             keyword = keyword
@@ -75,7 +81,11 @@ class AccountController(
     }
 
     @GetMapping("new")
-    fun newAccount(model: Model): String {
+    fun newAccount(
+        model: Model,
+        @CookieValue(value = "id", required = false) sid: String?
+    ): String {
+        sid ?: return "redirect:/login"
         val account = Account(
             accountCd = accountUseCase.createNewAccountCd(),
             accountUsedName = "",
@@ -104,21 +114,37 @@ class AccountController(
     }
 
     @GetMapping("{accountCd}")
-    fun showUser(model: Model, @PathVariable("accountCd") accountCd: String): String {
+    fun showUser(
+        model: Model,
+        @PathVariable("accountCd") accountCd: String,
+        @CookieValue(value = "id", required = false) sid: String?
+    ): String {
+        sid ?: return "redirect:/login"
         val account = accountUseCase.getOneAccount(accountCd)
         addAttribute(model, account, MODE_SHOW)
         return "brgd0030_detail"
     }
 
     @GetMapping("{accountCd}/edit")
-    fun editUser(model: Model, @PathVariable("accountCd") accountCd: String): String {
+    fun editUser(
+        model: Model,
+        @PathVariable("accountCd") accountCd: String,
+        @CookieValue(value = "id", required = false) sid: String?
+    ): String {
+        sid ?: return "redirect:/login"
         val account = accountUseCase.getOneAccount(accountCd)
         addAttribute(model, account, MODE_EDIT)
         return "brgd0030_detail"
     }
 
     @PutMapping
-    fun updateAccount(model: Model, @Validated accountForm: Account, result: BindingResult): String {
+    fun updateAccount(
+        model: Model,
+        @Validated accountForm: Account,
+        @CookieValue(value = "id", required = false) sid: String?,
+        result: BindingResult
+    ): String {
+        sid ?: return "redirect:/login"
         addAttribute(model, accountForm, MODE_EDIT)
         if (result.hasErrors()) {
             //setError(model, result)
@@ -130,7 +156,13 @@ class AccountController(
     }
 
     @PostMapping(params = ["insert"])
-    fun createAccount(model: Model, @Validated accountForm: Account, result: BindingResult): String? {
+    fun createAccount(
+        model: Model,
+        @Validated accountForm: Account,
+        @CookieValue(value = "id", required = false) sid: String?,
+        result: BindingResult
+    ): String {
+        sid ?: return "redirect:/login"
         addAttribute(model, accountForm, MODE_NEW)
         if (result.hasErrors()) {
             //setError(model, result)
@@ -142,7 +174,11 @@ class AccountController(
     }
 
     @DeleteMapping("{accountCd}")
-    fun delete(@PathVariable("accountCd") accountCd: String): String {
+    fun delete(
+        @PathVariable("accountCd") accountCd: String,
+        @CookieValue(value = "id", required = false) sid: String?
+    ): String {
+        sid ?: return "redirect:/login"
         accountUseCase.delete(accountCd)
         return "redirect:/account"
     }

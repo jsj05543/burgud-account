@@ -1,6 +1,8 @@
 package jp.co.burgud.burgudaccount.app.domain.usecase
 
+import jp.co.burgud.burgudaccount.app.domain.entity.LoginSession
 import jp.co.burgud.burgudaccount.app.domain.entity.Sex
+import jp.co.burgud.burgudaccount.app.domain.repository.SystemRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.net.InetAddress
@@ -16,6 +18,8 @@ class SystemUseCase(
 
     @Value("\${system.version}")
     private val systemVersion: String,
+
+    private val systemRepository: SystemRepository
 ) {
     companion object {
         private const val BROWSER_UNKNOWN: String = "不明"
@@ -127,4 +131,22 @@ class SystemUseCase(
     fun getSexData(): Map<String, String> {
         return Sex.asMap()
     }
+
+    fun loginCheck(email: String, password: String): String? {
+        return systemRepository.loginCheck(email, password)
+    }
+
+    fun createSession(loginSession: LoginSession): LoginSession {
+        return systemRepository.createSession(loginSession)
+    }
+
+    fun findSession(sid: String): LoginSession? {
+        return systemRepository.findSession(sid)
+    }
+
+    fun deleteSession(sid: String) {
+        systemRepository.deleteSession(sid)
+    }
+
+
 }

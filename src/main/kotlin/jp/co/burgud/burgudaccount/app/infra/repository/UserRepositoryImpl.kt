@@ -21,6 +21,10 @@ internal class UserRepositoryImpl(
         return userMapper.findByUserCd(userCd).toEntity()
     }
 
+    override fun getUserName(userCd: String): String {
+        return userMapper.findUserNameByUserCd(userCd)
+    }
+
     override fun getOneUserCertification(userCd: String): Certification {
         return userMapper.findCertificationByUserCd(userCd).toEntity()
     }
